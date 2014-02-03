@@ -1,7 +1,7 @@
 Feature: The Direktkreditverwaltung should produce the same results as were calculated in previous years using
   the syndikat excel sheet for DKs
 
-Scenario: Anonymized DK data from the zolle11 in year 2011
+Scenario: Anonymized DK data for the year 2011
   Given The date is "2010-12-31"
     And DK contract 1 has a balance of 8852.58 euro and interest of 3.0%
     And DK contract 2 has a balance of 1644.23 euro and interest of 1.5%
@@ -28,7 +28,7 @@ Scenario: Anonymized DK data from the zolle11 in year 2011
     And The balance including interest of DK contract 1 is 9528.29 euro
     #If subtotals are not correctly rounded at all times this would be calculated as 9528.29
 
-Scenario: Anonymized DK data from the zolle11 in year 2012
+Scenario: Anonymized DK data for the year 2012
   Given The date is "2011-12-31"
     And DK contracts as described in "test/fixtures/data/dk-contracts_2012.csv" exist
 
@@ -72,7 +72,7 @@ Scenario: Anonymized DK data from the zolle11 in year 2012
 
 
 
-Scenario: Anonymized DK data from the zolle11 in year 2010
+Scenario: Anonymized DK data for the year 2010
   Given The date is "2009-12-31"
     And DK contracts as described in "test/fixtures/data/dk-contracts_2010.csv" exist
 
