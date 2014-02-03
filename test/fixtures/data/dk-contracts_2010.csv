@@ -1,4 +1,4 @@
-dk_nummer,betrag,zins
+number,amount,interest
 1,9058.23,3.00%
 2,1619.93,1.50%
 3,1015.75,2.00%

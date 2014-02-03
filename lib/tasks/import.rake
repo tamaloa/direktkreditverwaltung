@@ -1,6 +1,7 @@
 require 'csv'
 
 namespace :import do
+
   desc "import contacts from csv file"
   #column headers should be: name prename address account_number bank_number bank_name email phone remark (not all columns are needed)
   task :contacts, [:file] => :environment do |t, args|
@@ -9,9 +10,23 @@ namespace :import do
       puts "parameter 'file' needs to be given" 
       next 
     end
-    CSV.foreach(file, :headers => true) do |row|
-      Contact.create!(row.to_hash)
+
+    Import.contacts(file)
+
+  end
+
+  desc "import contracts with initial balance from csv file"
+  # Headers:
+  # category	number	prename	 name	amount	interest  start
+  task :contacts, [:file] => :environment do |t, args|
+    file = args[:file]
+    if !file
+      puts "parameter 'file' needs to be given"
+      next
     end
+
+    Import.contracts(file)
+
   end
 
   desc "import accounting_entries from csv file"

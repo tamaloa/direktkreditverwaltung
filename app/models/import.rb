@@ -2,6 +2,15 @@ require 'csv'
 
 class Import
 
+  def self.contacts(file)
+    CSV.foreach(file, :headers => true) do |row|
+      data = row.to_hash.with_indifferent_access
+      next if data.values.all?(&:blank?)
+
+      Contact.create!(data)
+    end
+  end
+
   def self.accounting_entries(file)
     CSV.foreach(file, :headers => true) do |row|
       contract = Contract.where(:number => row.to_hash["contract_id"]).first
@@ -13,17 +22,38 @@ class Import
       entry.contract = contract
       entry.amount = row.to_hash["amount"]
       entry.date = row.to_hash["date"]
-      entry.save
+      entry.save!
     end
   end
 
+  ##
+  # Headers:
+  # category	number	prename	 name	amount	interest  start
   def self.contracts(file)
-    #CSV: dk_nummer,betrag,zins
     CSV.foreach(file, :headers => true) do |row|
-      row = row.to_hash.with_indifferent_access
-      interest = row[:zins].chomp('%').to_f/100
-      Contract.create_with_balance!(row[:dk_nummer], row[:betrag], interest)
+      data = row.to_hash.with_indifferent_access
+      next if data.values.all?(&:blank?)
+
+      interest = 0.0 if data[:interest].blank?
+      interest = data[:interest].chomp('%').to_f/100 if data[:interest].match(/%/)
+
+      start = Date.parse(data[:start]) if data[:start]
+      start = Time.now unless start.is_a?(Date)
+
+      contract = Contract.create_with_balance!(data[:number], data[:amount], interest, start)
+
+      if data[:name]
+        query = {name: data[:name]}
+        query[:prename] = data[:prename] if data[:prename]
+        possible_contacts = Contact.where(query)
+        raise "Too many possible candidates for contract import #{data.to_s}" if (possible_contacts.count > 1)
+        contact = possible_contacts.first
+        contract.contact = contact if contact
+        contract.save! if contact
+      end
+
     end
   end
+
 
 end

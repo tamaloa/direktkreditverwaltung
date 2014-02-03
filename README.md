@@ -20,6 +20,9 @@ Erstellt
 Import
 * von Kontakten 
     * rake import:contacts[/path/to/csv_file.csv]
+* von Direktkreditverträgen
+    * rake import:contracts[/path/to/csv_file.csv]
+    * Kontakte und DK-Verträge werden verlinkt wenn den DK-Verträgen Namen zugeordnet sind
 * Buchungseinträgen möglich
     * rake import:accounting_entries[/path/to/csv_file.csv]
 (benötigtes Format der csv-Dateien ist in lib/tasks/import.rake beschrieben)
