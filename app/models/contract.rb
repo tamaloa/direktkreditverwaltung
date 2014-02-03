@@ -186,8 +186,8 @@ class Contract < ActiveRecord::Base
   end
 
 
-  def self.create_with_balance!(dk_number, balance, interest, start_time = Time.now)
-    contract = Contract.create!(number: dk_number)
+  def self.create_with_balance!(number, balance, interest, start_time = Time.now)
+    contract = Contract.create!(number: number)
     last_version = ContractVersion.new
     last_version.version = 1
     last_version.contract_id = contract.id
@@ -195,6 +195,8 @@ class Contract < ActiveRecord::Base
     last_version.interest_rate = interest
     last_version.save!
     contract.accounting_entries.create!(amount: balance, date: start_time)
+
+    contract
   end
 
   def self.all_with_remaining_month(year)
