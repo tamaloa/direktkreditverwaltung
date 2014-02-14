@@ -1,0 +1,8 @@
+%h1 Jahresabschluss durchführen
+
+%p Für alle Direktkreditverträge bei denen die Zinsen am Jahresende aufgeschlagen werden sollen wird eine Buchung am letzten Tag des Jahres erstellt, die die Zinsen bis dahin aufschlägt.
+
+=form_for @year_end_closing do |f|
+  = f.label :year, "Jahresabschluss für"
+  = select_year(@year_end_closing.year)
+  = submit_tag "durchführen!"
