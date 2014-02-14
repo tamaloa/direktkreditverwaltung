@@ -15,6 +15,8 @@ gem 'days360'
 
 group :development do
   gem 'debugger'
+  gem 'better_errors'         # Nicer exception pages in development
+  gem 'binding_of_caller'     # Used for better errors
 end
 
 group :test do
