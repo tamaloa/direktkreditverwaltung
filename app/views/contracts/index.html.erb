@@ -23,7 +23,7 @@ Start, Laufzeit und Zinssatz sind aus der letzten Version des Vertrags.
 <% @contracts.each do |contract| %>
   <tr>
     <td><%= contract.number %></td>
-    <td><%= "#{contract.contact.prename} #{contract.contact.name}" %></td>
+    <td><%= "#{contract.contact.try(:prename)} #{contract.contact.try(:name)}" %></td>
     <td><%= currency(contract.balance) %></td>
     <td><%= contract.last_version.start %></td>
     <td><%= contract.last_version.duration_months %></td>
