@@ -7,6 +7,13 @@ class Import
       data = row.to_hash.with_indifferent_access
       next if data.values.all?(&:blank?)
 
+      if data.has_key?(:street) || data.has_key?(:zip) || data.has_key?(:city)
+        data[:address] = "#{data[:street]}, #{data[:zip]} #{data[:city]}"
+        data.delete(:street)
+        data.delete(:zip)
+        data.delete(:city)
+      end
+
       Contact.create!(data)
     end
   end

@@ -3,11 +3,14 @@ require 'csv'
 namespace :import do
 
   desc "import contacts from csv file"
-  #column headers should be: name prename address account_number bank_number bank_name email phone remark (not all columns are needed)
+  # Headers: (not all needed)
+  # name prename address account_number bank_number bank_name email phone remark
+  # or if address were stored structured before
+  # name prename street zip city account_number bank_number bank_name email phone remark
   task :contacts, [:file] => :environment do |t, args|
     file = args[:file]
     if !file
-      puts "parameter 'file' needs to be given" 
+      puts "no file given. Use as following: rake import:contacts[/path/to/csv_file.csv]"
       next 
     end
 
@@ -18,10 +21,10 @@ namespace :import do
   desc "import contracts with initial balance from csv file"
   # Headers:
   # category	number	prename	 name	amount	interest  start
-  task :contacts, [:file] => :environment do |t, args|
+  task :contracts, [:file] => :environment do |t, args|
     file = args[:file]
     if !file
-      puts "parameter 'file' needs to be given"
+      puts "no file given. Use as following: rake import:contacts[/path/to/csv_file.csv]"
       next
     end
 
@@ -36,7 +39,7 @@ namespace :import do
   task :accounting_entries, [:file] => :environment do |t, args|
     file = args[:file]
     if !file
-      puts "parameter 'file' needs to be given" 
+      puts "no file given. Use as following: rake import:contacts[/path/to/csv_file.csv]"
       next 
     end
 
