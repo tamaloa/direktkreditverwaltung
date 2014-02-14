@@ -1,0 +1,14 @@
+---
+contacts_001:
+  id: 1
+  name: Räubertochter
+  prename: Manja
+  address: Mattisfeste
+  account_number: ''
+  bank_number: ''
+  created_at: '2014-02-14 17:08:39.697553'
+  updated_at: '2014-02-14 17:08:39.697553'
+  email: ronja@mattisfeste.org
+  phone: ''
+  remark: ''
+  bank_name: ''
