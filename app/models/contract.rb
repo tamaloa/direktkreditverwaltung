@@ -7,7 +7,7 @@ class Contract < ActiveRecord::Base
   belongs_to :contact
   has_many :accounting_entries
   has_many :contract_versions
-  attr_accessible :number, :category, :comment 
+  attr_accessible :number, :category, :comment , :add_interest_to_deposit_annually
   attr_accessor(:expiring)
   attr_accessor(:remaining_months)
 

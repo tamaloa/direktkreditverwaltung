@@ -17,6 +17,10 @@
     <%= f.number_field :number %>
   </div>
   <div class="field">
+    <%= f.label :name,  "Sollen die Zinsen jährlich dem Konto gut geschrieben werden. Wenn ja dann Haken setzen." %><br />
+    <%= f.check_box :add_interest_to_deposit_annually %>
+  </div>
+  <div class="field">
     <%= f.label :name, "Start (letzte Version)" %><br />
     <%= date_select("last_version_start", "", :default => last_version.start.to_date) %>
   </div>

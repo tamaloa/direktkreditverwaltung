@@ -12,6 +12,7 @@ Start, Laufzeit und Zinssatz sind aus der letzten Version des Vertrags.
     <th>Laufzeit in Jahren</th>
     <th>Zinssatz</th>
     <th>Typ</th>
+    <th>Zinsen Gutschreiben?</th>
     <th>Bemerkung</th>
     <th></th>
     <th></th>
@@ -29,6 +30,7 @@ Start, Laufzeit und Zinssatz sind aus der letzten Version des Vertrags.
     <td><%= contract.last_version.duration_years %></td>
     <td><%= fraction(contract.last_version.interest_rate) %></td>
     <td><%= contract.category %></td>
+    <td><%= contract.add_interest_to_deposit_annually %></td>
     <td><%= contract.comment %></td>
     <td><%= link_to 'Anzeigen', contract %></td>
     <td><%= link_to 'Editieren', edit_contract_path(contract) %></td>
