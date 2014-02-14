@@ -174,7 +174,7 @@ class Contract < ActiveRecord::Base
     interest_rows
   end
 
-  def interest year = Time.now.year
+  def interest(year = Time.now.year)
     if SETTINGS[:interest_calculation_method] &&
         SETTINGS[:interest_calculation_method] == "act_act"
       rows = interest_entries_act_act year
@@ -209,6 +209,13 @@ class Contract < ActiveRecord::Base
       non_zero << c if c.balance(date) > 0
     end
     non_zero.sort_by { |c| c.remaining_months }.reverse
+  end
+
+  def year_end_closing!
+    end_of_last_year = Time.now.prev_year.end_of_year
+    last_years_interest, rows = interest(end_of_last_year.year)
+
+    self.accounting_entries.create!(amount: last_years_interest, date: end_of_last_year, annually_closing_entry: true)
   end
 
 end 

@@ -1,0 +1,3 @@
+de:
+  accounting_entry:
+    contract_closed: "This Contract has already been closed. No more accounting entries may be added for the given year."
