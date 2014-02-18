@@ -47,9 +47,14 @@ class Import
       start = Date.parse(data[:start]) if data[:start]
       start = Time.now unless start.is_a?(Date)
 
+      existing_contract = Contract.find_by_number(data[:number])
+      p "[WARNING] You are trying to import a contract with an already existing number, skipped #{data}" and next if existing_contract
       contract = Contract.create_with_balance!(data[:number], data[:amount], interest, start)
 
+      p "Contract created #{contract.number}"
+
       if data[:name]
+        p "Owner given, trying to find match in database: #{data[:name]}"
         query = {name: data[:name]}
         query[:prename] = data[:prename] if data[:prename]
         possible_contacts = Contact.where(query)
@@ -57,6 +62,8 @@ class Import
         contact = possible_contacts.first
         contract.contact = contact if contact
         contract.save! if contact
+        p "Owner found in database: #{contact.try(:name)}" if contact
+        p "[WARNING] No Owner found in database for: #{data[:name]}" unless contact
       end
 
     end
