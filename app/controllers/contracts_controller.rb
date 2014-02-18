@@ -179,14 +179,16 @@ class ContractsController < ApplicationController
 
   # GET /contracts/expiring
   def expiring
-    @contracts = Contract.all
-    @contracts.each do |contract|
+    contracts_with_duration = Contract.all.select{ |c| c.last_version.duration_months ||
+                                                    c.last_version.duration_years }
+
+    contracts_with_duration.each do |contract|
       last_version = contract.last_version
       duration_in_month = last_version.duration_months || last_version.duration_years * 12
       contract.expiring = duration_in_month.months.since(last_version.start)
     end
 
-    @contracts.sort_by! {|contract| contract.expiring}
+    @contracts = contracts_with_duration.sort_by(&:expiring)
 
     respond_to do |format|
       format.html # expiring.html.erb

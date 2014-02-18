@@ -20,7 +20,7 @@
 <% last_version = contract.last_version %>
 <tr>
   <td><%= contract.number %></td>
-  <td><%= "#{contract.contact.prename} #{contract.contact.name}" %></td>
+  <td><%= "#{contract.contact.try(:prename)} #{contract.contact.try(:name)}" %></td>
   <td><%= currency(balance=contract.balance) %></td>
   <td><%= fraction(sum_fraction=balance/sum) %></td>
   <td><%= fraction(last_version.interest_rate) %></td>

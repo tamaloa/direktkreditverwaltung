@@ -19,7 +19,7 @@ Die Angaben von Start, Laufzeit und Zinssatz beziehen sich auf die letzte Versio
   <tr>
     <td><%= contract.expiring %></td>
     <td><%= contract.number %></td>
-    <td><%= "#{contract.contact.prename} #{contract.contact.name}" %></td>
+    <td><%= "#{contract.contact.try(:prename)} #{contract.contact.try(:name)}" %></td>
     <td><%= last_version.start %></td>
     <td><%= last_version.duration_months %></td>
     <td><%= last_version.duration_years %></td>

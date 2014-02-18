@@ -9,7 +9,7 @@
 
 <p>
   <b>Kontakt:</b>
-  <%= "#{@contract.contact.prename} #{@contract.contact.name}" %>
+  <%= "#{@contract.contact.try(:prename)} #{@contract.contact.try(:name)}" %>
 </p>
 
 <p>

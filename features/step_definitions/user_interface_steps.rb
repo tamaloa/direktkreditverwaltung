@@ -86,6 +86,11 @@ And(/^There exists a contract with payments$/) do
   create_accounting_entry
 end
 
+And(/^There exists an anonymous contract with payments$/) do
+  @contract = Contract.create_with_balance!(1032, 3000.00, 0.03)
+  create_accounting_entry
+end
+
 When(/^I look at the interest page$/) do
   visit '/contracts/interest'
 end
@@ -99,7 +104,7 @@ Then(/^I should see the interest statement$/) do
   extend ApplicationHelper                  #i do not want to include into cucumber env
   extend ActionView::Helpers::NumberHelper
 
-  assert page.has_content?("Direktkreditvertrag Nr. #{@contract[:number]}, #{@contact[:name]}")
+  assert page.has_content?("Direktkreditvertrag Nr. #{@contract[:number]}, #{@contact[:name] if @contact}")
 
   contract = find_contract
   interest, interest_calculation = contract.interest #This is soo in need of refactoring
@@ -124,6 +129,10 @@ end
 
 Then(/^I should see the contract$/) do
   assert page.has_content?(@contract[:number])
+end
+
+Then(/^I should not see the contract$/) do
+  refute page.has_content?(@contract[:number])
 end
 
 

@@ -3,7 +3,7 @@
 <% sum_interest = 0 %>
 
 <% @contracts.each do |contract| %>
-\subsection{Direktkreditvertrag Nr. <%= contract.number %>, <%= "#{contract.contact.prename} #{contract.contact.name}" %>}
+\subsection{Direktkreditvertrag Nr. <%= contract.number %>, <%= "#{contract.contact.try(:prename)} #{contract.contact.try(:name)}" %>}
 
 \textbf{Kontostand <%= DateTime.now.to_date %>:}
 <%= latex_currency(contract.balance DateTime.now.to_date) %>

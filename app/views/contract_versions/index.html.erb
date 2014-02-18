@@ -16,8 +16,8 @@
 <% @contract_versions.each do |contract_version| %>
   <tr>
     <td><%= "#{contract_version.contract.number} 
-            (#{contract_version.contract.contact.name},
-             #{contract_version.contract.contact.prename} )" %></td>
+            (#{contract_version.contract.contact.try(:name)},
+             #{contract_version.contract.contact.try(:prename)} )" %></td>
     <td><%= contract_version.version %></td>
     <td><%= contract_version.start %></td>
     <td><%= contract_version.duration_months %></td>

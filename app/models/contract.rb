@@ -186,7 +186,7 @@ class Contract < ActiveRecord::Base
   end
 
 
-  def self.create_with_balance!(number, balance, interest, start_time = Time.now)
+  def self.create_with_balance!(number, balance, interest, start_time = Date.current)
     contract = Contract.create!(number: number)
     last_version = ContractVersion.new
     last_version.version = 1

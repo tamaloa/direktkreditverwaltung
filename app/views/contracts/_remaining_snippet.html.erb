@@ -11,7 +11,7 @@
   <% balance = contract.balance(@date) %>
   <tr>
     <td><%= contract.number %></td>
-    <td><%= "#{contract.contact.prename} #{contract.contact.name}" %></td>
+    <td><%= "#{contract.contact.try(:prename)} #{contract.contact.try(:name)}" %></td>
     <td><%= contract.remaining_months %></td>
     <td><%= currency(balance) %></td>
   </tr>

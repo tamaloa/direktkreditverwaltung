@@ -19,7 +19,7 @@
 
 <% @contracts.each do |contract| %>
 <div>
-  <h2>Direktkreditvertrag Nr. <%= contract.number %>, <%= "#{contract.contact.prename} #{contract.contact.name}" %></h2>
+  <h2>Direktkreditvertrag Nr. <%= contract.number %>, <%= "#{contract.contact.try(:prename)} #{contract.contact.try(:name)}" %></h2>
   <b>Kontostand <%= DateTime.now.to_date %>:</b>
   <%= currency(contract.balance DateTime.now.to_date) %><br/>
   <br/>

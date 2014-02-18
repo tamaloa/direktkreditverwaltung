@@ -2,7 +2,7 @@
 
 <p>
   <b>Vertrag:</b>
-  <%= "Nr. #{@contract_version.contract.number} (#{@contract_version.contract.contact.prename} #{@contract_version.contract.contact.name})" %>
+  <%= "Nr. #{@contract_version.contract.number} (#{@contract_version.contract.contact.try(:prename)} #{@contract_version.contract.contact.try(:name)})" %>
 </p>
 
 <p>

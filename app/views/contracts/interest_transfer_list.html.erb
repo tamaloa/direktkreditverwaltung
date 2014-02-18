@@ -11,12 +11,12 @@
 <% sum_interest = 0 %>
 <% @contracts.each do |contract| %>
 <div>
-  <h2>Direktkreditvertrag Nr. <%= contract.number %>, <%= "#{contract.contact.prename} #{contract.contact.name}" %></h2>
+  <h2>Direktkreditvertrag Nr. <%= contract.number %>, <%= "#{contract.contact.try(:prename)} #{contract.contact.try(:name)}" %></h2>
   <% interest, interest_calculation = contract.interest @year %>
   <b>Zinsen <%= @year %>: <%= currency(interest) %></b><br/>
-  <b>Kontonummer: </b><%= contract.contact.account_number %><br/>
-  <b>BLZ: </b><%= contract.contact.bank_number %><br/>
-  <b>Bank: </b><%= contract.contact.bank_name %><br/>
+  <b>Kontonummer: </b><%= contract.contact.try(:account_number) %><br/>
+  <b>BLZ: </b><%= contract.contact.try(:bank_number) %><br/>
+  <b>Bank: </b><%= contract.contact.try(:bank_name) %><br/>
 </div>
   <% sum_interest+=interest %>
 <% end %>

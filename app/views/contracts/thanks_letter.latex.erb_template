@@ -5,7 +5,7 @@
 \end{textblock*}
 \begin{large}
 
-Hallo <%= contract.contact.prename %>, 
+Hallo <%= contract.contact.try(:prename) %>,
 
 wir, die Leute vom Hausprojekt HAUSPROJEKTNAME danken dir herzlich für die
 Unterstützung unseres Hausprojekts im vergangenen Jahr. 

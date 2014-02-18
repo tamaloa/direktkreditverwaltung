@@ -7,7 +7,7 @@
     \end{scriptsize}
 
     \begin{large}
-    <%= "#{contract.contact.prename} #{contract.contact.name}" %>\\
+    <%= "#{contract.contact.try(:prename)} #{contract.contact.try(:name)}" %>\\
     <% address=contract.contact.address %>
     <%= address.split(",")[0] %>\\
 
@@ -31,7 +31,7 @@ Berlin, den \number\day.\number\month.\number\year %\today
 
 \vspace{5mm}
 \begin{large}
-Guten Tag <%= "#{contract.contact.prename} #{contract.contact.name}" %>,\\
+Guten Tag <%= "#{contract.contact.try(:prename)} #{contract.contact.try(:name)}" %>,\\
 
 Der Kontostand des Direktkreditvertrags Nr. <%= contract.number %> beträgt heute, am <%= DateTime.now.to_date %>
 <%= latex_currency(contract.balance DateTime.now.to_date) %>. Die Zinsen für das Jahr <%= @year %> berechnen sich wie folgt:
