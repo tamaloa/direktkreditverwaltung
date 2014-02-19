@@ -4,7 +4,7 @@ class Import
 
   def self.contacts(file)
     CSV.foreach(file, :headers => true) do |row|
-      data = row.to_hash.with_indifferent_access
+      data = cleaned_row(row)
       next if data.values.all?(&:blank?)
 
       if data.has_key?(:street) || data.has_key?(:zip) || data.has_key?(:city)
@@ -20,15 +20,16 @@ class Import
 
   def self.accounting_entries(file)
     CSV.foreach(file, :headers => true) do |row|
-      contract = Contract.where(:number => row.to_hash["contract_id"]).first
+      data = cleaned_row(row)
+      contract = Contract.where(:number => data[:contract_id]).first
       if !contract
-        puts "contract for contract_id #{row.to_hash['contract_id']} could not be found"
+        puts "contract for contract_id #{data[:contract_id]} could not be found"
         next
       end
       entry = AccountingEntry.new
       entry.contract = contract
-      entry.amount = row.to_hash["amount"]
-      entry.date = row.to_hash["date"]
+      entry.amount = data[:amount]
+      entry.date = data[:date]
       entry.save!
     end
   end
@@ -38,7 +39,7 @@ class Import
   # category	number	prename	 name	amount	interest  start
   def self.contracts(file)
     CSV.foreach(file, :headers => true) do |row|
-      data = row.to_hash.with_indifferent_access
+      data = cleaned_row(row)
       next if data.values.all?(&:blank?)
 
       interest = 0.0 if data[:interest].blank?
@@ -69,5 +70,12 @@ class Import
     end
   end
 
+  private
+
+  def self.cleaned_row(row)
+    hashed_row = row.to_hash.with_indifferent_access
+    hashed_row.values.each{|value| value.try(:squish!)}
+    hashed_row
+  end
 
 end

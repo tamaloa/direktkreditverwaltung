@@ -35,4 +35,12 @@ class ImportTest < ActiveSupport::TestCase
 
   end
 
+
+  test "importing contacts with structured address" do
+    Import.contacts("#{Rails.root}/test/fixtures/import/contacts_with_structured_address.csv")
+    ronja = Contact.where(prename: 'Ronja').first
+    assert ronja.address.match(/Leipzig/)
+    assert ronja.address.match(/04229/)
+  end
+
 end
