@@ -42,8 +42,8 @@ class PdfInterestLetter < Prawn::Document
         text "#{texts['gmbh_name']}     #{texts['street_no']}     #{texts['zipcode']} #{texts['city']}", size: 7
         fill_color '000000'
         move_down 10
-        text "#{contract.contact.prename} #{contract.contact.name}"
-        address = contract.contact.address
+        text "#{contract.contact.try(:prename)} #{contract.contact.try(:name)}"
+        address = contract.contact.try(:address)
         address_array = address.split(',')
         (0..(address_array.length-2)).to_a.each do |i|
           text address_array[i]
@@ -58,7 +58,7 @@ class PdfInterestLetter < Prawn::Document
       move_down 40
       text "Kontostand Direktkreditvertrag Nr. #{contract.number}", size: 12, style: :bold
       move_down 30
-      text "Guten Tag #{contract.contact.prename} #{contract.contact.name},"
+      text "Guten Tag #{contract.contact.try(:prename)} #{contract.contact.try(:name)},"
       move_down 10
       text "der Kontostand des Direktkreditvertrags Nr. #{contract.number} beträgt heute, am #{DateTime.now.strftime("%d.%m.%Y")} #{currency(contract.balance DateTime.now.to_date)}. Die Zinsen für das Jahr #{@year} berechnen sich wie folgt:"
       move_down 5

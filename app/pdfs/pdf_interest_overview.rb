@@ -15,7 +15,7 @@ class PdfInterestOverview < Prawn::Document
       interest, interest_calculation = contract.interest @year
       next if interest == 0
       move_down 20
-      text "Direktkreditvertrag Nr. #{contract.number}, #{contract.contact.prename} #{contract.contact.name}", size: 14, style: :bold
+      text "Direktkreditvertrag Nr. #{contract.number}, #{contract.contact.try(:prename)} #{contract.contact.try(:name)}", size: 14, style: :bold
       move_down 5
       text "<b>Kontostand #{DateTime.now.to_date}:</b> #{currency(contract.balance(DateTime.now.to_date))}", inline_format: true
       move_down 5

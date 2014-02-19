@@ -30,7 +30,7 @@ class PdfInterestThanks < Prawn::Document
                    width: (width/2.0 - COLUMN_SPACER) do
         image "#{Rails.root}/custom/logo.png", at: [width/2.0-IMAGE_WITH - 70, cursor], width: IMAGE_WITH
         move_down 30 
-        text "Hallo #{contract.contact.prename},", size: 14, style: :bold_italic
+        text "Hallo #{contract.contact.try(:prename)},", size: 14, style: :bold_italic
         move_down 10 
         text texts['thanks_what_happened'], style: :italic
         move_down 10
