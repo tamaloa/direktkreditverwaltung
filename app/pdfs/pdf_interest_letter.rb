@@ -44,12 +44,14 @@ class PdfInterestLetter < Prawn::Document
         move_down 10
         text "#{contract.contact.try(:prename)} #{contract.contact.try(:name)}"
         address = contract.contact.try(:address)
-        address_array = address.split(',')
-        (0..(address_array.length-2)).to_a.each do |i|
-          text address_array[i]
+        if address
+          address_array = address.split(',')
+          (0..(address_array.length-2)).to_a.each do |i|
+            text address_array[i]
+          end
+          move_down 10
+          text address_array.last
         end
-        move_down 10
-        text address_array.last
       end
 
       move_down 40
@@ -83,7 +85,8 @@ class PdfInterestLetter < Prawn::Document
       move_down 10
       text "<b>Zinsen #{@year}:</b> #{currency(interest)}", inline_format: true
       move_down 15
-      text "Wir werden die Zinsen in den nächsten Tagen auf das im Vertrag angegebene Konto überweisen. Bitte beachten Sie, dass Sie sich selbst um die Abführung von Kapitalertragssteuer und Solidaritätszuschlag kümmern sollten, da wir das nicht übernehmen können."
+      text "Wir werden die Zinsen in den nächsten Tagen auf das im Vertrag angegebene Konto überweisen." unless contract.add_interest_to_deposit_annually
+      text "Bitte beachten Sie, dass Sie sich selbst um die Abführung von Kapitalertragssteuer und Solidaritätszuschlag kümmern sollten, da wir das nicht übernehmen können."
       move_down 10
       text "Vielen Dank!"
       move_down 30
