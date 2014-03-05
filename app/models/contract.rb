@@ -171,7 +171,7 @@ class Contract < ActiveRecord::Base
                             :interest => interest})
       end
     end
-    interest_rows
+    interest_rows.sort_by{|row| row[:date]}
   end
 
   def interest(year = Time.now.year)
