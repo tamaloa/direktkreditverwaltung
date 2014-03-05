@@ -13,7 +13,7 @@
 
 <% @accounting_entries.each do |accounting_entry| %>
   <tr>
-    <td><%= accounting_entry.amount > 0 ? "Einzahlung" : "Auszahlung"%></td>
+    <td><%= accounting_entry.name %></td>
     <td><%= accounting_entry.date %></td>
     <td><%= accounting_entry.amount %></td>
     <td><%= accounting_entry.contract.number %></td>

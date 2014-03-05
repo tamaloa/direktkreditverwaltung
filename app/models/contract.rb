@@ -67,7 +67,7 @@ class Contract < ActiveRecord::Base
       interest_rate = interest_rate_for_date entry[:date]
       interest = entry[:amount] * fraction * interest_rate
       interest_rows.push({:date => entry[:date],
-                          :name => entry[:amount] > 0 ? "Einzahlung" : "Auszahlung",
+                          :name => entry.name,
                           :amount => entry[:amount],
                           :interest_rate => interest_rate,
                           :days_left_in_year => days_left,
@@ -132,7 +132,7 @@ class Contract < ActiveRecord::Base
       interest_rate = interest_rate_for_date entry[:date]
       interest = (entry[:amount] * fraction * interest_rate).round(2)
       interest_rows.push({:date => entry[:date],
-                          :name => entry[:amount] > 0 ? "Einzahlung" : "Auszahlung",
+                          :name => entry.name,
                           :amount => entry[:amount],
                           :interest_rate => interest_rate,
                           :days_left_in_year => days_left,
@@ -212,7 +212,7 @@ class Contract < ActiveRecord::Base
   end
 
   def year_end_closing!
-    end_of_last_year = Time.now.prev_year.end_of_year
+    end_of_last_year = Time.now.prev_year.end_of_year.to_date
     last_years_interest, rows = interest(end_of_last_year.year)
 
     self.accounting_entries.create!(amount: last_years_interest, date: end_of_last_year, annually_closing_entry: true)

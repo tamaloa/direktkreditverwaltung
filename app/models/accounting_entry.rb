@@ -2,6 +2,13 @@ class AccountingEntry < ActiveRecord::Base
   belongs_to :contract
   attr_accessible :amount, :date, :annually_closing_entry
 
+
+  def name
+    return "Zinsen" if annually_closing_entry
+    return "Einzahlung" if amount > 0
+    return "Auszahlung" if amount < 0
+    return ""
+  end
   ###
   # TODO: Decide if it is worth coping with sqlite deficencies or simply switching to a proper default database
   ###
