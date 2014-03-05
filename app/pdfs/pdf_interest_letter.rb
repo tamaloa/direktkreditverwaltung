@@ -23,10 +23,13 @@ class PdfInterestLetter < Prawn::Document
 
       x_pos = bounds.width-IMAGE_WITH
       y_pos = cursor
-      image "#{Rails.root}/custom/logo.png", at: [x_pos, y_pos], 
-                                             width: IMAGE_WITH
+
+      image_file = "#{Rails.root}/custom/logo.png"
+      image(image_file, at: [x_pos, y_pos], width: IMAGE_WITH) if File.exists?(image_file)
+
       bounding_box [x_pos + 55, y_pos - IMAGE_HEIGHT], 
                    width: IMAGE_WITH do
+        text texts['project_name'], size: 10
         text "Projekt im Mietshäuser Syndikat", size: 8, style: :italic
         move_down 10
         text texts['street_no'], size: 8
@@ -60,9 +63,14 @@ class PdfInterestLetter < Prawn::Document
       move_down 40
       text "Kontostand Direktkreditvertrag Nr. #{contract.number}", size: 12, style: :bold
       move_down 30
-      text "Guten Tag #{contract.contact.try(:prename)} #{contract.contact.try(:name)},"
+      text "Hallo #{contract.contact.try(:prename)} #{contract.contact.try(:name)},"
       move_down 10
-      text "der Kontostand des Direktkreditvertrags Nr. #{contract.number} beträgt heute, am #{DateTime.now.strftime("%d.%m.%Y")} #{currency(contract.balance DateTime.now.to_date)}. Die Zinsen für das Jahr #{@year} berechnen sich wie folgt:"
+      text "herzlichen Dank für die Unterstützung im Jahr #{@year}. Anbei der Kontoauszug und die Berechnung der Zinsen. " +
+           "Auf Wunsch erstellen wir eine gesonderte Zinsbescheinigung für die Steuerklärung. Wir bitte um Überprüfung des Auszugs. " +
+           "Falls etwas nicht stimmt oder unverständlich ist, stehen wir für Rückfragen gerne zur Verfügung."
+      text "Die Zinsen wurden auf dem Direktkreditkonto gutgeschrieben." if contract.add_interest_to_deposit_annually
+
+      #text "der Kontostand des Direktkreditvertrags Nr. #{contract.number} beträgt heute, am #{DateTime.now.strftime("%d.%m.%Y")} #{currency(contract.balance DateTime.now.to_date)}. Die Zinsen für das Jahr #{@year} berechnen sich wie folgt:"
       move_down 5
 
       data = [['Datum', 'Vorgang', 'Betrag', 'Zinssatz', 
@@ -83,10 +91,11 @@ class PdfInterestLetter < Prawn::Document
         self.header = true
       end
       move_down 10
-      text "<b>Zinsen #{@year}:</b> #{currency(interest)}", inline_format: true
+      #text "Zinsen #{@year}: #{currency(interest)}", inline_format: true
+      text "Kontostand zum Jahresabschluss #{ @year }: <b>#{ currency(contract.balance(Date.new(@year,12,31))) }</b>", inline_format: true
       move_down 15
       text "Wir werden die Zinsen in den nächsten Tagen auf das im Vertrag angegebene Konto überweisen." unless contract.add_interest_to_deposit_annually
-      text "Bitte beachten Sie, dass Sie sich selbst um die Abführung von Kapitalertragssteuer und Solidaritätszuschlag kümmern sollten, da wir das nicht übernehmen können."
+      text "Zinseinkünfte sind einkommensteuerpflichtig.", style: :bold, align: :center
       move_down 10
       text "Vielen Dank!"
       move_down 30
