@@ -17,7 +17,7 @@
   </div>
   <div class="field">
     <%= f.label :start %><br />
-    <%= f.date_select :start %>
+    <%= f.date_select :start, {:include_blank => true, :default => nil} %>
   </div>
   <div class="field">
     <%= f.label :name, "Laufzeit in Monaten" %><br />

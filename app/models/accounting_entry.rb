@@ -1,6 +1,8 @@
 class AccountingEntry < ActiveRecord::Base
   belongs_to :contract
   attr_accessible :amount, :date, :annually_closing_entry
+  validates_presence_of :amount, :date
+  validates_numericality_of :amount
 
 
   def name
