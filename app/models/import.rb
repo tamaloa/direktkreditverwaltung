@@ -6,13 +6,7 @@ class Import
     CSV.foreach(file, :headers => true) do |row|
       data = cleaned_row(row)
       next if data.values.all?(&:blank?)
-
-      if data.has_key?(:street) || data.has_key?(:zip) || data.has_key?(:city)
-        data[:address] = "#{data[:street]}, #{data[:zip]} #{data[:city]}"
-        data.delete(:street)
-        data.delete(:zip)
-        data.delete(:city)
-      end
+      make_address_if_stored_structured(data)
 
       Contact.create!(data)
     end
@@ -46,11 +40,14 @@ class Import
       interest = data[:interest].chomp('%').to_f/100 if data[:interest].match(/%/)
 
       start = Date.parse(data[:start]) if data[:start]
-      start = Time.now unless start.is_a?(Date)
+      start = Time.now.to_date unless start.is_a?(Date)
 
       existing_contract = Contract.find_by_number(data[:number])
       p "[WARNING] You are trying to import a contract with an already existing number, skipped #{data}" and next if existing_contract
       contract = Contract.create_with_balance!(data[:number], data[:amount], interest, start)
+      contract.comment = data[:comment] if data[:comment]
+      contract.category = data[:category] if data[:category]
+      contract.save
 
       p "Contract created #{contract.number}"
 
@@ -64,7 +61,15 @@ class Import
         contract.contact = contact if contact
         contract.save! if contact
         p "Owner found in database: #{contact.try(:name)}" if contact
-        p "[WARNING] No Owner found in database for: #{data[:name]}" unless contact
+        unless contact
+          p "No Owner found in database for: #{data[:name]}, creating new owner"
+          make_address_if_stored_structured(data)
+          contact = Contact.create(name: data[:name], prename: data[:prename], address: data[:address],
+                                   email: data[:email], phone: data[:phone] )
+          contract.contact = contact if contact
+          contract.save! if contact
+          p "Owner created: #{contact.try(:name)}" if contact
+          end
       end
 
     end
@@ -76,6 +81,15 @@ class Import
     hashed_row = row.to_hash.with_indifferent_access
     hashed_row.values.each{|value| value.try(:squish!)}
     hashed_row
+  end
+
+  def self.make_address_if_stored_structured(data)
+    if data.has_key?(:street) || data.has_key?(:zip) || data.has_key?(:city)
+        data[:address] = "#{data[:street]}, #{data[:zip]} #{data[:city]}"
+        data.delete(:street)
+        data.delete(:zip)
+        data.delete(:city)
+    end
   end
 
 end
