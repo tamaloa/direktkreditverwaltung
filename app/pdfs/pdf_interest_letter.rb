@@ -77,11 +77,15 @@ class PdfInterestLetter < Prawn::Document
                'verbleibende Tage im Jahr', 
                'verbleibender Anteil am Jahr', 'Zinsen']]
       interest_calculation.each do |entry|
+        days_left_in_year = entry[:days_left_in_year] == 0 ? '' : entry[:days_left_in_year]
+        fraction_of_year = entry[:fraction_of_year].to_f == 0.0 ? '' : fraction(entry[:fraction_of_year])
+        interest = entry[:interest].to_f == 0.0 ? '' :  currency(entry[:interest])
+        interest_rate = entry[:name] == 'Zinsen' ? '' : fraction(entry[:interest_rate])
         data << [entry[:date], entry[:name], currency(entry[:amount]),
-                 fraction(entry[:interest_rate]), 
-                 entry[:days_left_in_year],
-                 fraction(entry[:fraction_of_year]),
-                 currency(entry[:interest])]
+                 interest_rate,
+                 days_left_in_year,
+                 fraction_of_year,
+                 interest]
       end
       table data do
         row(0).font_style = :bold
