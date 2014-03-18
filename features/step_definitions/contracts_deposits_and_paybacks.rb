@@ -44,3 +44,9 @@ end
 And(/^The deposits and paybacks as described in "(.*?)" occur$/) do |csv_file|
   Import.accounting_entries(csv_file)
 end
+
+
+When(/^For DK contract (\d+) the interest changes to (\d+\.\d+)% on the "(.*?)"$/) do |dk_number, new_interest, date|
+  contract = Contract.find_by_number(dk_number)
+  contract.contract_versions.create(:interest_rate => new_interest.to_f/100, :start => Date.parse(date), :version => 2)
+end

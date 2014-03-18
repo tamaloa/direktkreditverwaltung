@@ -101,3 +101,14 @@ Scenario: Anonymized DK data for the year 2010
   And The balance including interest of DK contract 17 is 10042.78 euro
   And The balance including interest of DK contract 18 is 3010.67 euro
   And The balance including interest of DK contract 19 is 576.55 euro
+
+Scenario: Contracts with interest changes during the year
+  Given The date is "2012-12-31"
+    And DK contract 13 has a balance of 21051.56 euro and interest of 3.0%
+    And DK contract 131 has a balance of 21052.40 euro and interest of 3.0%
+  When Time passes
+    And For DK contract 13 the interest changes to 2.0% on the "2013-07-01"
+    And For DK contract 131 the interest changes to 2.0% on the "2013-07-01"
+  Then Time passes and it is the "2013-12-31"
+    And The balance including interest of DK contract 13 is 21577.86 euro
+    And The balance including interest of DK contract 131 is 21578.70 euro

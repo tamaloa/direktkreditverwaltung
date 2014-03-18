@@ -153,7 +153,7 @@ class Contract < ActiveRecord::Base
         end
         days_left = days360(version.start, end_date)
         fraction = 1.0 * days_left/360
-        interest = -change_balance * fraction * old_interest_rate
+        interest = (-change_balance * fraction * old_interest_rate).round(2)
         interest_rows.push({:date => version.start,
                             :name => "Vertragsänderung",
                             :amount => -change_balance,
@@ -161,7 +161,7 @@ class Contract < ActiveRecord::Base
                             :days_left_in_year => days_left,
                             :fraction_of_year => fraction,
                             :interest => interest})
-        interest = change_balance * fraction * version.interest_rate
+        interest = (change_balance * fraction * version.interest_rate).round(2)
         interest_rows.push({:date => version.start,
                             :name => "Vertragsänderung",
                             :amount => change_balance,
