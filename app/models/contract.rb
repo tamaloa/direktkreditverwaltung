@@ -211,8 +211,8 @@ class Contract < ActiveRecord::Base
     non_zero.sort_by { |c| c.remaining_months }.reverse
   end
 
-  def year_end_closing!
-    end_of_last_year = Time.now.prev_year.end_of_year.to_date
+  def year_end_closing(year)
+    end_of_last_year = Date.new(year).end_of_year.to_date
     last_years_interest, rows = interest(end_of_last_year.year)
 
     self.accounting_entries.create!(amount: last_years_interest, date: end_of_last_year, annually_closing_entry: true)

@@ -22,5 +22,18 @@ class YearEndClosingsController < ApplicationController
     end
   end
 
+  def destroy
+    @year_end_closing = YearEndClosing.new(:year => params[:id])
+
+    respond_to do |format|
+      if @year_end_closing.revert
+        format.html { redirect_to new_year_end_closings_url,
+                                  notice: "Jahresabschluss für #{@year_end_closing.year} wurde rückgängig gemacht" }
+      else
+        format.html { render action: "new" }
+      end
+    end
+  end
+
 
 end

@@ -6,3 +6,9 @@
   = f.label :year, "Jahresabschluss für"
   = select_year(@year_end_closing.year)
   = submit_tag "durchführen!"
+
+- last_closing_year = YearEndClosing.most_recent_one
+- if last_closing_year
+  = link_to "Letzten Jahresabschluss (#{last_closing_year}) rückgängig machen", year_end_closings_path(id: last_closing_year),
+      confirm: "Wirklich den Jahresabschluss rückgängig machen? Es werden alle Zinsbuchungen des Jahres gelöscht",
+      method: :delete
