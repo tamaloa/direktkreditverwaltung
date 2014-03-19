@@ -73,18 +73,18 @@ class PdfInterestLetter < Prawn::Document
       #text "der Kontostand des Direktkreditvertrags Nr. #{contract.number} beträgt heute, am #{DateTime.now.strftime("%d.%m.%Y")} #{currency(contract.balance DateTime.now.to_date)}. Die Zinsen für das Jahr #{@year} berechnen sich wie folgt:"
       move_down 5
 
-      data = [['Datum', 'Vorgang', 'Betrag', 'Zinssatz', 
-               'verbleibende Tage im Jahr', 
-               'verbleibender Anteil am Jahr', 'Zinsen']]
+      data = [['Datum', 'Vorgang', 'Betrag', 'Zinssatz', 'Zinsen']]
+            #   'verbleibende Tage im Jahr', 'verbleibender Anteil am Jahr', #Für DK-Geber_innen unverständliche Detailinfos
+
       interest_calculation.each do |entry|
-        days_left_in_year = entry[:days_left_in_year] == 0 ? '' : entry[:days_left_in_year]
-        fraction_of_year = entry[:fraction_of_year].to_f == 0.0 ? '' : fraction(entry[:fraction_of_year])
+       # days_left_in_year = entry[:days_left_in_year] == 0 ? '' : entry[:days_left_in_year]
+       # fraction_of_year = entry[:fraction_of_year].to_f == 0.0 ? '' : fraction(entry[:fraction_of_year])
         interest = entry[:interest].to_f == 0.0 ? '' :  currency(entry[:interest])
         interest_rate = entry[:name] == 'Zinsen' ? '' : fraction(entry[:interest_rate])
         data << [entry[:date], entry[:name], currency(entry[:amount]),
                  interest_rate,
-                 days_left_in_year,
-                 fraction_of_year,
+                # days_left_in_year,
+                # fraction_of_year,
                  interest]
       end
       table data do
