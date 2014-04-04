@@ -4,6 +4,21 @@
 <h3>Aktuelle Summe aller Direktkredite: </h3> 
 <b><%= currency(sum) %></b><br/>
 
+<h3>Direktkredite nach Kategorie</h3>
+<% categories = Contract.pluck(:category).uniq %>
+<ul>
+  <% categories.each do |category| %>
+      <li>
+        <% contracts_of_category = Contract.where(category: category)%>
+        <%= "Categorie: #{category} - Summe: " %>
+        <%= currency contracts_of_category .map(&:balance).sum %>
+        <%= " - AVG Zinssatz: " %>
+        <%= contracts_of_category.last_version.map(&:interest_rate).sum / contracts_of_category.size.to_f %>
+      </li>
+  <% end %>
+</ul>
+
+
 <h3>Berechnung: </h3> 
 <table class='table'>
 <tr>
