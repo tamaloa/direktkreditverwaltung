@@ -11,9 +11,9 @@
       <li>
         <% contracts_of_category = Contract.where(category: category)%>
         <%= "Categorie: #{category} - Summe: " %>
-        <%= currency contracts_of_category .map(&:balance).sum %>
+        <%= currency contracts_of_category.map(&:balance).sum %>
         <%= " - AVG Zinssatz: " %>
-        <%= contracts_of_category.last_version.map(&:interest_rate).sum / contracts_of_category.size.to_f %>
+        <%= number_with_precision( contracts_of_category.map(&:last_version).map(&:interest_rate).sum / contracts_of_category.size.to_f) %>
       </li>
   <% end %>
 </ul>
