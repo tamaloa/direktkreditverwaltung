@@ -1,11 +1,31 @@
 ---
 contract_versions_001:
-  id: 1
+  id: '1'
   start: '2011-12-31'
   duration_months: 
   duration_years: 
-  interest_rate: 0.02
-  version: 1
-  contract_id: 1
+  interest_rate: '0.0200'
+  version: '1'
+  contract_id: '1'
   created_at: '2014-02-14 17:09:10.952091'
   updated_at: '2014-02-14 17:09:10.952091'
+contract_versions_002:
+  id: '2'
+  start: '2012-01-01'
+  duration_months: 
+  duration_years: 
+  interest_rate: '0.0300'
+  version: '1'
+  contract_id: '2'
+  created_at: '2014-05-19 14:37:32.455496'
+  updated_at: '2014-05-19 14:37:32.455496'
+contract_versions_003:
+  id: '3'
+  start: '2012-07-01'
+  duration_months: 
+  duration_years: 
+  interest_rate: '0.0200'
+  version: '2'
+  contract_id: '2'
+  created_at: '2014-05-19 14:41:33.301911'
+  updated_at: '2014-05-19 14:41:33.301911'

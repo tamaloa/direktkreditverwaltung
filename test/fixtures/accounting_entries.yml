@@ -1,9 +1,33 @@
 ---
 accounting_entries_001:
-  id: 1
+  id: '1'
   date: '2012-12-31'
-  amount: 5000
-  contract_id: 1
+  amount: '5000.00'
+  contract_id: '1'
   created_at: '2014-02-14 17:09:35.631233'
   updated_at: '2014-02-14 17:09:35.631233'
+  annually_closing_entry: f
+accounting_entries_002:
+  id: '2'
+  date: '2012-01-01'
+  amount: '3000.00'
+  contract_id: '2'
+  created_at: '2014-05-19 14:37:32.470405'
+  updated_at: '2014-05-19 14:37:32.470405'
+  annually_closing_entry: f
+accounting_entries_003:
+  id: '3'
+  date: '2012-02-01'
+  amount: '100.00'
+  contract_id: '2'
+  created_at: '2014-05-19 14:41:24.64966'
+  updated_at: '2014-05-19 14:41:24.64966'
+  annually_closing_entry: f
+accounting_entries_004:
+  id: '4'
+  date: '2012-10-01'
+  amount: '150.00'
+  contract_id: '2'
+  created_at: '2014-05-19 14:41:53.782892'
+  updated_at: '2014-05-19 14:41:53.782892'
   annually_closing_entry: f

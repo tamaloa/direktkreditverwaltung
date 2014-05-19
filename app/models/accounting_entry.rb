@@ -11,6 +11,11 @@ class AccountingEntry < ActiveRecord::Base
     return "Auszahlung" if amount < 0
     return ""
   end
+
+  def type
+    return :annually_closing_entry if annually_closing_entry
+    :movement
+  end
   ###
   # TODO: Decide if it is worth coping with sqlite deficencies or simply switching to a proper default database
   ###

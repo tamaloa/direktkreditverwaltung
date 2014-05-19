@@ -1,6 +1,6 @@
 ---
 contacts_001:
-  id: 1
+  id: '1'
   name: Räubertochter
   prename: Manja
   address: Mattisfeste

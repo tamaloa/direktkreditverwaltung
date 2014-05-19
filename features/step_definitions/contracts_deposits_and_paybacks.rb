@@ -32,9 +32,15 @@ end
 Then(/^The balance including interest of DK contract (\d+) is (\d+\.\d+) euro$/) do |dk_number, final_balance|
   contract = Contract.find_by_number(dk_number)
   final_balance = BigDecimal.new(final_balance)
+
+  # Old interest calculation methods
   calculated_balance = contract.balance
   calculated_interest, rows = contract.interest
   assert_equal final_balance.to_s, (calculated_balance + calculated_interest).round(2).to_s
+
+  # New refactored calculation methods
+  calculated_interest = InterestCalculation.new(contract).interest_total
+  assert_equal final_balance.to_s, (calculated_balance + calculated_interest).to_s
 end
 
 And(/^DK contracts as described in "(.*?)" exist$/) do |csv_file|
