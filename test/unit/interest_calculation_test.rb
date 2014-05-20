@@ -12,8 +12,8 @@ class InterestCalculationTest < ActiveSupport::TestCase
   end
 
   test "a list of interest rates with start and end should be returned" do
-    interest_calculation = InterestCalculation.new(@contract, from: Date.new(2000))
-    assert_equal interest_calculation.interest_rates_and_dates.count, @contract.contract_versions.count
+    interest_calculation = InterestCalculation.new(@contract, from: Date.new(2000), till: Date.new(2020))
+    assert_equal @contract.contract_versions.count, interest_calculation.interest_rates_and_dates.count
   end
 
   test "only those interest rates should be returned which fall into the time interval" do
@@ -30,7 +30,7 @@ class InterestCalculationTest < ActiveSupport::TestCase
   end
 
   test "account movements should contain one entry for each movement plus initial balance" do
-    interest_calculation = InterestCalculation.new(@contract, from: Date.new(2000))
+    interest_calculation = InterestCalculation.new(@contract, from: Date.new(2000), till: Date.new(2020))
     assert_equal (@contract.accounting_entries.count + 1), interest_calculation.account_movements_with_initial_balance.count
   end
 
@@ -48,7 +48,7 @@ class InterestCalculationTest < ActiveSupport::TestCase
 
   test "interest total should be calculated correctly" do
     interest_calculation = InterestCalculation.new(@contract, from: Date.new(2012, 1, 1), till: Date.new(2012, 12, 31))
-    assert_equal 79.to_d, interest_calculation.interest_total
+    assert_equal 78.0.to_s, interest_calculation.interest_total.to_s
   end
 
 end

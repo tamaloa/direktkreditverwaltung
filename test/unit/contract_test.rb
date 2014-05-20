@@ -10,19 +10,19 @@ class ContractTest < ActiveSupport::TestCase
 
   test "a contract should do a year-end-closing which adds an accounting entry" do
     assert_difference 'AccountingEntry.count' do
-      @contract.year_end_closing!
+      @contract.year_end_closing(2013)
     end
   end
 
   test "the year_end_closing should always calculate the balance for the last day of the previous year" do
     Timecop.travel(Date.parse('2013-04-23'))
-      @contract.year_end_closing!
+      @contract.year_end_closing(2012)
 
-      assert @contract.accounting_entries.last.date.eql?(Date.parse('2012-12-31'))
+      assert_equal Date.new(2012,12,31), @contract.accounting_entries.last.date
   end
 
   test "the year_end_closing should add the interest for last year" do
-    @contract.year_end_closing!
+    @contract.year_end_closing(2013)
     assert_equal @contract.accounting_entries.last.amount, 5000.to_d*0.02
   end
 

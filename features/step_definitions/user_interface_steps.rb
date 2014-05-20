@@ -22,6 +22,9 @@ def create_new_contract_version
   contract = find_contract
   visit new_contract_contract_version_path(contract)
   fill_in "contract_version_version", :with => contract.last_version.version + 1
+  select Date.current.year.to_s, from: "contract_version_start_1i"
+  select 'Mai', from: "contract_version_start_2i"
+  select Date.current.day.to_s, from: "contract_version_start_3i"
   fill_in "contract_version_interest_rate", :with => 0.05
   click_button "Fertig"
 end
@@ -143,5 +146,5 @@ end
 
 Then(/^There should exist two contract versions$/) do
   contract = find_contract
-  assert contract.contract_versions.count.eql?(2)
+  assert_equal 2, contract.contract_versions.count
 end
