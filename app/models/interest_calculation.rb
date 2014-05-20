@@ -13,6 +13,17 @@ class InterestCalculation
     interest_calculated_for_all_account_activities.map{|a| a[:interest]}.sum
   end
 
+  def pretty_print_movements
+    movements = interest_calculated_for_all_account_activities
+      p "amount;date;type;interest_rate;interest;days_left_in_year"
+    movements.each do |m|
+      m.each do |k,v|
+        print "#{v.to_s};"
+      end
+      p ""
+    end
+  end
+
   def interest_calculated_for_all_account_activities
     result = []
     interest_rates_and_dates.each do |rate_and_date|
