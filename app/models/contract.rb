@@ -16,6 +16,10 @@ class Contract < ActiveRecord::Base
     accounting_entries.where("date <= ?", date).sum(:amount)
   end
 
+  def interest_rate(date = Date.current)
+    interest_rate_for_date(date)
+  end
+
   #XXX: find better query and do it in controller, making last_version an alias
   # in the contract table (if better?)
   def last_version
@@ -182,6 +186,9 @@ class Contract < ActiveRecord::Base
       rows = interest_entries_30E_360 year
     end
     interest = rows.inject(0) {|sum, row| sum + row[:interest]}
+
+    # interest = InterestCalculation.new(self, from: Date.new(year)).interest_total
+    # rows = InterestCalculation.new(self, from: Date.new(year)).interest_calculated_for_all_account_activities
     return interest, rows
   end
 

@@ -13,6 +13,7 @@ Start, Laufzeit und Zinssatz sind aus der letzten Version des Vertrags.
     <th>Zinssatz</th>
     <th>Typ</th>
     <th>Zinsen Gutschreiben?</th>
+    <th>Gekündigt?</th>
     <th>Bemerkung</th>
     <th></th>
     <th></th>
@@ -31,10 +32,11 @@ Start, Laufzeit und Zinssatz sind aus der letzten Version des Vertrags.
     <td><%= fraction(contract.last_version.interest_rate) %></td>
     <td><%= contract.category %></td>
     <td><%= contract.add_interest_to_deposit_annually %></td>
+    <td><%= contract.terminated_at %></td>
     <td><%= contract.comment %></td>
     <td><%= link_to 'Anzeigen', contract %></td>
     <td><%= link_to 'Editieren', edit_contract_path(contract) %></td>
-    <td><%= link_to 'Löschen', contract, method: :delete, data: { confirm: 'Sicher?' } %></td>
+    <td><%= link_to 'Auflösen', new_contract_terminator_path(id: contract.id) %></td>
     <td><%= link_to 'Buchung erstellen', new_contract_accounting_entry_path(contract) %>
         <%= link_to 'Vertragsversion erstellen', new_contract_contract_version_path(contract) %>
         <%= link_to 'Kontoauszug', contract_accounting_entries_path(contract) %></td>

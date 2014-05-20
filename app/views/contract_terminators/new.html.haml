@@ -1,0 +1,29 @@
+%h1 Direktkreditvertrag auflösen
+
+%p
+  Der Direktkreditvertrag wird zum eingestellten Datum aufgelöst. Dazu werden die bis dahin noch angefallenen Zinsen berechnet. |
+  Anschließend wird der Gesamtbetrag der ausgezahlt werden soll berechnet. Korrekterweise muss der gesamte Auszahlungsbetrag
+  an dem angegebenen Datum ausbezahlt werden.
+
+%p
+  Bitte daran denken, dass aufgrund von Beschränkungen beim Online-Banking nicht
+  die gesamte Summe in einem Betrag überwiesen werden kann. Ist die DK Summe so hoch macht es Sinn zunächst normale Auszahlungen
+  vor zu nehmen und erst wenn der Restbetrag klein genug ist diese Funktion zu nutzen!
+
+= form_for @contract_terminator do |f|
+  - if @contract_terminator.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@contract_terminator.errors.count, "error")} prohibited this contract_terminator from being saved:"
+      %ul
+        - @contract_terminator.errors.full_messages.each do |msg|
+          %li= msg
+
+  = f.label :contract, "Vertrag"
+  = hidden_field_tag :id, @contract_terminator.contract.id
+  = contract_to_line @contract_terminator.contract
+  %br
+  = f.label :termination_date, "Datum für Vertragsauflösung"
+  = f.date_select(:termination_date)
+
+  .actions
+    = f.submit 'Vertrag auflösen'
