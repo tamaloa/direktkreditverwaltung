@@ -218,4 +218,9 @@ class Contract < ActiveRecord::Base
     self.accounting_entries.create!(amount: last_years_interest, date: end_of_last_year, annually_closing_entry: true)
   end
 
+  def terminated?
+    return true if terminated_at.is_a?(Date)
+    false
+  end
+
 end 
