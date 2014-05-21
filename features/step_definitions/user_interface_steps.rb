@@ -23,7 +23,7 @@ def create_new_contract_version
   visit new_contract_contract_version_path(contract)
   fill_in "contract_version_version", :with => contract.last_version.version + 1
   select Date.current.year.to_s, from: "contract_version_start_1i"
-  select 'Mai', from: "contract_version_start_2i"
+  select I18n.localize(Date.current, :format => "%B"), from: "contract_version_start_2i"
   select Date.current.day.to_s, from: "contract_version_start_3i"
   fill_in "contract_version_interest_rate", :with => 0.05
   click_button "Fertig"
@@ -39,6 +39,13 @@ def create_accounting_entry
   fill_in "accounting_entry_amount", :with => @accounting_entry[:amount]
   #date will be set to time.now
   click_button "Fertig"
+end
+
+When /^I select "([^"]*)" as the (.+) "([^"]*)" date$/ do |date, model, selector|
+date = Date.parse(date)
+select(date.year.to_s, :from => "#{model}[#{selector}(1i)]")
+select(I18n.localize(Date.current.month, :format => "%B"), :from => "#{model}[#{selector}(2i)]")
+select(date.day.to_s, :from => "#{model}[#{selector}(3i)]")
 end
 
 Given(/^I am an authorized user$/) do
