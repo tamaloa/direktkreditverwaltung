@@ -3,38 +3,23 @@ class ContractTerminator
   include ActiveModel::Conversion
   extend ActiveModel::Naming
 
+  include ParamsToDate
+
   attr_accessor :termination_date
   attr_accessor :contract
 
-  validates :termination_date, presence: true
-  validates :contract, presence: true
+  validate :termination_date, presence: true
+  validate :contract, presence: true
+  validate :termination_date_is_valid
+  validate :contract_ready_for_termination
 
   def initialize(contract_id, params={})
     @contract = Contract.find(contract_id)
-    @termination_date = termination_date_to_date(params)
+    @termination_date = date_select_params_to_date(params, :termination_date)
   end
 
   def terminate!
-    errors.add(:base, "Vertrag wurde schon gekündigt") and return false if @contract.terminated_at
-    ActiveRecord::Base.transaction do
-      @contract.accounting_entries << AccountingEntry.new(amount: final_interest, date: @termination_date, annually_closing_entry: true)
-      @contract.accounting_entries << AccountingEntry.new(amount: final_balance, date: @termination_date)
-      @contract.terminated_at = @termination_date
-      @contract.save
-    end
-
-    # contract
-  end
-
-  def final_interest
-    interest_calculation = InterestCalculation.new(contract, from: @termination_date.beginning_of_year, till: @termination_date)
-    interest_calculation.interest_total
-  end
-
-  def final_balance
-    final_pay_off = -contract.balance(@termination_date)
-    final_pay_off
-
+    TerminationCalculation.terminate!(@contract, @termination_date)
   end
 
 
@@ -44,15 +29,12 @@ class ContractTerminator
 
   private
 
-  def termination_date_to_date(date)
-    return unless date
-    begin
-    return Date.civil(date["termination_date(1i)"].to_i,
-               date["termination_date(2i)"].to_i,
-               date["termination_date(3i)"].to_i)
-    rescue ArgumentError
-      nil
-    end
+  def termination_date_is_valid
+    errors.add(:termination_date, "Invalid Date!") and return false unless @termination_date.is_a?(Date)
+  end
+
+  def contract_ready_for_termination
+    errors.add(:base, "Vertrag wurde schon gekündigt") and return false if @contract.terminated_at
   end
 
 end
