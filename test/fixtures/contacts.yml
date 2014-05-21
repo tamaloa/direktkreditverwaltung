@@ -1,5 +1,18 @@
 ---
 contacts_001:
+  id: '2'
+  name: Vor langer Zeit DK gekündigt
+  prename: ''
+  address: ''
+  account_number: ''
+  bank_number: ''
+  created_at: '2014-05-21 12:31:04.747453'
+  updated_at: '2014-05-21 12:31:04.747453'
+  email: ''
+  phone: ''
+  remark: ''
+  bank_name: ''
+contacts_002:
   id: '1'
   name: Räubertochter
   prename: Manja

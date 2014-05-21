@@ -2,10 +2,8 @@ class ContractsController < ApplicationController
   # GET /contracts
   # GET /contracts.json
   def index
-    @contracts = Contract.find(
-                  :all,
-                  :include => [:contact],
-                  :order => ["number"])
+    @contracts = Contract.active.all
+    @terminated_contracts = Contract.terminated.all
 
     respond_to do |format|
       format.html # index.html.erb

@@ -31,3 +31,27 @@ accounting_entries_004:
   created_at: '2014-05-19 14:41:53.782892'
   updated_at: '2014-05-19 14:41:53.782892'
   annually_closing_entry: f
+accounting_entries_005:
+  id: '5'
+  date: '2010-03-21'
+  amount: '1000.00'
+  contract_id: '3'
+  created_at: '2014-05-21 12:32:35.220215'
+  updated_at: '2014-05-21 12:32:35.220215'
+  annually_closing_entry: f
+accounting_entries_006:
+  id: '6'
+  date: '2010-10-04'
+  amount: '16.08'
+  contract_id: '3'
+  created_at: '2014-05-21 12:33:56.015844'
+  updated_at: '2014-05-21 12:33:56.015844'
+  annually_closing_entry: t
+accounting_entries_007:
+  id: '7'
+  date: '2010-10-04'
+  amount: '-1016.08'
+  contract_id: '3'
+  created_at: '2014-05-21 12:33:56.018083'
+  updated_at: '2014-05-21 12:33:56.018083'
+  annually_closing_entry: f

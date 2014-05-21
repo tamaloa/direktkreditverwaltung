@@ -1,12 +1,16 @@
-# encoding: utf-8
-
+# contract representing one account
 class Contract < ActiveRecord::Base
   include Days360
-  # contract representing one account
 
   belongs_to :contact
   has_many :accounting_entries, order: [:date, :created_at]
   has_many :contract_versions
+
+  validate :number, with: [:presence, :uniqueness]
+
+  default_scope { order(:number) }
+  scope :active, ->{ where(terminated_at: nil)}
+  scope :terminated, ->{ where('terminated_at IS NOT NULL')}
   attr_accessible :number, :category, :comment , :add_interest_to_deposit_annually
   attr_accessor(:expiring)
   attr_accessor(:remaining_months)

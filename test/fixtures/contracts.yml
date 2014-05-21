@@ -8,6 +8,7 @@ contracts_001:
   comment: ''
   category: ''
   add_interest_to_deposit_annually: t
+  terminated_at: 
 contracts_002:
   id: '2'
   number: '6022'
@@ -17,3 +18,14 @@ contracts_002:
   comment: 
   category: 
   add_interest_to_deposit_annually: t
+  terminated_at: 
+contracts_003:
+  id: '3'
+  number: '6387'
+  contact_id: '2'
+  created_at: '2014-05-21 12:32:03.685694'
+  updated_at: '2014-05-21 12:33:56.019187'
+  comment: ''
+  category: ''
+  add_interest_to_deposit_annually: t
+  terminated_at: '2010-10-04'
