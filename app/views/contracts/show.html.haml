@@ -27,7 +27,12 @@
       %b Bemerkung:
       = @contract.comment
 
-  .col-md-4
+    %h3 Alle Versionen
+    %ul
+      - @contract.contract_versions.each do |version|
+        %li= link_to version_as_short_line(version), version
+
+  .col-md-8
     %h3 Aktionen
     %ul
       %li= link_to 'Kündigung vornehmen (inklusive Abschlussbuchung)', new_contract_terminator_path(id: @contract.id)
@@ -35,3 +40,18 @@
       %li= link_to 'Neue Vertragsversion erstellen (Zinssatz ändern)', new_contract_contract_version_path(@contract)
       %li= link_to 'Kontoauszug', contract_accounting_entries_path(@contract)
       %li= link_to 'Manuell Editieren (nur in Notfällen!)', edit_contract_path(@contract)
+
+    %h3 Buchungen
+
+    %table
+      %tr
+        %th Vorgang
+        %th Datum
+        %th Betrag
+        %th
+      - @contract.accounting_entries.each do |accounting_entry|
+        %tr
+          %td= accounting_entry.name
+          %td= accounting_entry.date
+          %td= currency accounting_entry.amount
+          %td= link_to 'Ändern (Nur im Notfall!)', edit_accounting_entry_path(accounting_entry)
