@@ -1,0 +1,37 @@
+.row
+  %p#notice= notice
+  %h1= "Direktkreditvertrag Nummer #{@contract.number}"
+
+.row
+  .col-md-4
+    %h3 Aktuell
+    %p
+      %b Nummer:
+      = @contract.number
+    %p
+      %b Kontakt:
+      = contact_long(@contract.contact)
+    %p
+      %b Start:
+      = @contract.last_version.start
+    %p
+      %b Laufzeit
+      = run_time(@contract)
+    %p
+      %b Zinssatz:
+      = fraction(@contract.last_version.interest_rate)
+    %p
+      %b Kategorie:
+      = @contract.category
+    %p
+      %b Bemerkung:
+      = @contract.comment
+
+  .col-md-4
+    %h3 Aktionen
+    %ul
+      %li= link_to 'Kündigung vornehmen (inklusive Abschlussbuchung)', new_contract_terminator_path(id: @contract.id)
+      %li= link_to 'Buchung erstellen (Geld ein/auszahlen)', new_contract_accounting_entry_path(@contract)
+      %li= link_to 'Neue Vertragsversion erstellen (Zinssatz ändern)', new_contract_contract_version_path(@contract)
+      %li= link_to 'Kontoauszug', contract_accounting_entries_path(@contract)
+      %li= link_to 'Manuell Editieren (nur in Notfällen!)', edit_contract_path(@contract)
