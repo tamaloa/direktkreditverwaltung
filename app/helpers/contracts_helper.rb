@@ -8,4 +8,12 @@ module ContractsHelper
     contract_line
   end
 
+  def run_time(contract)
+    months = contract.last_version.duration_months
+    years = contract.last_version.duration_years
+    return "#{months} months" unless months.blank?
+    return "#{years} years" unless years.blank?
+    "unknown"
+  end
+
 end

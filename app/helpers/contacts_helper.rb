@@ -8,6 +8,7 @@ module ContactsHelper
 
   def contact_long(contact)
     contact_line = contact_short(contact)
+    return contact_line unless contact
     contact_line << " (#{contact.email}" unless contact.email.blank?
     contact_line << " [#{contact.address}]" unless contact.address.blank?
     contact_line
