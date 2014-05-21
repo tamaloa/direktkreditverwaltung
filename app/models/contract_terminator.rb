@@ -22,6 +22,12 @@ class ContractTerminator
     TerminationCalculation.terminate!(@contract, @termination_date)
   end
 
+  #TODO use explicit mark to locate the final payback accounting entry (to fragile relying on date)
+  def pay_back
+    return nil unless @contract.terminated_at
+    @contract.accounting_entries.last.amount
+  end
+
 
   def persisted?
     false
@@ -34,6 +40,7 @@ class ContractTerminator
   end
 
   def contract_ready_for_termination
+    errors.add(:base, "Ungültiger Vertrag") and return false unless @contract.is_a?(Contract)
     errors.add(:base, "Vertrag wurde schon gekündigt") and return false if @contract.terminated_at
   end
 

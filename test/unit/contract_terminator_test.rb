@@ -33,12 +33,13 @@ class ContractTerminatorTest < ActiveSupport::TestCase
   end
 
   test "contract terminator should parse date params correctly" do
-    params = {'termination_date(1i)' => '2013',
-              'termination_date(2i)' => '4',
-              'termination_date(3i)' => '28'}
-    termination = ContractTerminator.new(@running_contract, params)
+    params = {"termination_date(3i)"=>"21", "termination_date(2i)"=>"9", "termination_date(1i)"=>"2014"}
+    termination = ContractTerminator.new(@running_contract.id, params)
     assert termination.valid?
-    assert_equal Date.new(2013,4,28), termination.termination_date
+    assert_equal Date.new(2014,9,21), termination.termination_date
+    assert_difference ->{AccountingEntry.count}, 2 do
+      termination.terminate!
+    end
   end
 
   test "contract_terminator should be invalid when date params could not be parsed" do

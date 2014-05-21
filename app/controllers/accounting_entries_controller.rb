@@ -2,8 +2,7 @@ class AccountingEntriesController < ApplicationController
   # GET /accounting_entries
   # GET /accounting_entries.json
   def index
-    start_time = Date.new(1970,1,1)
-    end_time = DateTime.now.to_date
+
     if params[:year]
       start_time = Date.new(params[:year].to_i, 1, 1)
       end_time = Date.new(params[:year].to_i, 12, 31)
@@ -16,9 +15,11 @@ class AccountingEntriesController < ApplicationController
                           params[:end_date][:day].to_i)
     end
     if params[:contract_id]
-      @accounting_entries = AccountingEntry.where(:contract_id => params[:contract_id]).where(:date => start_time..end_time).order("date")
+      @accounting_entries = AccountingEntry.where(:contract_id => params[:contract_id]).order(:date)
+    elsif start_time && end_time
+      @accounting_entries = AccountingEntry.where(:date => start_time..end_time).order(:date)
     else
-      @accounting_entries = AccountingEntry.where(:date => start_time..end_time).order("date")
+      @accounting_entries = AccountingEntry.order(:date)
     end
 
     respond_to do |format|

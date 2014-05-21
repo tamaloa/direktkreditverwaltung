@@ -14,7 +14,8 @@ class ContractTerminatorsController < ApplicationController
 
     respond_to do |format|
       if @contract_terminator.valid? && @contract_terminator.terminate!
-        format.html { redirect_to contract_path(@contract_terminator.contract), notice: 'Vertrag wurde erfolgreich aufgelöst.' }
+        format.html { redirect_to contract_path(@contract_terminator.contract),
+                      notice: "Vertrag wurde erfolgreich aufgelöst. Bitte sofort die #{@contract_terminator.pay_back} überweisen" }
       else
         format.html { render action: "new" }
       end

@@ -5,7 +5,7 @@ class Contract < ActiveRecord::Base
   # contract representing one account
 
   belongs_to :contact
-  has_many :accounting_entries
+  has_many :accounting_entries, order: [:date, :created_at]
   has_many :contract_versions
   attr_accessible :number, :category, :comment , :add_interest_to_deposit_annually
   attr_accessor(:expiring)

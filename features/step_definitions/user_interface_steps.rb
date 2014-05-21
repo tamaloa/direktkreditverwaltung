@@ -22,9 +22,7 @@ def create_new_contract_version
   contract = find_contract
   visit new_contract_contract_version_path(contract)
   fill_in "contract_version_version", :with => contract.last_version.version + 1
-  select Date.current.year.to_s, from: "contract_version_start_1i"
-  select I18n.localize(Date.current, :format => "%B"), from: "contract_version_start_2i"
-  select Date.current.day.to_s, from: "contract_version_start_3i"
+  select_date_from_date_field(Date.current, :contract_version, :start)
   fill_in "contract_version_interest_rate", :with => 0.05
   click_button "Fertig"
 end
@@ -42,10 +40,7 @@ def create_accounting_entry
 end
 
 When /^I select "([^"]*)" as the (.+) "([^"]*)" date$/ do |date, model, selector|
-date = Date.parse(date)
-select(date.year.to_s, :from => "#{model}[#{selector}(1i)]")
-select(I18n.localize(Date.current.month, :format => "%B"), :from => "#{model}[#{selector}(2i)]")
-select(date.day.to_s, :from => "#{model}[#{selector}(3i)]")
+  select_date_from_date_field(date, model, selector)
 end
 
 Given(/^I am an authorized user$/) do
@@ -154,4 +149,24 @@ end
 Then(/^There should exist two contract versions$/) do
   contract = find_contract
   assert_equal 2, contract.contract_versions.count
+end
+
+
+When(/^I terminate the contract 3 months from now$/) do
+  contract = find_contract
+  visit new_contract_terminator_path(id: contract.id)
+  termination_date = 3.months.from_now
+  select_date_from_date_field(termination_date, :contract_terminator, :termination_date)
+  click_button "Vertrag auflösen"
+
+end
+
+Then(/^I should see the amount to pay back$/) do
+  assert page.has_content?(find_contract.accounting_entries.last.amount.to_s)
+end
+
+def select_date_from_date_field(date, model_name, attribute_name)
+  select date.year.to_s, from: "#{model_name}_#{attribute_name}_1i"
+  select I18n.localize(date, :format => '%B'), from: "#{model_name}_#{attribute_name}_2i"
+  select date.day.to_s, from: "#{model_name}_#{attribute_name}_3i"
 end
