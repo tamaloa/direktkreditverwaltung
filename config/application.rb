@@ -61,5 +61,10 @@ module Direktkreditverwaltung
 
     # Prevent initializing app to make precompile task run on heroku
     config.assets.initialize_on_precompile = false
+
+    #TODO remove after upgrading to rails 4
+    config.autoload_paths += Dir[ Rails.root.join('app', 'models', "concerns", '**/') ]
+    config.autoload_paths += Dir[ Rails.root.join('app', 'controllers', "concerns", '**/') ]
+    #END remove after upgrading to rails 4
   end
 end
