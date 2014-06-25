@@ -12,10 +12,12 @@ Verwaltet
 * Versionen von Verträgen (Laufzeiten und Zinssatz kann sich ändern)
 * Buchungen
 
-Erstellt
+Funktionen
 * Kontoauszüge
 * Zinsberechnungen
 * Vertragsübersicht nach Auslaufdatum
+* Jahresabschluss (die Zinsen eines Jahres auf Konto gutschreiben)
+* Vertrag auflösen (zum Stichtag den Auszahlungsbetrag inkl. Zinsen berechnen)
 
 Import
 * von Kontakten 
