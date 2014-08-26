@@ -1,3 +1,5 @@
+# BUG
+
 # Für nächsten Jahresabschluss
 * DKs Jahresabschluss PDFs einzeln abrufbar machen mit Person im Filename
 * DKs Jahresabschluss PDFs gesammelt in zip downloadbar
@@ -25,3 +27,4 @@
 * Direktkreditliste mit mehr Infos (Addresse + Email der Person)
 * Gekündigte DKs seperat und nur kurz anzeigen
 * Ansicht Direktkredit mit allen Informationen (Versionen, Buchungen)
+* Einzahlungen am 1.1. wurden scheinbar ignoriert. In Wahrheit war die Anzeige des Saldos falsch (Saldo enthielt 1.1. Einzahlung)

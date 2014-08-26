@@ -54,7 +54,7 @@ class Contract < ActiveRecord::Base
     start_date = Date.new(year, 1, 1)
     end_date = Date.new(year, 12, 31)
     days_in_year = end_date.yday - start_date.yday + 1
-    start_balance = balance(start_date)
+    start_balance = balance(start_date - 1.day)
 
     days_left = days_in_year
     fraction = days_left/days_in_year
@@ -121,7 +121,7 @@ class Contract < ActiveRecord::Base
   def interest_entries_30E_360 year = Date.now.year
     start_date = Date.new(year, 1, 1)
     end_date = Date.new(year, 12, 31)
-    start_balance = balance(start_date)
+    start_balance = balance(start_date - 1.day)
 
     interest_rate = interest_rate_for_date start_date
     interest = (start_balance * interest_rate).round(2)

@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 def create_contact
   @contact ||= { :name => "Somebody", :email => "a-somebody@example.com" }
   visit '/contacts/new'
@@ -106,9 +104,6 @@ Then(/^I should see the account movements$/) do
 end
 
 Then(/^I should see the interest statement$/) do
-  extend ApplicationHelper                  #i do not want to include into cucumber env
-  extend ActionView::Helpers::NumberHelper
-
   assert page.has_content?("Direktkreditvertrag Nr. #{@contract[:number]}, #{@contact[:name] if @contact}")
 
   contract = find_contract
