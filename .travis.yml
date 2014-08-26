@@ -2,6 +2,8 @@ language: ruby
 rvm:
   - 2.0.0
 
+bundler_args: --without development
+
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
   - cp config/database.example.yml config/database.yml
