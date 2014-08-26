@@ -1,0 +1,15 @@
+base: &base
+  adapter: postgresql
+  encoding: unicode
+  username: postgres
+
+development:
+  database: direktkreditverwaltung_dev
+  <<: *base
+
+test: &test
+  database: direktkreditverwaltung_test
+  <<: *base
+
+cucumber:
+  <<: *test
