@@ -17,7 +17,7 @@ class Import
       data = cleaned_row(row)
       contract = Contract.where(:number => data[:contract_id]).first
       if !contract
-        puts "contract for contract_id #{data[:contract_id]} could not be found"
+        Rails.logger.debug "contract for contract_id #{data[:contract_id]} could not be found"
         next
       end
       entry = AccountingEntry.new
@@ -43,16 +43,16 @@ class Import
       start = Time.now.to_date unless start.is_a?(Date)
 
       existing_contract = Contract.find_by_number(data[:number])
-      p "[WARNING] You are trying to import a contract with an already existing number, skipped #{data}" and next if existing_contract
+      Rails.logger.debug "You are trying to import a contract with an already existing number, skipped #{data}" and next if existing_contract
       contract = Contract.create_with_balance!(data[:number], data[:amount], interest, start)
       contract.comment = data[:comment] if data[:comment]
       contract.category = data[:category] if data[:category]
       contract.save
 
-      p "Contract created #{contract.number}"
+      Rails.logger.debug "Contract created #{contract.number}"
 
       if data[:name]
-        p "Owner given, trying to find match in database: #{data[:name]}"
+        Rails.logger.debug "Owner given, trying to find match in database: #{data[:name]}"
         query = {name: data[:name]}
         query[:prename] = data[:prename] if data[:prename]
         possible_contacts = Contact.where(query)
@@ -60,15 +60,15 @@ class Import
         contact = possible_contacts.first
         contract.contact = contact if contact
         contract.save! if contact
-        p "Owner found in database: #{contact.try(:name)}" if contact
+        Rails.logger.debug "Owner found in database: #{contact.try(:name)}" if contact
         unless contact
-          p "No Owner found in database for: #{data[:name]}, creating new owner"
+          Rails.logger.debug "No Owner found in database for: #{data[:name]}, creating new owner"
           make_address_if_stored_structured(data)
           contact = Contact.create(name: data[:name], prename: data[:prename], address: data[:address],
                                    email: data[:email], phone: data[:phone] )
           contract.contact = contact if contact
           contract.save! if contact
-          p "Owner created: #{contact.try(:name)}" if contact
+          Rails.logger.debug "Owner created: #{contact.try(:name)}" if contact
           end
       end
 
