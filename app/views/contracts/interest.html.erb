@@ -31,18 +31,16 @@
       <th>Betrag</th>
       <th>Zinssatz</th>
       <th>verbleibende Tage im Jahr</th>
-      <th>verbleibender Anteil am Jahr</th>
       <th>Zinsen</th>
     </tr>
     <% interest, interest_calculation = contract.interest @year %>
     <% interest_calculation.each do |entry| %> 
     <tr>
       <td><%= entry[:date] %></td>
-      <td><%= entry[:name] %></td>
+      <td><%= name_for_movement(entry) %></td>
       <td><%= currency(entry[:amount]) %></td>
       <td><%= fraction(entry[:interest_rate]) %></td>
       <td><%= entry[:days_left_in_year] %></td>
-      <td><%= fraction(entry[:fraction_of_year]) %></td>
       <td><%= currency(entry[:interest]) %></td>
     </tr>
   <% end %> 

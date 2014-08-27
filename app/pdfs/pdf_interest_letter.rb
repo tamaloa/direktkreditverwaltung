@@ -81,7 +81,7 @@ class PdfInterestLetter < Prawn::Document
        # fraction_of_year = entry[:fraction_of_year].to_f == 0.0 ? '' : fraction(entry[:fraction_of_year])
         interest = entry[:interest].to_f == 0.0 ? '' :  currency(entry[:interest])
         interest_rate = entry[:name] == 'Zinsen' ? '' : fraction(entry[:interest_rate])
-        data << [entry[:date], entry[:name], currency(entry[:amount]),
+        data << [entry[:date], name_for_movement(entry), currency(entry[:amount]),
                  interest_rate,
                 # days_left_in_year,
                 # fraction_of_year,

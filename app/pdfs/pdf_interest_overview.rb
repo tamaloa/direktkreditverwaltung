@@ -21,13 +21,11 @@ class PdfInterestOverview < Prawn::Document
       move_down 5
       text "Zinsberechnung #{@year}:", style: :bold
       data = [['Datum', 'Vorgang', 'Betrag', 'Zinssatz', 
-               'verbleibende Tage im Jahr', 
-               'verbleibender Anteil am Jahr', 'Zinsen']]
+               'verbleibende Tage im Jahr', 'Zinsen']]
       interest_calculation.each do |entry|
-        data << [entry[:date], entry[:name], currency(entry[:amount]),
+        data << [entry[:date], name_for_movement(entry), currency(entry[:amount]),
                  fraction(entry[:interest_rate]), 
                  entry[:days_left_in_year],
-                 fraction(entry[:fraction_of_year]),
                  currency(entry[:interest])]
       end
       table data do

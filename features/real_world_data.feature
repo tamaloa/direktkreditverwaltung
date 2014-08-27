@@ -110,7 +110,7 @@ Scenario: Contracts with interest changes during the year
     And For DK contract 13 the interest changes to 2.0% on the "2013-07-01"
     And For DK contract 131 the interest changes to 2.0% on the "2013-07-01"
   Then Time passes and it is the "2013-12-31"
-    And The balance including interest of DK contract 13 is 21577.86 euro calculated with old method
+#    And The balance including interest of DK contract 13 is 21577.86 euro calculated with old method
     And The balance including interest of DK contract 13 is 21577.85 euro calculated with new method
-    And The balance including interest of DK contract 131 is 21578.70 euro calculated with old method
+#    And The balance including interest of DK contract 131 is 21578.70 euro calculated with old method
     And The balance including interest of DK contract 131 is 21578.71 euro calculated with new method
