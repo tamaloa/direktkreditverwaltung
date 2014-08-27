@@ -11,6 +11,7 @@ gem 'bootstrap-sass'
 gem 'haml-rails'
 gem 'sass-rails'
 gem 'prawn'
+gem 'prawn-table'
 
 gem 'days360'
 
