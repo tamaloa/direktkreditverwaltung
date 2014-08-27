@@ -21,4 +21,19 @@ class ContractsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get overview as pdf" do
+    get :interest, {output: 'pdf_overview'}
+    assert_response :success
+  end
+
+  test "should get overview as latex" do
+    get :interest, {output: 'latex_overview'}
+    assert_response :success
+  end
+
+  # test "should get thanks letter as pdf" do
+  #   get :interest, {output: 'pdf_thanks_letter'}
+  #   assert_response :success
+  # end
+
 end

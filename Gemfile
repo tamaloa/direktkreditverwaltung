@@ -27,7 +27,8 @@ group :test do
   gem 'database_cleaner'
   gem 'timecop'
   gem 'test-unit'
-  gem 'pdf-inspector', :require => 'pdf/inspector'
+  gem 'pdf-inspector', :require => 'pdf/inspector'   #To test the output of PDFs
+  gem "codeclimate-test-reporter", group: :test, require: nil #To get code coverage
 end
 
 # Gems used only for assets and not required
