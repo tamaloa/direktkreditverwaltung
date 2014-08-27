@@ -4,6 +4,11 @@ rvm:
 
 bundler_args: --without development
 
+script:
+- bundle exec rake db:setup RAILS_ENV=test
+- bundle exec rake test
+- bundle exec cucumber
+
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
   - cp config/database.example.yml config/database.yml
