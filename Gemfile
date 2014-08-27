@@ -27,6 +27,7 @@ group :test do
   gem 'database_cleaner'
   gem 'timecop'
   gem 'test-unit'
+  gem 'pdf-inspector', :require => 'pdf/inspector'
 end
 
 # Gems used only for assets and not required
