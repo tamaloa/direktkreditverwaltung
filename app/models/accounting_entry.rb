@@ -1,8 +1,16 @@
 class AccountingEntry < ActiveRecord::Base
   belongs_to :contract
-  attr_accessible :amount, :date, :annually_closing_entry
+  attr_accessible :amount, :date, :annually_closing_entry, :contract
   validates_presence_of :amount, :date
   validates_numericality_of :amount
+
+  validate :no_entries_before_contract_start
+
+
+  def no_entries_before_contract_start
+    date_before_contract_start = contract.contract_versions.first.start > self.date
+    errors.add(:base, I18n.t('accounting_entry.date_before_contract_start')) if date_before_contract_start
+  end
 
 
   def name

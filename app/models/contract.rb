@@ -15,6 +15,10 @@ class Contract < ActiveRecord::Base
   attr_accessor(:expiring)
   attr_accessor(:remaining_months)
 
+
+  def start_date
+    contract_versions.first.start
+  end
   #account balance for given date
   def balance date = DateTime.now.to_date
     accounting_entries.where("date <= ?", date).sum(:amount)

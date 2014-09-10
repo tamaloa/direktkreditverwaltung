@@ -1,3 +1,4 @@
 de:
   accounting_entry:
-    contract_closed: "This Contract has already been closed. No more accounting entries may be added for the given year."
+    contract_closed: "Der Jahresabschluss für diesen Vertrag wurde bereits durchgeführt! Um weitere Buchungen vor zu nehmen muss der Jahresabschluss aufgehoben werden."
+    date_before_contract_start: "Es können keine Buchungen vor dem Start-Datum des Vertrages vorgenommen werden."
