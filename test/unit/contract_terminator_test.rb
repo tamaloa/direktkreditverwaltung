@@ -4,6 +4,11 @@ class ContractTerminatorTest < ActiveSupport::TestCase
 
   def setup
     @running_contract = Contract.first
+    Timecop.travel(Date.new(2013, 7, 1))
+  end
+
+  def teardown
+    Timecop.return
   end
 
 

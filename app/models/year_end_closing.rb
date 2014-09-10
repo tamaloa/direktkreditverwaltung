@@ -23,8 +23,8 @@ class YearEndClosing
     return false if contract.start_date.year > @year
     return false if year_closed?(contract)
     last_years_interest = InterestCalculation.new(contract).annual_interest(@year)
-    contract.accounting_entries.create!(amount: last_years_interest,
-                                        date: Date.new(@year).end_of_year, annually_closing_entry: true)
+    contract.accounting_entries.create!(amount: last_years_interest, date: Date.new(@year).end_of_year,
+                                        annually_closing_entry: true, interest_entry: true)
   end
 
   def year_closed?(contract)
@@ -36,8 +36,11 @@ class YearEndClosing
   end
 
   def revert
+    raise "Overthink this ... propably better to only allow single contracts to be reverted"
     end_of_year_date = Date.new(@year).end_of_year.to_date
     AccountingEntry.where(date: end_of_year_date, annually_closing_entry: true).delete_all
+    #TODO what to do with terminated contracts (should interest always be deleted)
+    #Vielleicht verträge mit terminated at ausschließen
   end
 
   def self.most_recent_one

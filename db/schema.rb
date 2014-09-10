@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140519122800) do
+ActiveRecord::Schema.define(:version => 20140910185939) do
 
   create_table "accounting_entries", :force => true do |t|
     t.date     "date"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(:version => 20140519122800) do
     t.datetime "created_at",                                                               :null => false
     t.datetime "updated_at",                                                               :null => false
     t.boolean  "annually_closing_entry",                                :default => false
+    t.boolean  "interest_entry",                                        :default => false
   end
 
   add_index "accounting_entries", ["contract_id"], :name => "index_accounting_entries_on_contract_id"

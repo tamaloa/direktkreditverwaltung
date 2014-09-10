@@ -16,8 +16,6 @@ class AccountingEntry < ActiveRecord::Base
   end
 
   def type
-    return :annually_closing_with_interest if annually_closing_entry && interest_entry
-    return :annually_closing_entry if annually_closing_entry
     return :interest_entry if interest_entry
     :movement
   end
