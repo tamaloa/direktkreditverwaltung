@@ -49,6 +49,7 @@ class InterestCalculationTest < ActiveSupport::TestCase
   test "interest total should be calculated correctly" do
     interest_calculation = InterestCalculation.new(@contract, from: Date.new(2012, 1, 1), till: Date.new(2012, 12, 31))
     assert_equal 78.0.to_s, interest_calculation.interest_total.to_s
+    assert_equal 78.0.to_s, InterestCalculation.new(@contract).annual_interest(2012).to_s
   end
 
 end

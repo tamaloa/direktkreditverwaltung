@@ -17,6 +17,7 @@ class Contract < ActiveRecord::Base
 
 
   def start_date
+    return false if contract_versions.empty?
     contract_versions.first.start
   end
   #account balance for given date
@@ -84,13 +85,6 @@ class Contract < ActiveRecord::Base
       non_zero << c if c.balance(date) > 0
     end
     non_zero.sort_by { |c| c.remaining_months }.reverse
-  end
-
-  def year_end_closing(year)
-    end_of_last_year = Date.new(year).end_of_year.to_date
-    last_years_interest, rows = interest(end_of_last_year.year)
-
-    self.accounting_entries.create!(amount: last_years_interest, date: end_of_last_year, annually_closing_entry: true)
   end
 
   def terminated?

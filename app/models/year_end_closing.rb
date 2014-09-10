@@ -15,8 +15,24 @@ class YearEndClosing
 
   def close_year!
     Contract.where(:add_interest_to_deposit_annually => true).all.each do |contract|
-      contract.year_end_closing(@year)
+      close_year_for_contract(contract)
     end
+  end
+
+  def close_year_for_contract(contract)
+    return false if contract.start_date.year > @year
+    return false if year_closed?(contract)
+    last_years_interest = InterestCalculation.new(contract).annual_interest(@year)
+    contract.accounting_entries.create!(amount: last_years_interest,
+                                        date: Date.new(@year).end_of_year, annually_closing_entry: true)
+  end
+
+  def year_closed?(contract)
+    date = Date.new(@year)
+    this_year = date.beginning_of_year..date.end_of_year
+    closing_entry_for_this_year = contract.accounting_entries.where(date: this_year, annually_closing_entry: true)
+    return false if closing_entry_for_this_year.empty?
+    true
   end
 
   def revert
