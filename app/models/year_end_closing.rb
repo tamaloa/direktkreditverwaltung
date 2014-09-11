@@ -28,9 +28,7 @@ class YearEndClosing
   end
 
   def year_closed?(contract)
-    date = Date.new(@year)
-    this_year = date.beginning_of_year..date.end_of_year
-    closing_entry_for_this_year = contract.accounting_entries.where(date: this_year, annually_closing_entry: true)
+    closing_entry_for_this_year = contract.accounting_entries.only_from_year(@year).where(annually_closing_entry: true)
     return false if closing_entry_for_this_year.empty?
     true
   end
@@ -47,6 +45,10 @@ class YearEndClosing
     year_closing_entry = AccountingEntry.order('date DESC').where(annually_closing_entry: true).first
     return nil unless year_closing_entry
     year_closing_entry.date.year
+  end
+
+  def contracts
+    AccountingEntry.where(annually_closing_entry: true).map(&:contract)
   end
 
 

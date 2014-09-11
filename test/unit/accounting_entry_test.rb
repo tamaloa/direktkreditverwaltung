@@ -29,4 +29,19 @@ class AccountingEntryTest < ActiveSupport::TestCase
     end
   end
 
+  test "only_from_year should return only entries from the given year" do
+    @contract = Contract.create_with_balance!(2323, 0.0, 0.02, Date.new(2013))
+    year_before = @contract.accounting_entries.create(date: Date.new(2013), amount: 0.0)
+    year_after = @contract.accounting_entries.create(date: Date.new(2015), amount: 0.0)
+    in_the_year = @contract.accounting_entries.create(date: Date.new(2014,1,1), amount: 0.0)
+    also_in_the_year = @contract.accounting_entries.create(date: Date.new(2014,12,31), amount: 0.0)
+    [2014, Date.new(2014,12,31)].each do |date_or_year|
+      entries = AccountingEntry.only_from_year(date_or_year)
+      assert_false entries.include?(year_before)
+      assert_false entries.include?(year_after)
+      assert_true entries.include?(in_the_year)
+      assert_true entries.include?(also_in_the_year)
+    end
+  end
+
 end

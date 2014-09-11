@@ -7,6 +7,8 @@ class AccountingEntry < ActiveRecord::Base
   validate :no_entries_before_contract_start
   validate :no_entries_for_closed_contract
 
+  scope :only_from_year, ->(date_or_year) { where(date: whole_year_range_for(date_or_year)) }
+
 
   def name
     return "Zinsen" if interest_entry
@@ -28,14 +30,19 @@ class AccountingEntry < ActiveRecord::Base
   end
 
   def no_entries_for_closed_contract
-  this_year = date.beginning_of_year..date.end_of_year
-
   closing_entry = AccountingEntry.where(contract_id: contract_id).
-                                 where(annually_closing_entry: true).
-                                 where(date: this_year)
+                                  only_from_year(self.date).
+                                  where(annually_closing_entry: true)
                                  #sqlite is really bad and needs something like this
                                  #where(["datetime(date) BETWEEN datetime(?) AND datetime(?)", date.beginning_of_year, date.end_of_year])
 
   errors.add(:base, I18n.t('accounting_entry.contract_closed')) unless closing_entry.blank?
+  end
+
+  def self.whole_year_range_for(date_or_year)
+    date_in_year = Date.new(date_or_year) if date_or_year.is_a?(Integer)
+    date_in_year = date_or_year if date_or_year.is_a?(Date)
+    one_year = date_in_year.beginning_of_year..date_in_year.end_of_year
+    one_year
   end
 end
