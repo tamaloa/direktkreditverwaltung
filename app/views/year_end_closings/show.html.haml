@@ -1,0 +1,23 @@
+%h1= "Jahresabschluss #{@year_end_closing.year}"
+
+%p Für folgende Verträge wurde der Jahresabschluss noch nicht durchgeführt:
+%p -> Jahresabschluss für obige Verträge durchführen
+%p Diesen Jahresabschluss herunterladen (CSV)
+
+%table
+  %thead
+    %td DK#
+    %td DK Geber_in
+    %td Vorjahressaldo
+    %td Kontobewegungen
+    %td Zinsen
+    %td Saldo Jahresabschluss
+  - @year_end_closing.contracts.each do |contract|
+    %tr
+      %td= link_to contract.number, contract
+      %td= contact_short(contract.contact)
+      %td= currency @year_end_closing.balance_closing_of_year_before(contract)
+      %td= @year_end_closing.movements_excluding_interest(contract)
+      %td= currency @year_end_closing.annual_interest(contract)
+      %td= currency @year_end_closing.balance_closing_of_year(contract)
+

@@ -13,7 +13,7 @@ class YearEndClosingsControllerTest < ActionController::TestCase
       post :create, date: {year: 2013}
     end
 
-    assert_redirected_to new_year_end_closings_path
+    assert_redirected_to new_year_end_closing_path
   end
 
 end

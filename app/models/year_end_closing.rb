@@ -55,4 +55,23 @@ class YearEndClosing
     false
   end
 
+  #We might want to move this into a separate model/presenter soon
+  def balance_closing_of_year_before(contract)
+    movement = InterestCalculation.new(contract, year: @year).account_movements_with_initial_balance.first
+    movement[:amount]
+  end
+  def movements_excluding_interest(contract)
+    movements = InterestCalculation.new(contract, year: @year).account_movements_with_initial_balance
+    without_initial_balance = movements.drop(1) # Initial balance
+    only_non_interest = without_initial_balance.reject{|m| m[:type] == :interest_entry}
+    only_non_interest.map{|m| m[:date].iso8601 + ' ' + m[:amount].to_s}.to_sentence
+  end
+  def annual_interest(contract)
+    InterestCalculation.new(contract, year: @year).interest_total
+  end
+  def balance_closing_of_year(contract)
+    movement = InterestCalculation.new(contract, year: @year+1).account_movements_with_initial_balance.first
+    movement[:amount]
+  end
+
 end
