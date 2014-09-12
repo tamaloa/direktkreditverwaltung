@@ -74,7 +74,7 @@ class YearEndClosingTest < ActiveSupport::TestCase
   test "the year_end_closing should add the interest for last year" do
     @contract = Contract.first
     YearEndClosing.new(year: 2013).close_year_for_contract(@contract)
-    interest_2013 = InterestCalculation.new(@contract).annual_interest(2013)
+    interest_2013 = InterestCalculation.new(@contract, year: 2013).interest_total
     assert_equal interest_2013, @contract.reload.accounting_entries.last.amount
   end
 

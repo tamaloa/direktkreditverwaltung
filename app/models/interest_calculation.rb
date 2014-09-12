@@ -5,15 +5,9 @@ class InterestCalculation
 
   def initialize(contract, params = {})
     @contract = contract
-    @from = params[:from] || Date.current.beginning_of_year
+    @year = params[:year] || Date.current.year
+    @from = params[:from] || Date.new(@year).beginning_of_year
     @till = params[:till] || @from.end_of_year
-  end
-
-  def annual_interest(year)
-    raise "year should must be given as integer" unless year.is_a?(Integer)
-    @from = Date.new(year).beginning_of_year
-    @till = @from.end_of_year
-    interest_total
   end
 
   def interest_total
