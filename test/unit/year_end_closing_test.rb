@@ -89,4 +89,13 @@ class YearEndClosingTest < ActiveSupport::TestCase
   test "a contract should no longer be closed if terminated" do
     pending
   end
+
+  test "the year_end_closing all should show all years for which year end closings were created" do
+    YearEndClosing.new(:year => 2012).close_year!
+    YearEndClosing.new(:year => 2012).close_year!
+    YearEndClosing.new(:year => 2013).close_year!
+
+    assert_equal 3, YearEndClosing.all.count
+    assert_equal [2010, 2012, 2013], YearEndClosing.all
+  end
 end

@@ -47,6 +47,10 @@ class YearEndClosing
     year_closing_entry.date.year
   end
 
+  def self.all
+    AccountingEntry.where(annually_closing_entry: true).map{|entry| entry.date.year}.uniq
+  end
+
   def contracts
     AccountingEntry.only_from_year(@year).where(annually_closing_entry: true).map(&:contract)
   end

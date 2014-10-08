@@ -2,8 +2,8 @@ require 'test_helper'
 
 class YearEndClosingsControllerTest < ActionController::TestCase
 
-  test "should get new" do
-    get :new
+  test "should get index" do
+    get :index
     assert_response :success
   end
 
@@ -13,7 +13,13 @@ class YearEndClosingsControllerTest < ActionController::TestCase
       post :create, date: {year: 2013}
     end
 
-    assert_redirected_to new_year_end_closing_path
+    assert_redirected_to year_end_closings_path
+  end
+
+  test "should show year_end_closing details" do
+    get :show, id: 2012
+
+    assert_response :success
   end
 
 end

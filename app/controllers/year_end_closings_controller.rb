@@ -1,12 +1,9 @@
 class YearEndClosingsController < ApplicationController
 
 
-  def new
-    @year_end_closing = YearEndClosing.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-    end
+  def index
+    @year_end_closings = YearEndClosing.all
+    @new_year_end_closing = YearEndClosing.new
   end
 
   def create
@@ -14,10 +11,10 @@ class YearEndClosingsController < ApplicationController
 
     respond_to do |format|
       if @year_end_closing.valid? && @year_end_closing.close_year!
-        format.html { redirect_to new_year_end_closing_url,
+        format.html { redirect_to year_end_closings_url,
                                   notice: "Jahresabschluss für #{@year_end_closing.year} durchgeführt" }
       else
-        format.html { render action: "new" }
+        format.html { render action: "index" }
       end
     end
   end
@@ -31,10 +28,10 @@ class YearEndClosingsController < ApplicationController
 
     respond_to do |format|
       if @year_end_closing.revert
-        format.html { redirect_to new_year_end_closings_url,
+        format.html { redirect_to year_end_closings_url,
                                   notice: "Jahresabschluss für #{@year_end_closing.year} wurde rückgängig gemacht" }
       else
-        format.html { render action: "new" }
+        format.html { render action: "index" }
       end
     end
   end
