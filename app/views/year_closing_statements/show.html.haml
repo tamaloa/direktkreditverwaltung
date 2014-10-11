@@ -1,2 +1,47 @@
-%h1 YearClosingStatements#show
-%p Find me in app/views/year_closing_statements/show.html.haml
+-# TODO document header (image, company.name)
+%span Projekt im Mietshäuser Syndikat
+
+-# TODO Anschriftfeld (inkl. Absenderzeile)
+- contact = @statement.contract.contact
+- if contact
+  %p
+    = contact.prename
+    = contact.name
+    %br
+    = contact.address
+
+%h3= "Jahres-Kontoauszug Direktkreditvertrag Nr. #{@statement.contract.number}"
+
+.warning= 'Vorläufiger Auszug! Der Jahresabschluss wurde noch nicht durchgeführt' unless @statement.year_closed?
+
+%p= "Hallo #{contact.try(:prename)} #{contact.try(:name)}," if contact
+
+%p
+  = "herzlichen Dank für die Unterstützung im Jahr #{@statement.year}."
+  Anbei der Kontoauszug und die Berechnung der Zinsen. Auf Wunsch erstellen wir eine gesonderte Zinsbescheinigung für
+  die Steuerklärung. Wir bitte um Überprüfung des Auszugs. Falls etwas nicht stimmt oder unverständlich ist, stehen wir
+  für Rückfragen gerne zur Verfügung."
+%p= "Die Zinsen wurden auf dem Direktkreditkonto gutgeschrieben." if @statement.contract.add_interest_to_deposit_annually
+
+'Datum', 'Vorgang', 'Betrag', 'Zinssatz', 'Zinsen']
+%ul
+  - @statement.movements.each do |movement|
+    %li= movement.inspect
+
+%p= "Zinsen #{@statement.year}: #{currency(@statement.annual_interest)}"
+
+%p= "Kontostand zum Jahresabschluss #{ @statement.year }: #{ currency(@statement.balance_closing_of_year) }"
+
+%p= "Wir werden die Zinsen in den nächsten Tagen auf das im Vertrag angegebene Konto überweisen." unless @statement.contract.add_interest_to_deposit_annually
+%p
+  %b Zinseinkünfte sind einkommensteuerpflichtig.
+
+%p
+  Vielen Dank!
+  Mit freundlichen Grüßen
+  -#TODO company.dk_verwaltungs-personen
+
+
+
+
+-#TODO Footer (Name, Kontoverbindung, Geschäftsführung etc.)
