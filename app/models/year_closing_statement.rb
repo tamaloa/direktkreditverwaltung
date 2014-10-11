@@ -7,7 +7,6 @@ class YearClosingStatement
 
   validates_presence_of :year, :contract
   validates :year, numericality: true
-  validates_format_of :contract, with: lambda{|contract| contract.is_a?(Contract)}
 
   def initialize(attributes = {})
     @year = attributes[:year].to_i

@@ -27,9 +27,8 @@ Direktkreditverwaltung::Application.routes.draw do
     end  
   end
 
-  resources :year_end_closings do
-    resources :contracts, only: [:show]
-  end
+  resources :year_end_closings
+  resources :year_closing_statements, only: [:show]
 
 
   root :to => "home#index"

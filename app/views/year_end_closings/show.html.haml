@@ -12,6 +12,7 @@
     %td Kontobewegungen
     %td Zinsen
     %td Saldo Jahresabschluss
+    %td Jahresabschluss
   - @year_end_closing.contracts.each do |contract|
     %tr
       %td= link_to contract.number, contract
@@ -20,4 +21,6 @@
       %td= @year_end_closing.movements_excluding_interest(contract)
       %td= currency @year_end_closing.annual_interest(contract)
       %td= currency @year_end_closing.balance_closing_of_year(contract)
+      %td= link_to "Jahreskontoauszug #{@year_end_closing.year}",
+                    year_closing_statement_path(contract, year: @year_end_closing.year)
 
