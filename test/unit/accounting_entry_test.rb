@@ -44,4 +44,8 @@ class AccountingEntryTest < ActiveSupport::TestCase
     end
   end
 
+  test "accounting entries should never be created using floats" do
+    pending "accounting entries validates amount is not float"
+  end
+
 end

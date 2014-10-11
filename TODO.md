@@ -15,6 +15,8 @@
 # Kleinigkeiten
 * Zinsen nur auf Verträge aufschlagen die noch keine Zinsen haben (oder wie geht man mit Verträgen um die schon
 gekündigt sind aber wieder YearEndClosing mässig reverted wurden?
+* Booker Model mit deposit, payback, year_closing methoden
+* Movement Model in dem die Werte sinnvoll abrufbar sind (inkl. to_s -> € etc.?)
 
 # Features
 * Datenimport im UI anbieten mit Feedback was nicht passt
