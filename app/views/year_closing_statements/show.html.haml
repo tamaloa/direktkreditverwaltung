@@ -23,10 +23,20 @@
   für Rückfragen gerne zur Verfügung."
 %p= "Die Zinsen wurden auf dem Direktkreditkonto gutgeschrieben." if @statement.contract.add_interest_to_deposit_annually
 
-'Datum', 'Vorgang', 'Betrag', 'Zinssatz', 'Zinsen']
-%ul
+%table
+  %thead
+    %th Datum
+    %th Vorgang
+    %th Betrag
+    %th Zinssatz
+    %th Zinsen
   - @statement.movements.each do |movement|
-    %li= movement.inspect
+    %tr
+      %td= movement[:date]
+      %td= name_for_movement(movement)
+      %td= currency(movement[:amount].to_s)
+      %td= fraction(movement[:interest_rate])
+      %td= currency(movement[:interest])
 
 %p= "Zinsen #{@statement.year}: #{currency(@statement.annual_interest)}"
 

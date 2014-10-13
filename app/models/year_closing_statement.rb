@@ -16,14 +16,13 @@ class YearClosingStatement
   def movements
     #Maybe this model is the better place to create the movements initial and final balance?
     #But InterestCalculation needs the change movements any way ...
-    movements = InterestCalculation.new(contract, year: year).account_movements_with_initial_balance
-    movements << years_last_movement
+    movements = InterestCalculation.new(contract, year: year).interest_calculated_for_all_account_activities
+    movements << years_last_movement unless year_closed?
+    movements
   end
 
   def years_last_movement
-    last_movement_type = :annual_interest if year_closed?
-    last_movement_type = :unsure_interest unless year_closed?
-    {amount: annual_interest, date: Date.new(year).end_of_year, type: last_movement_type}
+    {amount: annual_interest, date: Date.new(year).end_of_year, type: :unsure_interest}
   end
 
   def balance_start_of_year

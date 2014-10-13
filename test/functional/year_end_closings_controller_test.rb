@@ -22,4 +22,13 @@ class YearEndClosingsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should revert year_end_closings" do
+    expected_accounting_entries = Contract.where(:add_interest_to_deposit_annually => true).count
+    assert_difference(->{AccountingEntry.count}, expected_accounting_entries) do
+      post :delete, id: 2012
+    end
+
+    assert_response :success
+  end
+
 end
