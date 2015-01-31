@@ -18,14 +18,14 @@ class StatementsToFile
     end
   end
 
-  def to_pdf(contract)
+  def to_pdf(contract, filename=nil)
     statement = YearClosingStatement.new(contract: contract, year: year)
 
     current_pdf_dir = "#{Rails.root}/pdfs/#{year}"
     Dir.mkdir(current_pdf_dir) unless Dir.exist?(current_pdf_dir)
 
     pdf = PdfYearClosingStatement.new(statement)
-    filename = "#{year}-DK_#{contract.number}-#{contract.contact.try(:name)}-Jahreskontoauszug.pdf"
+    filename ||= "#{year}-DK_#{contract.number}-#{contract.contact.try(:name)}-Jahreskontoauszug.pdf"
 
     pdf.render_file("#{current_pdf_dir}/#{filename}")
   end
