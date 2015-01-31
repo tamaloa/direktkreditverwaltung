@@ -21,6 +21,13 @@ class YearEndClosingsController < ApplicationController
 
   def show
     @year_end_closing = YearEndClosing.new(:year => params[:id])
+
+    respond_to do |format|
+      format.html
+      format.pdf #TODO: Jahresübersicht in übersichtlicher PDF Form
+      format.csv #TODO: Jahresübersicht als CSV Tabelle
+      format.zip { send_file StatementsToFile.new(@year_end_closing).write }
+    end
   end
 
   def destroy

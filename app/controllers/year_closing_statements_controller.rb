@@ -14,7 +14,7 @@ class YearClosingStatementsController < ApplicationController
     end
   end
 
-  
+
   private
 
   def render_pdf
@@ -22,7 +22,6 @@ class YearClosingStatementsController < ApplicationController
     @year = @statement.year
     pdf = PdfYearClosingStatement.new(@statement)
     filename = "#{@year}-DK_#{@contract.number}-#{@contract.contact.try(:name)}-Jahreskontoauszug.pdf"
-    pdf.render_file("#{Rails.root}/pdfs/#{@year}/#{filename}")
 
     send_data pdf.render, filename: filename,
                           type: "application/pdf",

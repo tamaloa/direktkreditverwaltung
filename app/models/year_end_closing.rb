@@ -58,6 +58,9 @@ class YearEndClosing
   def persisted?
     false
   end
+  def to_param
+    year
+  end
 
   #We might want to move this into a separate model/presenter soon
   def balance_closing_of_year_before(contract)
