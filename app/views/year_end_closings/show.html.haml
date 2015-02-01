@@ -1,8 +1,5 @@
 %h1= "Jahresabschluss #{@year_end_closing.year}"
 
-%p Für folgende Verträge wurde der Jahresabschluss noch nicht durchgeführt:
-%p -> Jahresabschluss für obige Verträge durchführen
-%p Diesen Jahresabschluss herunterladen (CSV)
 %p
   Alle Kontoauszüge in einer ZIP-Datei herunterladen
   = link_to 'ZIP', year_end_closing_path(@year_end_closing, format: :zip)
@@ -24,6 +21,10 @@
       %td= @year_end_closing.movements_excluding_interest(contract)
       %td= currency @year_end_closing.annual_interest(contract)
       %td= currency @year_end_closing.balance_closing_of_year(contract)
-      %td= link_to "Jahreskontoauszug #{@year_end_closing.year}",
+      %td
+        = link_to "Kontoauszug",
                     year_closing_statement_path(contract, year: @year_end_closing.year)
+        = link_to "(als PDF)",
+                    year_closing_statement_path(contract, year: @year_end_closing.year, format: :pdf),
+                    target: '_blank'
 

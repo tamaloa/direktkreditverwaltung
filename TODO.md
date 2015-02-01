@@ -1,13 +1,6 @@
 # BUG
 
 # Für nächsten Jahresabschluss
-* DKs Jahresabschluss PDFs einzeln abrufbar machen mit Person im Filename
-** year_end_closings/2013?contract=13
-** year_end_closings/2013?contract=13&format=pdf
-** year_end_closings/2013 -> jahresabschluss übersicht
-*** #DK | Vorjahressaldo | Kontobewegungen | Zinsen | Saldo Jahresabschluss
-** year_end_closings/2013?format=zip -> pdfs als zip datei
-* DKs Jahresabschluss PDFs gesammelt in zip downloadbar
 * Vorlage für E-Mail erstellen
 * Upload für Zollepost zu Vorlage ermöglichen
 * Massen-Emailing ermöglichen (vorher Test-Mail an eigene Adresse, 12h Sperre).
@@ -23,6 +16,7 @@ gekündigt sind aber wieder YearEndClosing mässig reverted wurden?
 * Datenexport im UI anbieten (csv tabelle mit zusammengefassten daten)
 * Jahresabschluss Zusammenfassungs PDF - möglichst klein mit allen wichtigen Daten um ausgedruckt in die Buchhaltung abgeheftet zu werden
 * Authentication&Authorization inklusive Infos wer wann was verändert hat (wichtig falls es mal Probleme gibt) -> papertrail gem
+* Jahresabschluss Übersicht als CSV/PDF runterladbar machen (für Buchhaltung)
 
 # UI
 * Durchgängig deutsche formate nutzen (, statt . für währungseingaben)
@@ -39,6 +33,13 @@ gekündigt sind aber wieder YearEndClosing mässig reverted wurden?
 * Ansicht Direktkredit mit allen Informationen (Versionen, Buchungen)
 * Einzahlungen am 1.1. wurden scheinbar ignoriert. In Wahrheit war die Anzeige des Saldos falsch (Saldo enthielt 1.1. Einzahlung)
 * Zinsberechnung in seperates Modell ausgelagert (erstmal ohne act_act)
+* DKs Jahresabschluss PDFs einzeln abrufbar machen mit Person im Filename
+** year_end_closings/2013?contract=13
+** year_end_closings/2013?contract=13&format=pdf
+** year_end_closings/2013 -> jahresabschluss übersicht
+*** #DK | Vorjahressaldo | Kontobewegungen | Zinsen | Saldo Jahresabschluss
+** year_end_closings/2013?format=zip -> pdfs als zip datei
+* DKs Jahresabschluss PDFs gesammelt in zip downloadbar
 
 # AUS EMAIL
 Vertrag erstellen: Eingabeformat Zinsen angeben

@@ -24,7 +24,6 @@ class YearEndClosingsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.pdf #TODO: Jahresübersicht in übersichtlicher PDF Form
       format.csv #TODO: Jahresübersicht als CSV Tabelle
       format.zip { send_file StatementsToFile.new(@year_end_closing).write }
     end
