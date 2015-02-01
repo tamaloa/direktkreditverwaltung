@@ -29,20 +29,20 @@ class PdfInterestLetter < Prawn::Document
 
       bounding_box [x_pos + 55, y_pos - IMAGE_HEIGHT], 
                    width: IMAGE_WITH do
-        text texts['project_name'], size: 10
+        text company.name, size: 10
         text "Projekt im Mietshäuser Syndikat", size: 8, style: :italic
         move_down 10
-        text texts['street_no'], size: 8
-        text "#{texts['zipcode']} #{texts['city']}", size: 8
+        text company.street, size: 8
+        text "#{company.zip_code} #{company.city}", size: 8
         move_down 10
-        text texts['email'], size: 8
-        text texts['web'], size: 8
+        text company.email, size: 8
+        text company.web, size: 8
       end
 
       bounding_box [0, y_pos - ADDRESS_Y_POS], 
                    width: IMAGE_WITH do
         fill_color '777777'
-        text "#{texts['gmbh_name']}     #{texts['street_no']}     #{texts['zipcode']} #{texts['city']}", size: 7
+        text "#{company.gmbh_name}     #{company.street}     #{company.zip_code} #{company.city}", size: 7
         fill_color '000000'
         move_down 10
         text "#{contract.contact.try(:prename)} #{contract.contact.try(:name)}"
@@ -59,7 +59,7 @@ class PdfInterestLetter < Prawn::Document
 
       move_down 40
 
-      text "#{texts['city']}, den #{DateTime.now.strftime("%d.%m.%Y")}", align: :right
+      text "#{company.city}, den #{DateTime.now.strftime("%d.%m.%Y")}", align: :right
       move_down 40
       text "Kontostand Direktkreditvertrag Nr. #{contract.number}", size: 12, style: :bold
       move_down 30
@@ -116,16 +116,16 @@ class PdfInterestLetter < Prawn::Document
       fill_color '777777'
       y_pos -= 5
       bounding_box [20, y_pos], width: bounds.width/3.0 do
-        text texts['bank_name'], size: 8
-        text texts['bank_account_info'], size: 8
+        text company.bank_name, size: 8
+        text company.bank_account_info, size: 8
       end
       bounding_box [20 + bounds.width/3.0, y_pos], width: bounds.width/3.0 do
         text "Geschäftsführung", size: 8
-        text texts['gmbh_executive_board'], size: 8
+        text company.gmbh_executive_board, size: 8
       end
       bounding_box [20 + 2*bounds.width/3.0, y_pos], width: bounds.width/3.0 do
-        text "Registergericht: #{texts['gmbh_register_number']}", size: 8
-        text "Steuernummer: #{texts['gmbh_tax_number']}", size: 8
+        text "Registergericht: #{company.gmbh_register_number}", size: 8
+        text "Steuernummer: #{company.gmbh_tax_number}", size: 8
       end
  
     end

@@ -1,6 +1,9 @@
 Direktkreditverwaltung::Application.routes.draw do
 
 
+  resources :companies
+
+
   resources :contract_terminators
 
 

@@ -1,0 +1,45 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @company.name
+%p
+  %b Gmbh name:
+  = @company.gmbh_name
+%p
+  %b Verein name:
+  = @company.verein_name
+%p
+  %b Street:
+  = @company.street
+%p
+  %b Zip code:
+  = @company.zip_code
+%p
+  %b City:
+  = @company.city
+%p
+  %b Email:
+  = @company.email
+%p
+  %b Web:
+  = @company.web
+%p
+  %b Bank name:
+  = @company.bank_name
+%p
+  %b Bank account info:
+  = @company.bank_account_info
+%p
+  %b Gmbh executive board:
+  = @company.gmbh_executive_board
+%p
+  %b Gmbh register number:
+  = @company.gmbh_register_number
+%p
+  %b Gmbh tax number:
+  = @company.gmbh_tax_number
+
+= link_to 'Edit', edit_company_path(@company)
+\|
+= link_to 'Back', companies_path

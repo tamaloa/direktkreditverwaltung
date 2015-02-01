@@ -1,0 +1,43 @@
+%h1 Listing companies
+
+%table
+  %tr
+    %th Name
+    %th Gmbh name
+    %th Verein name
+    %th Street
+    %th Zip code
+    %th City
+    %th Email
+    %th Web
+    %th Bank name
+    %th Bank account info
+    %th Gmbh executive board
+    %th Gmbh register number
+    %th Gmbh tax number
+    %th
+    %th
+    %th
+
+  - @companies.each do |company|
+    %tr
+      %td= company.name
+      %td= company.gmbh_name
+      %td= company.verein_name
+      %td= company.street
+      %td= company.zip_code
+      %td= company.city
+      %td= company.email
+      %td= company.web
+      %td= company.bank_name
+      %td= company.bank_account_info
+      %td= company.gmbh_executive_board
+      %td= company.gmbh_register_number
+      %td= company.gmbh_tax_number
+      %td= link_to 'Show', company
+      %td= link_to 'Edit', edit_company_path(company)
+      %td= link_to 'Destroy', company, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Company', new_company_path

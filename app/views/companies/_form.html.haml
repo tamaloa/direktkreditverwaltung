@@ -1,0 +1,49 @@
+= form_for @company do |f|
+  - if @company.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@company.errors.count, "error")} prohibited this company from being saved:"
+      %ul
+        - @company.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :name
+    = f.text_field :name
+  .field
+    = f.label :gmbh_name
+    = f.text_field :gmbh_name
+  .field
+    = f.label :verein_name
+    = f.text_field :verein_name
+  .field
+    = f.label :street
+    = f.text_field :street
+  .field
+    = f.label :zip_code
+    = f.text_field :zip_code
+  .field
+    = f.label :city
+    = f.text_field :city
+  .field
+    = f.label :email
+    = f.text_field :email
+  .field
+    = f.label :web
+    = f.text_field :web
+  .field
+    = f.label :bank_name
+    = f.text_field :bank_name
+  .field
+    = f.label :bank_account_info
+    = f.text_field :bank_account_info
+  .field
+    = f.label :gmbh_executive_board
+    = f.text_field :gmbh_executive_board
+  .field
+    = f.label :gmbh_register_number
+    = f.text_field :gmbh_register_number
+  .field
+    = f.label :gmbh_tax_number
+    = f.text_field :gmbh_tax_number
+  .actions
+    = f.submit 'Save'

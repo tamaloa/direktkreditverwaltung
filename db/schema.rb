@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140910185939) do
+ActiveRecord::Schema.define(:version => 20150201170400) do
 
   create_table "accounting_entries", :force => true do |t|
     t.date     "date"
@@ -24,6 +24,24 @@ ActiveRecord::Schema.define(:version => 20140910185939) do
   end
 
   add_index "accounting_entries", ["contract_id"], :name => "index_accounting_entries_on_contract_id"
+
+  create_table "companies", :force => true do |t|
+    t.string   "name"
+    t.string   "gmbh_name"
+    t.string   "verein_name"
+    t.string   "street"
+    t.string   "zip_code"
+    t.string   "city"
+    t.string   "email"
+    t.string   "web"
+    t.string   "bank_name"
+    t.string   "bank_account_info"
+    t.string   "gmbh_executive_board"
+    t.string   "gmbh_register_number"
+    t.string   "gmbh_tax_number"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+  end
 
   create_table "contacts", :force => true do |t|
     t.string   "name"
