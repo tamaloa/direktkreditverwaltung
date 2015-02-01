@@ -17,6 +17,10 @@ gekündigt sind aber wieder YearEndClosing mässig reverted wurden?
 * Jahresabschluss Zusammenfassungs PDF - möglichst klein mit allen wichtigen Daten um ausgedruckt in die Buchhaltung abgeheftet zu werden
 * Authentication&Authorization inklusive Infos wer wann was verändert hat (wichtig falls es mal Probleme gibt) -> papertrail gem
 * Jahresabschluss Übersicht als CSV/PDF runterladbar machen (für Buchhaltung)
+* Mehrere Projekte verwalten können
+** company model dass die Stammdaten hält erstellen
+** alles mit company model scopen (belongs_to :company)
+** User model mit login
 
 # UI
 * Durchgängig deutsche formate nutzen (, statt . für währungseingaben)
