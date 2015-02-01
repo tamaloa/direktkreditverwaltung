@@ -3,11 +3,11 @@
 
 %div.collapse.navbar-collapse
   %ul.nav.navbar-nav
-    %li= link_to "Kontakte", contacts_path
+    %li= link_to "Geber_innen", contacts_path
     %li= link_to "Direktkreditverträge", contracts_path
-    %li= link_to "Versionen der Verträge", contract_versions_path
-    %li= link_to "Alle Buchungen", accounting_entries_path
+    %li= link_to "Buchungen", accounting_entries_path
     %li= link_to "Jahresabschluss", year_end_closings_path
+    %li= link_to "Einstellungen", edit_company_path(@company)
     %li.dropdown
       %a.dropdown-toggle{:href => "#", "data-toggle" => "dropdown"}
         Auswertungen
