@@ -7,7 +7,7 @@ gem 'pg'
 
 #View related stuff
 gem 'jquery-rails'
-gem 'bootstrap-sass'
+gem 'bootstrap-sass', '=3.0.3.0' # newer versions incompatible to rails 3.2
 gem 'haml-rails'
 gem 'sass-rails'
 gem 'prawn'
