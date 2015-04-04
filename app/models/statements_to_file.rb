@@ -26,8 +26,10 @@ class StatementsToFile
 
     pdf = PdfYearClosingStatement.new(statement)
     filename ||= "#{year}-DK_#{contract.number}-#{contract.contact.try(:name)}-Jahreskontoauszug.pdf"
+    full_path = "#{current_pdf_dir}/#{filename}"
 
-    pdf.render_file("#{current_pdf_dir}/#{filename}")
+    pdf.render_file(full_path)
+    full_path
   end
 
   def zip_them_up

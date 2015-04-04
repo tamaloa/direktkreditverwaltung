@@ -1,6 +1,12 @@
 Direktkreditverwaltung::Application.routes.draw do
 
 
+  resources :emails
+
+
+  resources :mail_templates
+
+
   resources :companies
 
 
@@ -30,7 +36,11 @@ Direktkreditverwaltung::Application.routes.draw do
     end  
   end
 
-  resources :year_end_closings
+  resources :year_end_closings do
+    member do
+      get :send_emails
+    end
+  end
   resources :year_closing_statements, only: [:show]
 
 

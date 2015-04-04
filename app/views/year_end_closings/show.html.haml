@@ -1,8 +1,11 @@
 %h1= "Jahresabschluss #{@year_end_closing.year}"
 
 %p
-  Alle Kontoauszüge in einer ZIP-Datei herunterladen
+  Alle Kontoauszüge in einer ZIP-Datei herunterladen:
   = link_to 'ZIP', year_end_closing_path(@year_end_closing, format: :zip)
+%p
+  Kontoauszüge per E-Mail verschicken:
+  = link_to 'Emails erstellen', emails_path(year: @year_end_closing.year)
 
 %table
   %thead

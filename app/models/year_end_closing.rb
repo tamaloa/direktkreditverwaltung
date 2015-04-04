@@ -55,6 +55,18 @@ class YearEndClosing
     AccountingEntry.only_from_year(@year).where(annually_closing_entry: true).map(&:contract)
   end
 
+  def email_all_closing_statements
+    mail_template = MailTemplate.find_by_year(@year)
+    contracts.group_by(&:contact).each do |contact, contracts|
+      #TODO: fix this ...
+      next if contact.blank?
+      Email.create!(contact: contact,
+                    mail_template: mail_template,
+                    year: @year,
+                    contracts: contracts)
+    end
+  end
+
   def persisted?
     false
   end

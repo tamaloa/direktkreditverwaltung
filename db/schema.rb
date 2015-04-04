@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150201170400) do
+ActiveRecord::Schema.define(:version => 20150420064616) do
 
   create_table "accounting_entries", :force => true do |t|
     t.date     "date"
@@ -83,5 +83,32 @@ ActiveRecord::Schema.define(:version => 20150201170400) do
 
   add_index "contracts", ["contact_id"], :name => "index_contracts_on_contact_id"
   add_index "contracts", ["terminated_at"], :name => "index_contracts_on_terminated_at"
+
+  create_table "contracts_emails", :id => false, :force => true do |t|
+    t.integer "contract_id"
+    t.integer "email_id"
+  end
+
+  create_table "emails", :force => true do |t|
+    t.integer  "mail_template_id"
+    t.string   "status"
+    t.integer  "year"
+    t.integer  "contact_id"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  create_table "mail_templates", :force => true do |t|
+    t.string   "subject"
+    t.text     "content"
+    t.text     "footer"
+    t.integer  "year"
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
+    t.string   "newsletter_file_name"
+    t.string   "newsletter_content_type"
+    t.integer  "newsletter_file_size"
+    t.datetime "newsletter_updated_at"
+  end
 
 end

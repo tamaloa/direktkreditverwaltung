@@ -29,6 +29,15 @@ class YearEndClosingsController < ApplicationController
     end
   end
 
+  def send_emails
+
+    year_end_closing = YearEndClosing.new(:year => params[:id])
+    year_end_closing.email_all_closing_statements
+
+    redirect_to emails_url(year: year_end_closing.year),
+                notice: "Die Emails für #{year_end_closing.year} wurden erstellt."
+  end
+
   def destroy
     @year_end_closing = YearEndClosing.new(:year => params[:id])
 

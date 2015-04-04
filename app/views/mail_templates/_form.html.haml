@@ -1,0 +1,23 @@
+= form_for @mail_template do |f|
+  - if @mail_template.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@mail_template.errors.count, "error")} prohibited this mail_template from being saved:"
+      %ul
+        - @mail_template.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    .control-label= f.label :subject
+    .controls= f.text_field :subject
+  .form-group
+    .control-label= f.label :content
+    .controls= f.text_area :content, rows: 5
+    %span.help-block Namen der Geber_in (Vorname wenn vorhanden, sonst Name) einfügen als @geber_in@
+  .form-group
+    .control-label= f.label :footer
+    .controls= f.text_field :footer
+  .form-group
+    .control-label= f.label :newsletter
+    .controls= f.file_field :newsletter
+  .form-group
+    .controls= f.submit 'Save'

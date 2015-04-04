@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b MailTemplate:
+  = @email.mail_template
+%p
+  %b Status:
+  = @email.status
+%p
+  %b Contact:
+  = @email.contact
+
+= link_to 'Edit', edit_email_path(@email)
+\|
+= link_to 'Back', emails_path

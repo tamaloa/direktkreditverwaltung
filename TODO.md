@@ -2,6 +2,9 @@
 
 # Für nächsten Jahresabschluss
 * Vorlage für E-Mail erstellen
+** attachment hinzufügen (einfach)
+* Mail model erstellen
+**
 * Upload für Zollepost zu Vorlage ermöglichen
 * Massen-Emailing ermöglichen (vorher Test-Mail an eigene Adresse, 12h Sperre).
 

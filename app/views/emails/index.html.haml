@@ -1,0 +1,38 @@
+%h1= "Kontoauszüge für #{@year} verschicken"
+
+.row
+  .col-md-5
+    %h3 E-Mail Vorlage
+    %p
+      %b Betreff:
+      = @mail_template.subject
+    %p
+      %b Inhalt:
+      = @mail_template.content
+    %p
+      %b Footer:
+      = @mail_template.footer
+    %p
+      %b Newsletter-Anhang
+      = @mail_template.newsletter_file_name
+
+    = link_to 'Bearbeiten', edit_mail_template_path(@mail_template)
+
+  .col-md-4.col-md-offset-1
+    %h3 E-Mails verschicken
+    = form_for @test_email do |f|
+      = button_tag(type: 'submit', class: "btn btn-info") do
+        Test-Mail senden
+
+    %br
+    .btn.btn-warning=link_to 'Alle E-Mails senden', send_emails_year_end_closing_path(@year)
+
+
+    %h3 Verschickte E-Mails
+    %ul
+    - Email.where(year: @year).order(:updated_at).each do |email|
+      %li
+        -#= link_to 'email', email_path(email)
+        = email.updated_at.strftime("%d. %b %Y")
+        = contact_short(email.contact)
+
