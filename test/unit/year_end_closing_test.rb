@@ -87,7 +87,12 @@ class YearEndClosingTest < ActiveSupport::TestCase
   end
 
   test "a contract should no longer be closed if terminated" do
-    pending
+    closed_contract = Contact.find_by_name('Vor langer Zeit DK gekündigt').contracts.first
+    year_after_closing = closed_contract.terminated_at.next_year.year
+    closing = YearEndClosing.new(year: year_after_closing)
+    assert_no_difference ->{closed_contract.accounting_entries.count} do
+      closing.close_year_for_contract(closed_contract)
+    end
   end
 
   test "the year_end_closing all should show all years for which year end closings were created" do

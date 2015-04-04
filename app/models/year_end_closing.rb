@@ -22,6 +22,7 @@ class YearEndClosing
   def close_year_for_contract(contract)
     return false if contract.start_date.year > @year
     return false if year_closed?(contract)
+    return false if contract.terminated_at.present?
     last_years_interest = InterestCalculation.new(contract, year: @year).interest_total
     contract.accounting_entries.create!(amount: last_years_interest, date: Date.new(@year).end_of_year,
                                         annually_closing_entry: true, interest_entry: true)

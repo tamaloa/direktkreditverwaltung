@@ -11,9 +11,8 @@ class StatementsToFileTest < ActiveSupport::TestCase
     full_path = "#{Rails.root}/pdfs/#{@year_end_closing.year}/#{filename}"
     begin
       assert_nothing_raised do
-        file = StatementsToFile.new(@year_end_closing).to_pdf(Contract.last, filename)
+        StatementsToFile.new(@year_end_closing).to_pdf(Contract.last, filename)
       end
-      assert File.exists?(file)
       assert File.exists?(full_path)
     ensure
       File.delete(full_path) if File.exist?(full_path)
