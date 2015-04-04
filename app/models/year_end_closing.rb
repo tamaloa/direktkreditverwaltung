@@ -49,7 +49,7 @@ class YearEndClosing
   end
 
   def self.all
-    AccountingEntry.where(annually_closing_entry: true).map{|entry| entry.date.year}.uniq
+    AccountingEntry.where(annually_closing_entry: true).map{|entry| entry.date.year}.uniq.sort.reverse
   end
 
   def contracts

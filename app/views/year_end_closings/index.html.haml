@@ -2,16 +2,23 @@
 
 %p Für alle Direktkreditverträge bei denen die Zinsen am Jahresende aufgeschlagen werden sollen wird eine Buchung am letzten Tag des Jahres erstellt, die die Zinsen bis dahin aufschlägt.
 
-=form_for @new_year_end_closing do |f|
-  = f.label :year, "Jahresabschluss für"
-  = select_year(@new_year_end_closing.year)
-  = submit_tag "durchführen!"
-
 - last_closing_year = YearEndClosing.most_recent_one
 - if last_closing_year
-  = link_to "Letzten Jahresabschluss (#{last_closing_year}) rückgängig machen", year_end_closings_path(id: last_closing_year),
+  .btn.btn-info= link_to "Aktuellen Abschluss (#{last_closing_year}) bearbeiten", year_end_closing_path(id: last_closing_year)
+  .btn.btn-danger= link_to "Abschluss (#{last_closing_year}) rückgängig machen", year_end_closings_path(id: last_closing_year),
       confirm: "Wirklich den Jahresabschluss rückgängig machen? Es werden alle Zinsbuchungen des Jahres gelöscht",
       method: :delete
+
+%br
+%br
+=form_for @new_year_end_closing do |f|
+  - year = last_closing_year.year if last_closing_year
+  - year = @new_year_end_closing.year if year.blank?
+  = f.label :year, "Neuen Jahresabschluss für"
+  = select_year(year)
+  = submit_tag "durchführen!"
+
+
 
 %h3 Jahresabschlüsse der vergangenen Jahre
 
