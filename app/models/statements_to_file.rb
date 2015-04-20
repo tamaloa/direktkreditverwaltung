@@ -26,7 +26,7 @@ class StatementsToFile
 
     pdf = PdfYearClosingStatement.new(statement)
     filename ||= "#{year}-DK_#{contract.number}-#{contract.contact.try(:name)}-Jahreskontoauszug.pdf"
-    full_path = "#{current_pdf_dir}/#{filename}"
+    full_path = Shellwords.escape "#{current_pdf_dir}/#{filename}"
 
     pdf.render_file(full_path)
     full_path
