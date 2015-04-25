@@ -9,7 +9,8 @@ class YearEndClosing
   validates :year, :numericality => true
 
   def initialize(attributes = {})
-    @year = attributes[:year].to_i || Time.now.prev_year.year
+    @year = attributes[:year] || Time.now.prev_year.year
+    @year = @year.to_i #TODO fix this on controller side with strong params?
   end
 
 
@@ -46,6 +47,11 @@ class YearEndClosing
     year_closing_entry = AccountingEntry.order('date DESC').where(annually_closing_entry: true).first
     return nil unless year_closing_entry
     year_closing_entry.date.year
+  end
+
+  def self.next_one
+    return 7.years.ago.year unless most_recent_one
+    most_recent_one + 1
   end
 
   def self.all

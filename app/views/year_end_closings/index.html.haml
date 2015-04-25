@@ -1,27 +1,40 @@
-%h1 Jahresabschluss durchführen
+%h1 Jahresabschlüsse
 
-%p Für alle Direktkreditverträge bei denen die Zinsen am Jahresende aufgeschlagen werden sollen wird eine Buchung am letzten Tag des Jahres erstellt, die die Zinsen bis dahin aufschlägt.
+.row
+  .col-md-5
 
-- last_closing_year = YearEndClosing.most_recent_one
-- if last_closing_year
-  .btn.btn-info= link_to "Aktuellen Abschluss (#{last_closing_year}) bearbeiten", year_end_closing_path(id: last_closing_year)
-  .btn.btn-danger= link_to "Abschluss (#{last_closing_year}) rückgängig machen", year_end_closings_path(id: last_closing_year),
-      confirm: "Wirklich den Jahresabschluss rückgängig machen? Es werden alle Zinsbuchungen des Jahres gelöscht",
-      method: :delete
+    %h3 Aktuell
 
-%br
-%br
-=form_for @new_year_end_closing do |f|
-  - year = last_closing_year.year if last_closing_year
-  - year = @new_year_end_closing.year if year.blank?
-  = f.label :year, "Neuen Jahresabschluss für"
-  = select_year(year)
-  = submit_tag "durchführen!"
+    - last_closing_year = YearEndClosing.most_recent_one
+    - if last_closing_year
+      .btn.btn-info
+        = link_to "Aktuellen Abschluss (#{last_closing_year}) bearbeiten", year_end_closing_path(id: last_closing_year)
+      %br
+      %br
+      .btn.btn-danger
+        = link_to "Abschluss (#{last_closing_year}) rückgängig machen", year_end_closings_path(id: last_closing_year),
+          confirm: "Wirklich den Jahresabschluss rückgängig machen? Es werden alle Zinsbuchungen des Jahres gelöscht",
+          method: :delete
 
+    %h3 Neuer Abschluss
 
+    %p Für alle Direktkreditverträge bei denen die Zinsen am Jahresende aufgeschlagen werden sollen wird eine Buchung am letzten Tag des Jahres erstellt, die die Zinsen bis dahin aufschlägt.
 
-%h3 Jahresabschlüsse der vergangenen Jahre
+    - if YearEndClosing.next_one > @new_year_end_closing.year
+      .btn.btn-default
+        Abschluss durchführen
+      %p Abschlüsse werden immer für das vergangene Jahr durchgeführt. Nicht für das laufende oder ein zukünftiges Jahr!
+    - else
+      =form_for @new_year_end_closing do |f|
+        = f.label :year, "Jahr wählen"
+        = select_year(nil, start_year: YearEndClosing.next_one, end_year: @new_year_end_closing.year)
+        %br
+        = submit_tag "Abschluss durchführen", class: 'btn btn-warning'
 
-%ul
-  - @year_end_closings.each do |year_end_closing|
-    %li= link_to "Jahresabschluss #{year_end_closing}", year_end_closing_path(id: year_end_closing)
+  .col-md-4.col-md-offset-1
+
+    %h3 Vergangene Jahre
+
+    %ul
+      - @year_end_closings.each do |year_end_closing|
+        %li= link_to "Jahresabschluss #{year_end_closing}", year_end_closing_path(id: year_end_closing)

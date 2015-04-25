@@ -103,4 +103,10 @@ class YearEndClosingTest < ActiveSupport::TestCase
     assert_equal 3, YearEndClosing.all.count
     assert_equal [2013, 2012, 2010], YearEndClosing.all
   end
+
+  test "a year end closing should default to last year" do
+    year_end_closing = YearEndClosing.new
+
+    assert_equal 1.year.ago.year, year_end_closing.year
+  end
 end
