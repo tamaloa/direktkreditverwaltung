@@ -22,15 +22,26 @@
     %h3 E-Mails verschicken
     .btn.btn-info
       = link_to 'Test Email verschicken', send_test_email_year_end_closing_path(@year),
-                confirm: "Wirklich Email an #{@company.email} schicken?"
+                confirm: "Achtung - die Mail wird an #{@company.email} geschickt."
     %br
     %br
-    .btn.btn-warning
-      = link_to 'Alle E-Mails senden', send_emails_year_end_closing_path(@year)
+    - if @mail_template.test_mail_sent?
+      .btn.btn-warning
+        = link_to 'Alle E-Mails senden', send_emails_year_end_closing_path(@year)
+    - else
+      .btn.btn-default
+        = 'Alle E-Mails senden'
+      %p
+        Erst möglich 1 Stunde nach dem letzten Versand der Test Email
+        = "(noch #{distance_of_time_in_words_to_now(@mail_template.test_mail_sent_at)} warten)" if @mail_template.test_mail_sent_at.present?
 
 
     %h3 Verschickte E-Mails
     %ul
+    - if @mail_template.test_mail_sent?
+      %li
+        = @mail_template.test_mail_sent_at.strftime("%d. %b %Y")
+        Test Mail verschickt
     - Email.where(year: @year).order(:updated_at).each do |email|
       %li
         -#= link_to 'email', email_path(email)

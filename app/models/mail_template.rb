@@ -21,4 +21,8 @@ Bei Frage o.ä. kannst du dich gerne bei uns melden.
 Liebe Grüße"
   end
 
+  def test_mail_sent?
+    test_mail_sent_at && test_mail_sent_at <= 1.hour.ago
+  end
+
 end

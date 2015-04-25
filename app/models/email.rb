@@ -13,11 +13,12 @@ class Email < ActiveRecord::Base
     contact = Contact.new(name: "[Test-Email #{year}]", email: email_to)
     contract_one = Contract.first
     contract_two = Contract.last #TODO: Contract.new_random
-    template = MailTemplate.find_by_year(year)
-    test_mail = Email.new(year: year, contact: contact, mail_template: template,
+    mail_template = MailTemplate.find_by_year(year)
+    test_mail = Email.new(year: year, contact: contact, mail_template: mail_template,
                           contracts: [contract_one, contract_two])
 
     UserMailer.year_closing_statement(test_mail, test_mail.closing_statements_pdf_files).deliver
+    mail_template.update_attribute(:test_mail_sent_at, Time.now)
   end
 
   def send_email

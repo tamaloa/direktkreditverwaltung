@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150420064616) do
+ActiveRecord::Schema.define(:version => 20150425153238) do
 
   create_table "accounting_entries", :force => true do |t|
     t.date     "date"
@@ -109,6 +109,7 @@ ActiveRecord::Schema.define(:version => 20150420064616) do
     t.string   "newsletter_content_type"
     t.integer  "newsletter_file_size"
     t.datetime "newsletter_updated_at"
+    t.datetime "test_mail_sent_at"
   end
 
 end
