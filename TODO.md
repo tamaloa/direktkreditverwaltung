@@ -65,3 +65,11 @@ Import: Keine leeren Personen erstellen (Name muss?)
 Import: Fehlt: Direktkreditverträge (zuordnung zu Person über Name/Vorname) importieren
 
 Daten-Modell: befristung und kündigungsfrist modellierunge nicht ganz klar (versionen haben duration_months, duration_years)
+
+
+# Production
+* exception tracking service - maybe airbrake free plan https://airbrake.io/account/new/free
+* performance tracking service - newrelic (incl. server tracking)
+* secret token -> reset & extract to ignored yml
+* extract mailer setting to ignored yml or rb
+* enforce model validations using database indexes
