@@ -42,6 +42,7 @@ When /^I select "([^"]*)" as the (.+) "([^"]*)" date$/ do |date, model, selector
 end
 
 Given(/^I am an authorized user$/) do
+  @company ||= Company.first_or_create
   true #We do not have authorization in place
 end
 
