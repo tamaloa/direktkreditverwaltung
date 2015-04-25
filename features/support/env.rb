@@ -58,3 +58,7 @@ Cucumber::Rails::Database.javascript_strategy = :truncation
 
 World(ApplicationHelper)
 World(ActionView::Helpers::NumberHelper)
+
+After do
+  Timecop.return
+end
