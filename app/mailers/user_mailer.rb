@@ -1,7 +1,7 @@
 class UserMailer < ActionMailer::Base
 
   def year_closing_statement(email, closing_statements_pdf_files)
-    @company = Company.find(1)
+    @company = Company.first
 
     name = email.contact.email
     name = email.contact.prename if email.contact.prename.present?

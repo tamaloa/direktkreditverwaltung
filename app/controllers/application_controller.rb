@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   private
   def load_company
-    @company = Company.find(1) #TODO this will be replaced by current_user.company some time later
+    @company = Company.first #TODO this will be replaced by current_user.company some time later
   end
 
 end
