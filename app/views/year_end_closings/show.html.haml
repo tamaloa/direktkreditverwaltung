@@ -1,21 +1,24 @@
 %h1= "Jahresabschluss #{@year_end_closing.year}"
 
-%p
-  Alle Kontoauszüge in einer ZIP-Datei herunterladen:
-  = link_to 'ZIP', year_end_closing_path(@year_end_closing, format: :zip)
-%p
-  Kontoauszüge per E-Mail verschicken:
-  = link_to 'Emails erstellen', emails_path(year: @year_end_closing.year)
 
-%table
+.btn.btn-info
+  = link_to 'Alle Kontoauszüge als ZIP', year_end_closing_path(@year_end_closing, format: :zip)
+
+.btn.btn-warning
+  = link_to 'Email-Versand vorbereiten', emails_path(year: @year_end_closing.year)
+
+
+%h3 Übersichttabelle Jahresabschluss
+
+%table.table
   %thead
-    %td DK#
-    %td DK Geber_in
-    %td Vorjahressaldo
-    %td Kontobewegungen
-    %td Zinsen
-    %td Saldo Jahresabschluss
-    %td Jahresabschluss
+    %th DK#
+    %th DK Geber_in
+    %th Vorjahressaldo
+    %th Kontobewegungen
+    %th Zinsen
+    %th Saldo Jahresabschluss
+    %th Jahresabschluss
   - @year_end_closing.contracts.each do |contract|
     %tr
       %td= link_to contract.number, contract

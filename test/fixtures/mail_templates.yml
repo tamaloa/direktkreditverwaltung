@@ -1,0 +1,15 @@
+---
+mail_templates_001:
+  subject: Kontomitteilung Direktkredit Zolle GmbH 2012
+  content: |-
+    Hallo @geber_in@,
+
+    wir haben unseren Jahresabschluss gemacht und die Zinsberechnungen deines Kredits abgeschlossen. Anbei senden wir dir den aktuellen Kontoauszug als PDF, wenn du diesen auf dem Postweg benötigst, kannst du uns ein kurzes Feedback geben.
+
+    Im Newsletter findest du alle Neuigkeiten aus 2012.
+
+    Bei Frage o.ä. kannst du dich gerne bei uns melden.
+
+    Liebe Grüße
+  footer: 
+  year: '2012'

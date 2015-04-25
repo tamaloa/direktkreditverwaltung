@@ -9,6 +9,17 @@ class Email < ActiveRecord::Base
 
   after_create :send_email
 
+  def self.send_test_email(year, email_to)
+    contact = Contact.new(name: "[Test-Email #{year}]", email: email_to)
+    contract_one = Contract.first
+    contract_two = Contract.last #TODO: Contract.new_random
+    template = MailTemplate.find_by_year(year)
+    test_mail = Email.new(year: year, contact: contact, mail_template: template,
+                          contracts: [contract_one, contract_two])
+
+    UserMailer.year_closing_statement(test_mail, test_mail.closing_statements_pdf_files).deliver
+  end
+
   def send_email
     UserMailer.year_closing_statement(self, closing_statements_pdf_files).deliver
   end
@@ -21,4 +32,5 @@ class Email < ActiveRecord::Base
     end
     closing_statement_filenames
   end
+
 end

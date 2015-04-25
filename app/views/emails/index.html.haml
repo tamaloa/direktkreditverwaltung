@@ -20,12 +20,13 @@
 
   .col-md-4.col-md-offset-1
     %h3 E-Mails verschicken
-    = form_for @test_email do |f|
-      = button_tag(type: 'submit', class: "btn btn-info") do
-        Test-Mail senden
-
+    .btn.btn-info
+      = link_to 'Test Email verschicken', send_test_email_year_end_closing_path(@year),
+                confirm: "Wirklich Email an #{@company.email} schicken?"
     %br
-    .btn.btn-warning=link_to 'Alle E-Mails senden', send_emails_year_end_closing_path(@year)
+    %br
+    .btn.btn-warning
+      = link_to 'Alle E-Mails senden', send_emails_year_end_closing_path(@year)
 
 
     %h3 Verschickte E-Mails

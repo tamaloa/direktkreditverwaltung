@@ -39,6 +39,7 @@ Direktkreditverwaltung::Application.routes.draw do
   resources :year_end_closings do
     member do
       get :send_emails
+      get :send_test_email
     end
   end
   resources :year_closing_statements, only: [:show]

@@ -38,4 +38,14 @@ class YearEndClosingsControllerTest < ActionController::TestCase
     # assert_response :success
   end
 
+  test "should trigger sending out test closing statement per mail" do
+    get :send_test_email, id: 2012
+    assert_response :redirect
+  end
+
+  test "should send out all closing statements per mail" do
+    get :send_emails, id: 2012
+    assert_response :redirect
+  end
+
 end

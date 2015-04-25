@@ -61,6 +61,7 @@ class YearEndClosing
     contracts.group_by(&:contact).each do |contact, contracts|
       #TODO: fix this ...
       next if contact.blank?
+      next if contact.email.blank?
       Email.create!(contact: contact,
                     mail_template: mail_template,
                     year: @year,

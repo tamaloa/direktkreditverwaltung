@@ -4,7 +4,6 @@ class EmailsController < ApplicationController
   def index
     @year = params[:year]
     @mail_template = MailTemplate.find_or_create_by_year(@year)
-    @test_email = Email.new(year: @year)
 
     respond_to do |format|
       format.html # index.html.erb
