@@ -101,6 +101,6 @@ class YearEndClosingTest < ActiveSupport::TestCase
     YearEndClosing.new(:year => 2013).close_year!
 
     assert_equal 3, YearEndClosing.all.count
-    assert_equal [2010, 2012, 2013], YearEndClosing.all
+    assert_equal [2013, 2012, 2010], YearEndClosing.all
   end
 end

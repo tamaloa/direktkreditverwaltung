@@ -3,30 +3,48 @@ require 'test_helper'
 class StatementsToFileTest < ActiveSupport::TestCase
 
   def setup
-    @year_end_closing = YearEndClosing.new(year: 2012)
+    @year_end_closing = YearEndClosing.new(year: 2500)
+    @year_end_closing.close_year!
+    @statements_to_file = StatementsToFile.new(@year_end_closing)
   end
 
   test "a single statement should be written as PDF file" do
-    filename = 'alsdjflewjlfjwldkjflsdf'
-    full_path = "#{Rails.root}/pdfs/#{@year_end_closing.year}/#{filename}"
+    filename = ''
     begin
       assert_nothing_raised do
-        StatementsToFile.new(@year_end_closing).to_pdf(Contract.last, filename)
+        filename = @statements_to_file.to_pdf(Contract.last)
       end
-      assert File.exists?(full_path)
+      assert File.exists?(filename)
     ensure
-      File.delete(full_path) if File.exist?(full_path)
+      File.delete(filename) if File.exist?(filename)
     end
 
   end
 
+  test "filenames should be escaped properly" do
+    invalid_contact = Contact.first
+    invalid_contact.update_attribute(:name, 'Irgendwer /co invalid due to slash')
+    contract = invalid_contact.contracts.first
+    filename = @statements_to_file.pdf_file_full_path(contract)
+    assert_nothing_raised do
+      begin
+        StatementsToFile.new(@year_end_closing).to_pdf(contract)
+      ensure
+        File.delete(filename) if File.exist?(filename)
+      end
+    end
+  end
+
   test "a zip file should be created" do
-    zip_file = "#{Rails.root}/pdfs/#{@year_end_closing.year}_Alle-Jahrekontoauszüge.zip"
+    zip_file = ''
     begin
-      StatementsToFile.new(@year_end_closing).zip_them_up
-        assert File.exists?(zip_file)
+      @statements_to_file.all_to_pdf
+      zip_file = @statements_to_file.zip_them_up
+      assert zip_file
+      assert File.exists?(zip_file)
     ensure
         File.delete(zip_file) if File.exists?(zip_file)
+        FileUtils.remove_dir(@statements_to_file.pdf_dir_path)
     end
   end
 
