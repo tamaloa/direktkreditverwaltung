@@ -1,12 +1,11 @@
-# BUG
+# Production
+* exception tracking service - maybe airbrake free plan https://airbrake.io/account/new/free
+* performance tracking service - newrelic (incl. server tracking)
+* secret token -> reset & extract to ignored yml
+* extract mailer setting to ignored yml or rb
+* enforce model validations using database indexes
 
-# Für nächsten Jahresabschluss
-* Vorlage für E-Mail erstellen
-** attachment hinzufügen (einfach)
-* Mail model erstellen
-**
-* Upload für Zollepost zu Vorlage ermöglichen
-* Massen-Emailing ermöglichen (vorher Test-Mail an eigene Adresse, 12h Sperre).
+# BUG
 
 # Kleinigkeiten
 * Zinsen nur auf Verträge aufschlagen die noch keine Zinsen haben (oder wie geht man mit Verträgen um die schon
@@ -47,6 +46,14 @@ gekündigt sind aber wieder YearEndClosing mässig reverted wurden?
 *** #DK | Vorjahressaldo | Kontobewegungen | Zinsen | Saldo Jahresabschluss
 ** year_end_closings/2013?format=zip -> pdfs als zip datei
 * DKs Jahresabschluss PDFs gesammelt in zip downloadbar
+# Für nächsten Jahresabschluss
+* Vorlage für E-Mail erstellen
+** attachment hinzufügen (einfach)
+* Mail model erstellen
+* Upload für Zollepost zu Vorlage ermöglichen
+* Massen-Emailing ermöglichen
+** eine Mail pro Kontakt (mit allen zugeordneten Vertragen)
+** Test-Mail an eigene Adresse, 1h Sperre).
 
 # AUS EMAIL
 Vertrag erstellen: Eingabeformat Zinsen angeben
@@ -67,9 +74,3 @@ Import: Fehlt: Direktkreditverträge (zuordnung zu Person über Name/Vorname) im
 Daten-Modell: befristung und kündigungsfrist modellierunge nicht ganz klar (versionen haben duration_months, duration_years)
 
 
-# Production
-* exception tracking service - maybe airbrake free plan https://airbrake.io/account/new/free
-* performance tracking service - newrelic (incl. server tracking)
-* secret token -> reset & extract to ignored yml
-* extract mailer setting to ignored yml or rb
-* enforce model validations using database indexes
