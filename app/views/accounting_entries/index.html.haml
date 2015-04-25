@@ -1,0 +1,58 @@
+%h1 Buchungsübersicht
+.row
+  .col-md-5
+    %h3
+      Angezeigter Zeitraum
+      %br
+      = "#{@start_date.iso8601} bis #{@end_date.iso8601}"
+
+  .col-md-6
+
+    %h3 Zeitraum auswählen
+    = form_tag( "/accounting_entries", :method => "get") do
+      %legend Jahr
+      .row
+        .col-md-2.col-md-offset-4
+          - year = Date.current.year
+          = select_tag :year, options_for_select(((year-10)..year).to_a, year)
+        .col-md-2
+          = submit_tag "anzeigen", class: 'btn btn-info'
+
+    = form_tag( "/accounting_entries", :method => "get") do
+      %legend Zeitraum
+      .row
+        .col-md-1
+          = label_tag "von "
+        .col-md-5
+          = select_date Date.today, :prefix => :start_date
+      .row
+        .col-md-1
+          = label_tag "bis "
+        .col-md-5
+          = select_date Date.today, :prefix => :end_date
+        .col-md-2
+          = submit_tag "anzeigen", class: 'btn btn-info'
+
+
+%table.table
+  %thead
+    %th Vorgang
+    %th Datum
+    %th Betrag
+    %th Vertragsnummer
+    %th
+    %th
+    %th
+  - @accounting_entries.each do |accounting_entry|
+    %tr
+      %td= accounting_entry.name
+      %td= accounting_entry.date
+      %td= accounting_entry.amount
+      %td= accounting_entry.contract.number
+      %td= link_to 'Anzeigen', accounting_entry
+      %td= link_to 'Editieren', edit_accounting_entry_path(accounting_entry)
+      %td= link_to 'Löschen', accounting_entry, method: :delete, data: { confirm: 'Sicher?' }
+
+
+
+

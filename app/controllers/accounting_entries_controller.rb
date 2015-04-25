@@ -3,23 +3,23 @@ class AccountingEntriesController < ApplicationController
   # GET /accounting_entries.json
   def index
 
+    @start_date = 1.year.ago.beginning_of_year.to_date
+    @end_date = Date.current
     if params[:year]
-      start_time = Date.new(params[:year].to_i, 1, 1)
-      end_time = Date.new(params[:year].to_i, 12, 31)
+      @start_date = Date.new(params[:year].to_i, 1, 1)
+      @end_date = Date.new(params[:year].to_i, 12, 31)
     elsif params[:start_date] && params[:end_date]
-      start_time = Date.new(params[:start_date][:year].to_i,
+      @start_date = Date.new(params[:start_date][:year].to_i,
                             params[:start_date][:month].to_i,
                             params[:start_date][:day].to_i)
-      end_time = Date.new(params[:end_date][:year].to_i,
+      @end_date = Date.new(params[:end_date][:year].to_i,
                           params[:end_date][:month].to_i,
                           params[:end_date][:day].to_i)
     end
     if params[:contract_id]
-      @accounting_entries = AccountingEntry.where(:contract_id => params[:contract_id]).order(:date)
-    elsif start_time && end_time
-      @accounting_entries = AccountingEntry.where(:date => start_time..end_time).order(:date)
-    else
-      @accounting_entries = AccountingEntry.order(:date)
+      @accounting_entries = AccountingEntry.where(:contract_id => params[:contract_id]).ordered
+    elsif @start_date && @end_date
+      @accounting_entries = AccountingEntry.where(:date => @start_date..@end_date).ordered
     end
 
     respond_to do |format|

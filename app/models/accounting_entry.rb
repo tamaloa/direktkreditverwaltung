@@ -8,7 +8,7 @@ class AccountingEntry < ActiveRecord::Base
   validate :no_entries_for_closed_contract
 
   scope :only_from_year, ->(date_or_year) { where(date: whole_year_range_for(date_or_year)) }
-
+  scope :ordered, ->{order('date DESC, contract_id')}
 
   def name
     return "Zinsen" if interest_entry
