@@ -64,15 +64,20 @@ class YearEndClosing
 
   def email_all_closing_statements
     mail_template = MailTemplate.find_by_year(@year)
-    contracts.group_by(&:contact).each do |contact, contracts|
-      #TODO: fix this ...
-      next if contact.blank?
-      next if contact.email.blank?
+    contacts_and_contracts_with_email.each do |contact, contracts|
       Email.create!(contact: contact,
                     mail_template: mail_template,
                     year: @year,
                     contracts: contracts)
     end
+  end
+
+  def contacts_and_contracts_with_email
+    contracts.group_by(&:contact).reject{|contact, contract| contact.blank? || contact.email.blank?}
+  end
+
+  def contacts_and_contracts_without_email
+    contracts.group_by(&:contact).select{|contact, contract| contact.blank? || contact.email.blank?}
   end
 
   def persisted?

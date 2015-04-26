@@ -48,3 +48,14 @@
         = email.updated_at.strftime("%d. %b %Y")
         = contact_short(email.contact)
 
+    %h3 Kontoauszüge via Post
+    %ul
+      - YearEndClosing.new(year: @year).contacts_and_contracts_without_email.each do |contact, contracts|
+        %li
+          = contact_short(contact) if contact
+          = "[Kein Kontakt angegeben]" unless contact
+          Auszüge:
+          - contracts.each do |contract|
+            = link_to("#{contract.number} ", year_closing_statement_path(contract, year: @year, format: :pdf),
+                      target: '_blank')
+
