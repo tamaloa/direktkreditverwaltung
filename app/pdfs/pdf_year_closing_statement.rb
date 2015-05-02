@@ -50,8 +50,7 @@ class PdfYearClosingStatement < Prawn::Document
     move_down 30
     text "Mit freundlichen Grüßen"
     move_down 30
-    text texts['your_name']
-    text "für die #{company.gmbh_name}"
+    text "Das Direktkredit Team der #{company.gmbh_name}"
     move_down 30
 
     footer
@@ -84,7 +83,7 @@ class PdfYearClosingStatement < Prawn::Document
     bounding_box [0, y_pos - address_y_pos],
                  width: image_width do
       fill_color '777777'
-      text "#{texts['gmbh_name']}     #{company.street}     #{company.zip_code} #{company.city}", size: 7
+      text "#{company.gmbh_name}     #{company.street}     #{company.zip_code} #{company.city}", size: 7
       fill_color '000000'
       move_down 10
       text "#{@contract.contact.try(:prename)} #{@contract.contact.try(:name)}"
