@@ -80,6 +80,24 @@ class YearEndClosing
     contracts.group_by(&:contact).select{|contact, contract| contact.blank? || contact.email.blank?}
   end
 
+  #TODO: This really belongs some where else
+  require 'csv'
+  def as_csv
+    CSV.generate do |csv|
+      csv << ['DK#', 'DK Geber_in', 'Vorjahressaldo', 'Kontobewegungen', 'Zinsen', 'Saldo Jahresabschluss']
+      contracts.each do |contract|
+        row = []
+        row << contract.number
+        row << ApplicationController.helpers.contact_short(contract.contact)
+        row << ApplicationController.helpers.currency(balance_closing_of_year_before(contract))
+        row << movements_excluding_interest(contract)
+        row << ApplicationController.helpers.currency(annual_interest(contract))
+        row << ApplicationController.helpers.currency(balance_closing_of_year(contract))
+        csv << row
+      end
+    end
+  end
+
   def persisted?
     false
   end

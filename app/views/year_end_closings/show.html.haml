@@ -1,8 +1,10 @@
 %h1= "Jahresabschluss #{@year_end_closing.year}"
 
+.btn.btn-info
+  = link_to 'Übersichtstabelle herunterladen', year_end_closing_path(@year_end_closing, format: :csv)
 
 .btn.btn-info
-  = link_to 'Alle Kontoauszüge als ZIP', year_end_closing_path(@year_end_closing, format: :zip)
+  = link_to 'Alle Auszüge in ZIP-Datei', year_end_closing_path(@year_end_closing, format: :zip)
 
 .btn.btn-warning
   = link_to 'Kontoauszüge verschicken', emails_path(year: @year_end_closing.year)

@@ -24,7 +24,11 @@ class YearEndClosingsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.csv #TODO: Jahresübersicht als CSV Tabelle
+      format.csv { send_data(@year_end_closing.as_csv,
+          :type => 'text/csv',
+          :filename => "tabelle_jahresabschluss_#{@year_end_closing.year}.csv",
+          :disposition => 'attachment'
+        ) }
       format.zip { send_file StatementsToFile.new(@year_end_closing).write }
     end
   end
