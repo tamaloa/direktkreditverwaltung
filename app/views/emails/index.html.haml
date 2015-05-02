@@ -33,7 +33,7 @@
         = 'Alle E-Mails senden'
       %p
         Erst möglich 1 Stunde nach dem letzten Versand der Test Email
-        = "(noch #{distance_of_time_in_words_to_now(@mail_template.test_mail_sent_at)} warten)" if @mail_template.test_mail_sent_at.present?
+        = "(noch #{distance_of_time_in_words_to_now(@mail_template.test_mail_sent_at + 1.hour)} warten)" if @mail_template.test_mail_sent_at.present?
 
 
     %h3 Verschickte E-Mails
