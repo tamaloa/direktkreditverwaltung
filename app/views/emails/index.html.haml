@@ -27,7 +27,8 @@
     %br
     - if @mail_template.test_mail_sent?
       .btn.btn-warning
-        = link_to 'Alle E-Mails senden', send_emails_year_end_closing_path(@year)
+        = link_to 'Alle E-Mails senden', send_emails_year_end_closing_path(@year),
+          confirm: "ACHTUNG: Das Aussenden der Mails kann bis zu 30 minuten dauern. Auf KEINEN Fall nochmal klicken, F5 drücken etc.!"
     - else
       .btn.btn-default
         = 'Alle E-Mails senden'
