@@ -9,8 +9,8 @@ class MailTemplate < ActiveRecord::Base
 
 
   def set_defaults
-    self.subject = "Kontomitteilung Direktkredit Zolle GmbH #{year}"
-    self.content = "Hallo @geber_in@,
+    self.subject ||= "Kontomitteilung Direktkredit Zolle GmbH #{year}"
+    self.content ||= "Hallo @geber_in@,
 
 wir haben unseren Jahresabschluss gemacht und die Zinsberechnungen deines Kredits abgeschlossen. Anbei senden wir dir den aktuellen Kontoauszug als PDF, wenn du diesen auf dem Postweg benötigst, kannst du uns ein kurzes Feedback geben.
 
