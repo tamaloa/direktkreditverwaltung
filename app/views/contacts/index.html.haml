@@ -1,0 +1,39 @@
+%h1 Übersicht Kontakte
+
+.btn.btn-info
+  = link_to 'Neue Direktkredit Geber_in anlegen', new_contact_path
+
+%br
+%br
+
+%table.table
+  %tr
+    %th Name
+    %th Vorname
+    %th Adresse
+    %th E-Mail
+    %th Telefon
+    %th Kontonummer
+    %th BLZ
+    %th Bankname
+    %th Bemerkung
+    %th 
+    %th 
+    %th 
+    %th
+
+  - @contacts.each do |contact|
+    %tr
+      %td= contact.name
+      %td= contact.prename
+      %td= contact.address
+      %td= contact.email
+      %td= contact.phone
+      %td= contact.account_number
+      %td= contact.bank_number
+      %td= contact.bank_name
+      %td= contact.remark
+      %td= link_to 'Anzeigen', contact
+      %td= link_to 'Editieren', edit_contact_path(contact)
+      %td= link_to 'Löschen', contact, method: :delete, data: { confirm: 'Sicher?' }
+      %td= link_to 'Vertrag erstellen', new_contact_contract_path(contact)

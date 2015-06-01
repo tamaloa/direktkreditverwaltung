@@ -1,0 +1,59 @@
+%h1 Direkkreditverwaltung
+
+.row
+  .col-md-6
+    %h3 Verträge erstellen und Ein/Auszahlungen
+
+    %p
+      Um einen Vertrag zu erstellen muss man zunächst den/die Direktkredit Geber_in erstellen
+      bzw. falls es ein zweiter Vertrag ist die Person in der Liste der Direktkredit Geber_innen suchen.
+      %ul
+        %li= link_to 'Liste der Direktkredit Geber_innen', contacts_path
+        %li Neue Direktkredit Geber_in anlegen (blauer Button auf obiger Liste)
+      Der neue Vertrag kann erstellt werden wenn die Person existiert. Dazu dient der "Vertrag erstellen" Link
+      rechts neben den Kontakt Details auf der Liste der Direktkredit Geber_innen (siehe oben).
+
+    %p
+      Nachdem der Vertrag erstellt wurde bzw. bei vorhandenen Verträgen findet man diese in der Liste der
+      Direktkreditverträge. Dort kann man rechts vom Direktkredit verschiedene Aktionen durchführen. Nachdem das Geld
+      für den Direktkredit auf das eigene Konto überwiesen wurde wird es auf den Direktkredit gebucht. Dazu die Aktion
+      "Buchung erstellen" durchführen und als Datum das Überweisungsdatum eintragen.
+      %ul
+        %li= link_to "Liste der Direktkreditverträge", contracts_path
+        %li Aktion "Buchung erstellen" (Einzahlungen und Auszahlungen)
+        %li Aktion "Vertragsversion erstellen" (Änderungen des Zinssatzes und der Laufzeiten etc.)
+        %li Aktion "Kündigen" (berechnet zum Tag der Kündigung die bis dahin anfallenden Zinsen)
+        %li Aktion "Buchungsübersicht" (alle Ein/Auszahlungen und Zinsen des Kredits)
+
+    %p
+      Zur Kontrolle und Übersicht kann man auch jederzeit die Liste aller durchgeführten Buchungen kontrollieren.
+      %ul
+        %li= link_to "Alle Buchungen ", accounting_entries_path
+
+
+  .col-md6
+
+    %h3 Jahresabschluß
+
+    %p
+      Um jedes Jahr die Kontoauszüge mit den Zinsen zu erstellen und zu verschicken müssen zunächst natürlich
+      alle Buchungen erfasst werden. Anschließend kann man unter "Jahresabschluss" den Abschluß für das gerade vergangene
+      Jahr durchführen (sicherheitshalber erst ab dem 1.1. des Nachfolgejahres). Mit dem blauen Button kann man sich dann
+      den aktuellen Abschluss anschauen. Die Übersichtstabelle fasst alle in dem Jahr gültigen Verträge zusammen.
+      Nachdem man diese Liste nochmal kontrolliert hat kann man mit dem orangen Button "Kontoauszüge verschicken"
+      die Jahreabschlüsse per E-Mail verschicken. Dazu kann man die E-Mail anpassen und den jährlichen Newsletter anhängen.
+      Sicherheitshalber kann man erst nach dem verschicken einer Test-Mail und 24h Wartezeit alle Kontoauszüge verschicken.
+      Die Geber_innen die keine E-Mail haben müssen die Auszüge per Post bekommen und sind seperat gelistet.
+      Um die Kontoauszüge zu archivieren gibt es auf der Übersichtsseite noch den zweiten blauen Button
+      "Alle Auszüge in ZIP-Datei" womit man die Kontoauszüge gesammelt herunterladen kann.
+      %ul
+        %li= link_to "Jahresabschluss", year_end_closings_path
+
+
+    %h3 Grundlegende Einstellungen
+
+    %p
+      Unter "Einstellungen" können die Stammdaten (Name des Hausprojektes, Kontonummern, Kontaktpersonen etc.)
+      geändert werden
+      %ul
+        %li= link_to "Einstellungen", edit_company_path(@company)
