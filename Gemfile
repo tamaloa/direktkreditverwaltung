@@ -20,6 +20,7 @@ gem 'days360'
 group :development do
   gem 'better_errors'         # Nicer exception pages in development
   gem 'binding_of_caller'     # Used for better errors
+  gem 'sqlite3'
 end
 
 group :test do
