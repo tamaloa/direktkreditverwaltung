@@ -34,7 +34,7 @@ Import von:
     * `$ rake import:contracts[/path/to/csv_file.csv]`
     * Kontakte und DK-Verträge werden verlinkt wenn den DK-Verträgen Namen zugeordnet sind
 * Buchungseinträgen möglich
-    * `rake import:accounting_entries[/path/to/csv_file.csv]`
+    * `$ rake import:accounting_entries[/path/to/csv_file.csv]`
 
 (benötigtes Format der csv-Dateien ist in lib/tasks/import.rake beschrieben)
 
@@ -82,6 +82,12 @@ Import von:
 
 * postgres (install e.g. on osx via homebrew: `$ brew install postgresql`)
 * you may want to use rvm (https://rvm.io) to manage your ruby versions and gemset
+
+### Tests
+
+1. `$ rake db:migrate`
+2. `$ rake db:test:prepare`
+3. `$ cucumber`
 
 ### API docs
 

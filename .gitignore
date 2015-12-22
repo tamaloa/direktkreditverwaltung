@@ -16,6 +16,7 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+/doc/app
 
 # Ignore all uploaded files
 public/system/*
