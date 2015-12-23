@@ -12,10 +12,20 @@
   <% end %>
 
   <% last_version = @contract.last_version || @new_contract_dummy %><br/>
-  <div class="field">
-    <%= f.label "Nummer" %><br />
-    <%= f.number_field :number %>
-  </div>
+
+  <% if SETTINGS[:contract_number_type] && 
+        SETTINGS[:contract_number_type] == "string" %>
+    <div class="field">
+      <%= f.label "Nummer (string)" %><br />
+      <%= f.text_field :number_string %>
+    </div>
+  <% else %>
+    <div class="field">
+      <%= f.label "Nummer" %><br />
+      <%= f.number_field :number %>
+    </div>
+  <% end %>
+
   <div class="field">
     <%= f.label :name,  "Sollen die Zinsen jährlich dem Konto gut geschrieben werden. Wenn ja dann Haken setzen." %><br />
     <%= f.check_box :add_interest_to_deposit_annually %>
@@ -34,7 +44,7 @@
     <%= number_field_tag :last_version_duration_years, last_version.duration_years%>
   </div>
   <div class="field">
-    <%= f.label :name,  "Zinssatz (letzte Version)" %><br />
+    <%= f.label :name,  "Zinssatz (letzte Version), Format: 0.0XX" %><br />
     <%= text_field_tag :last_version_interest_rate, last_version.interest_rate %>
   </div>
   <div class="field">

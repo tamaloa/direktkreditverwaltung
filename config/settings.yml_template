@@ -1,1 +1,2 @@
 interest_calculation_method: "30E_360" #one of: "act_act" "30E_360", defaults to "30E_360"
+contract_number_type: "string" # one of: "string" | "integer", defaults to integer
