@@ -18,6 +18,8 @@
 /tmp
 /doc/app
 
+.byebug_history
+
 # Ignore all uploaded files
 public/system/*
 

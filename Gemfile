@@ -21,6 +21,7 @@ group :development do
   gem 'better_errors'         # Nicer exception pages in development
   gem 'binding_of_caller'     # Used for better errors
   gem 'sqlite3'
+  gem 'byebug'
 end
 
 group :test do
