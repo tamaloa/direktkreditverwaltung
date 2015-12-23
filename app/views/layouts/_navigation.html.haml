@@ -7,7 +7,9 @@
     %li= link_to "Direktkreditverträge", contracts_path
     %li= link_to "Buchungen", accounting_entries_path
     %li= link_to "Jahresabschluss", year_end_closings_path
-    %li= link_to "Einstellungen", edit_company_path(@company)
+
+    %li= link_to "Einstellungen", companies_path
+
     %li.dropdown
       %a.dropdown-toggle{:href => "#", "data-toggle" => "dropdown"}
         Auswertungen
