@@ -31,7 +31,8 @@ class ContractsController < ApplicationController
                           {:start => Date.today,
                            :duration_years => "",
                            :duration_months => "",
-                           :interest_rate => ""})
+                           :interest_rate => "",
+                           :notice_perdiod => ""})
 
     respond_to do |format|
       format.html # new.html.erb
@@ -60,6 +61,7 @@ class ContractsController < ApplicationController
     last_version.duration_months = params[:last_version_duration_months]
     last_version.duration_years = params[:last_version_duration_years]
     last_version.interest_rate = params[:last_version_interest_rate]
+    last_version.notice_period = params[:last_version_notice_period]
     last_version.save
 
     respond_to do |format|
@@ -85,6 +87,7 @@ class ContractsController < ApplicationController
     last_version.duration_months = params[:last_version_duration_months]
     last_version.duration_years = params[:last_version_duration_years]
     last_version.interest_rate = params[:last_version_interest_rate]
+    last_version.notice_period = params[:last_version_notice_period]
     last_version.save
 
     respond_to do |format|
@@ -176,9 +179,9 @@ class ContractsController < ApplicationController
   end
 
   # GET /contracts/expiring
-  def expiring
+  def expiring # XXX - wo wird das verwendet?!
     contracts_with_duration = Contract.all.select{ |c| c.last_version.duration_months ||
-                                                    c.last_version.duration_years }
+                                                       c.last_version.duration_years }
 
     contracts_with_duration.each do |contract|
       last_version = contract.last_version

@@ -6,6 +6,7 @@ Start, Laufzeit und Zinssatz sind aus der letzten Version des Vertrags.
     %th Kontakt
     %th Kontostand
     %th Start
+    %th Kündigungsfrist (in Monaten)
     %th Laufzeit
     %th Zinssatz
     %th Typ
@@ -19,6 +20,7 @@ Start, Laufzeit und Zinssatz sind aus der letzten Version des Vertrags.
       %td= contact_long(contract.contact)
       %td= currency(contract.balance)
       %td= contract.last_version.start
+      %td= contract.last_version.notice_period
       %td= run_time(contract)
       %td= fraction(contract.last_version.interest_rate)
       %td= contract.category

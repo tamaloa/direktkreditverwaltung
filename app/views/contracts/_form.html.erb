@@ -35,6 +35,11 @@
     <%= date_select("last_version_start", "", :default => last_version.start.to_date) %>
   </div>
   <div class="field">
+    <%= f.label :name, "Kündigungsfrist in Monaten (letzte Version)" %><br />
+    <%= number_field_tag :last_version_notice_period, last_version.notice_period %>
+  </div>
+  <div class="field">
+    <%= f.label :name, " * ODER * " %><br />
     <%= f.label :name, "Laufzeit in Monaten (letzte Version)" %><br />
     <%= number_field_tag :last_version_duration_months, last_version.duration_months %>
   </div>

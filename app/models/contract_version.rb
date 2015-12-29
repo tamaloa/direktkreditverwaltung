@@ -1,6 +1,11 @@
 class ContractVersion < ActiveRecord::Base
   belongs_to :contract
-  attr_accessible :duration_months, :duration_years, :interest_rate, :start, :version
+  attr_accessible :duration_months, 
+                  :duration_years, 
+                  :notice_period, 
+                  :interest_rate, 
+                  :start, 
+                  :version
 
   validates_presence_of :interest_rate, :start, :version
 
