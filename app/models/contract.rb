@@ -19,7 +19,8 @@ class Contract < ActiveRecord::Base
 
   def number
     if SETTINGS[:contract_number_type] && 
-       SETTINGS[:contract_number_type] == "string"
+       SETTINGS[:contract_number_type] == "string" &&
+       read_attribute(:number_string) != nil
       read_attribute(:number_string)
     else
       read_attribute(:number)
