@@ -38,3 +38,5 @@ public/system/*
 .ruby-gemset
 
 # editor/ide specific files should be ignored via ~/.gitignore
+*.sublime-project
+*.sublime-workspace
