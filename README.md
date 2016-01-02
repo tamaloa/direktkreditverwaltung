@@ -79,12 +79,15 @@ contract_number_type: "string" # one of: "string" | "integer", defaults to integ
 3. `$ gem install bundler`
 4. `$ bundle install` (you may `$ bundle update` to avoid problems installing `libv8`)
 
-5. `$ cp config/database.example.yml config/database.yml` and edit according to your needs
-6. migrate db: `$ rake db:migrate`
+5. create database config, e.g. `$ cp config/database.yml_template_<db_of_your_choice> config/database.yml` and edit according to your needs
+6. setup db: `$ rake db:setup`
+7. migrate db: `$ rake db:migrate`
 
-7. start the app: `$ rails server` -> the app is now available on http://localhost:3000
+8. start the app: `$ rails server` -> the app is now available on http://localhost:3000
 
-8. optional: `$ cp config/settings.yml_template config/settings.yml` and edit according to your needs
+9. optional: `$ cp config/settings.yml_template config/settings.yml` and edit according to your needs
+
+10. optional: `$ rake db:seed` to load default content into db
 
 
 #### Prerequisits
