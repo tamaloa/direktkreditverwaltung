@@ -34,4 +34,7 @@ Direktkreditverwaltung::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  # See everything in the log (default is :info)
+  config.log_level = :debug
 end
