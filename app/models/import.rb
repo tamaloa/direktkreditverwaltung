@@ -30,7 +30,7 @@ class Import
 
   ##
   # Headers:
-  # category	number	prename	 name	amount	interest  start
+  # category, number, prename, name, amount, interest, start, notice_period
   def self.contracts(file)
     CSV.foreach(file, :headers => true) do |row|
       data = cleaned_row(row)
@@ -47,7 +47,13 @@ class Import
         Rails.logger.warn "<Import::contracts> Contract with number '#{data[:number]}' already exists. Skipped importing data entry: #{data}"
         next
       end
-      contract = Contract.create_with_balance!(data[:number], data[:amount], interest, start)
+
+      last_version_data = {
+        :notice_period => data[:notice_period] && data[:notice_period] != "" ? data[:notice_period].to_i : nil,
+        :duration_month => data[:duration_month] ? data[:duration_month].to_i : nil
+      }
+
+      contract = Contract.create_with_balance!(data[:number], data[:amount], interest, start, last_version_data)
       contract.comment = data[:comment] if data[:comment]
       contract.category = data[:category] if data[:category]
       contract.save
