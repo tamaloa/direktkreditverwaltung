@@ -70,6 +70,11 @@ contract_number_type: "string" # one of: "string" | "integer", defaults to integ
 
 ## Development
 
+### Prerequisits
+
+* postgres (install e.g. on osx via homebrew: `$ brew install postgresql`; linux `apt-get install postgresql libpq-dev`)
+* you may want to use rvm (https://rvm.io) to manage your ruby versions and gemset
+
 ### Installation
 
 1. git clone repo and cd into repo
@@ -90,10 +95,6 @@ contract_number_type: "string" # one of: "string" | "integer", defaults to integ
 10. optional: `$ rake db:seed` to load default content into db
 
 
-#### Prerequisits
-
-* postgres (install e.g. on osx via homebrew: `$ brew install postgresql`)
-* you may want to use rvm (https://rvm.io) to manage your ruby versions and gemset
 
 ### Tests
 
