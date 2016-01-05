@@ -1,3 +1,5 @@
+require 'date'
+
 class InterestCalculation
   attr_reader :contract, :from, :till
 
@@ -33,7 +35,7 @@ class InterestCalculation
       till = rate_and_date[:end].to_date
       account_movements_with_initial_balance(from, till).each do |movement|
         interest = interest_for(movement[:amount], rate, movement[:date], till)
-        result << movement.merge( {interest_rate: rate, interest: interest, days_left_in_year: days360(movement[:date], till)})
+        result << movement.merge( {interest_rate: rate, interest: interest, days_left_in_year: days360(movement[:date], till)}) # XXX TODO act_act
       end
     end
     result
@@ -50,10 +52,25 @@ class InterestCalculation
   end
 
   def interest_for(amount, interest_rate, from, till)
-    days_in_one_year = 360
-    total_days = (till.year - from.year + 1) * days_in_one_year
-    interest_days = days360(from, till)
+    # XXX TODO: check settings if act_act or 360days
+    if SETTINGS[:interest_calculation_method] && SETTINGS[:interest_calculation_method] == "act_act"
+      # XXX TODO calculate interest_days and total_days
+      #     1. calculate actual days from and till, here: total_days)
+      #     2. calculate actual days of interest (from actual credit start), here: intereset_days
+      if from.year == till.year
+        total_days = Date.new(from.year,12,31).yday
+      else
+        total_days = Date.new(from.year,12,31).yday + Date.new(till.year,12,13).yday
+      end
+      interest_days = till - from
+      puts "---> ACT-ACT: #{total_days}, #{interest_days.inspect}, from: #{from.inspect}, till: #{till.inspect}"
+    else
+      days_in_one_year = 360
+      total_days = (till.year - from.year + 1) * days_in_one_year
+      interest_days = days360(from, till)
+    end
     fraction = 1.0 * interest_days / total_days
+
     interest = (amount * fraction * interest_rate).round(2)
     interest
   end
