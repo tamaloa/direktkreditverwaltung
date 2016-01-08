@@ -5,6 +5,7 @@ class ContractVersion < ActiveRecord::Base
                   :notice_period, 
                   :interest_rate, 
                   :start, 
+                  :end_date,
                   :version
 
   validates_presence_of :interest_rate, :start, :version
@@ -15,10 +16,14 @@ class ContractVersion < ActiveRecord::Base
     write_attribute(:interest_rate, interest)
   end
 
-  def end_date
-    end_date = start
-    end_date = end_date >> duration_months.to_i
-    end_date = end_date >> (duration_years.to_i * 12)
-    end_date
+  def calculate_end_date
+    if end_date
+      date = end_date
+    else
+      date = start
+      date = date >> duration_months.to_i
+      date = date >> (duration_years.to_i * 12)
+    end
+    date
   end
 end

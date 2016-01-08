@@ -31,6 +31,7 @@ class ContractsController < ApplicationController
                           {:start => Date.today,
                            :duration_years => "",
                            :duration_months => "",
+                           :end_date => nil,
                            :interest_rate => "",
                            :notice_perdiod => ""})
 
@@ -54,14 +55,7 @@ class ContractsController < ApplicationController
     last_version = ContractVersion.new
     last_version.version = 1
     last_version.contract_id = @contract.id
-    new_start = params[:last_version_start]
-    last_version.start = Date.new(new_start["(1i)"].to_i, 
-                                  new_start["(2i)"].to_i, 
-                                  new_start["(3i)"].to_i)
-    last_version.duration_months = params[:last_version_duration_months]
-    last_version.duration_years = params[:last_version_duration_years]
-    last_version.interest_rate = params[:last_version_interest_rate]
-    last_version.notice_period = params[:last_version_notice_period]
+    prepare_last_version(last_version, params)
     last_version.save
 
     respond_to do |format|
@@ -80,14 +74,7 @@ class ContractsController < ApplicationController
   def update
     @contract = Contract.find(params[:id])
     last_version = @contract.last_version
-    new_start = params[:last_version_start]
-    last_version.start = Date.new(new_start["(1i)"].to_i, 
-                                  new_start["(2i)"].to_i, 
-                                  new_start["(3i)"].to_i)
-    last_version.duration_months = params[:last_version_duration_months]
-    last_version.duration_years = params[:last_version_duration_years]
-    last_version.interest_rate = params[:last_version_interest_rate]
-    last_version.notice_period = params[:last_version_notice_period]
+    prepare_last_version(last_version, params)
     last_version.save
 
     respond_to do |format|
@@ -99,6 +86,27 @@ class ContractsController < ApplicationController
         format.json { render json: @contract.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def prepare_last_version(contract_version, params)
+    new_start = params[:last_version_start]
+    contract_version.start = Date.new(new_start["(1i)"].to_i, 
+                                  new_start["(2i)"].to_i, 
+                                  new_start["(3i)"].to_i)
+    
+    new_end = params[:last_version_end_date]
+    if new_end["(1i)"].eql?("") || new_end["(2i)"].eql?("") || new_end["(3i)"].eql?("")
+      contract_version.end_date = nil
+    else
+      contract_version.end_date = Date.new(new_end["(1i)"].to_i, 
+                                           new_end["(2i)"].to_i, 
+                                           new_end["(3i)"].to_i)
+    end
+    
+    contract_version.duration_months = params[:last_version_duration_months]
+    contract_version.duration_years = params[:last_version_duration_years]
+    contract_version.interest_rate = params[:last_version_interest_rate]
+    contract_version.notice_period = params[:last_version_notice_period]
   end
 
   # DELETE /contracts/1
@@ -180,6 +188,8 @@ class ContractsController < ApplicationController
 
   # GET /contracts/expiring
   def expiring # XXX - wo wird das verwendet?!
+    # XXX TODO: mind end_date!!!
+
     contracts_with_duration = Contract.all.select{ |c| c.last_version.duration_months ||
                                                        c.last_version.duration_years }
 

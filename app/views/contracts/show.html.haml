@@ -21,6 +21,9 @@
       %b Laufzeit:
       = run_time(@contract)
     %p
+      %b Enddatum:
+      = @contract.last_version.end_date
+    %p
       %b Zinssatz:
       = fraction(@contract.last_version.interest_rate)
     %p

@@ -20,8 +20,19 @@
     <%= f.date_select :start, {:include_blank => true, :default => nil} %>
   </div>
   <div class="field">
+    <%= f.label "Zinssatz" %><br />
+    <%= f.text_field :interest_rate %>
+  </div>
+  <h3>Laufzeit</h3>
+  <h4>Unbefristeter Kredit</h4>
+  <div class="field">
     <%= f.label :name, "Kündigungsfrist (in Monaten)" %><br />
-    <%= number_field_tag :last_version_notice_period %>
+    <%= number_field_tag :notice_period %>
+  </div>
+  <h4>Befristeter Kredit (verschiedene Angaben möglich)</h4>
+  <div class="field">
+    <%= f.label :end_date %><br />
+    <%= f.date_select :end_date, {:include_blank => true, :default => nil} %>
   </div>
   <div class="field">
     <%= f.label :name, " * ODER * " %><br />
@@ -32,10 +43,6 @@
     <%= f.label :name, " * ODER * " %><br />
     <%= f.label :name, "Laufzeit in Jahren" %><br />
     <%= f.number_field :duration_years %>
-  </div>
-  <div class="field">
-    <%= f.label "Zinssatz" %><br />
-    <%= f.text_field :interest_rate %>
   </div>
   <div class="actions">
     <%= f.submit "Fertig" %>

@@ -35,23 +35,31 @@
     <%= date_select("last_version_start", "", :default => last_version.start.to_date) %>
   </div>
   <div class="field">
+    <%= f.label :name,  "Zinssatz (letzte Version), Format: 0.0XX" %><br />
+    <%= text_field_tag :last_version_interest_rate, last_version.interest_rate %>
+  </div>
+  <h3>Laufzeit</h3>
+  <h4>Unbefristeter Kredit</h4>
+  <div class="field">
     <%= f.label :name, "Kündigungsfrist in Monaten (letzte Version)" %><br />
     <%= number_field_tag :last_version_notice_period, last_version.notice_period %>
   </div>
+  <h4>Befristeter Kredit (verschiedene Angaben möglich)</h4>
+  <div class="field">
+    <%= f.label :name, "A) Enddatum (letzte Version)  #{last_version.end_date.to_date.inspect}" %><br />
+    <%= date_select("last_version_end_date", "", {:default => last_version.end_date.to_date, :include_blank => last_version.end_date.nil?, :end_year => Date.today.year + 10}) %>
+  </div>
   <div class="field">
     <%= f.label :name, " * ODER * " %><br />
-    <%= f.label :name, "Laufzeit in Monaten (letzte Version)" %><br />
+    <%= f.label :name, "B) Laufzeit in Monaten (letzte Version)" %><br />
     <%= number_field_tag :last_version_duration_months, last_version.duration_months %>
   </div>
   <div class="field">
     <%= f.label :name, " * ODER * " %><br />
-    <%= f.label :name, "Laufzeit in Jahren (letzte Version)" %><br />
+    <%= f.label :name, "C) Laufzeit in Jahren (letzte Version)" %><br />
     <%= number_field_tag :last_version_duration_years, last_version.duration_years %>
   </div>
-  <div class="field">
-    <%= f.label :name,  "Zinssatz (letzte Version), Format: 0.0XX" %><br />
-    <%= text_field_tag :last_version_interest_rate, last_version.interest_rate %>
-  </div>
+  <h3>Sonstiges</h3>
   <div class="field">
     <%= f.label :name, "Kategorie (Privat, Syndikat, Dritte)" %><br />
     <%= f.text_field :category %>

@@ -8,9 +8,9 @@ Die Angaben von Start, Laufzeit und Zinssatz beziehen sich auf die letzte Versio
     <th>Nummer</th>
     <th>Kontakt</th>
     <th>Start</th>
+    <th>Zinssatz</th>
     <th>Laufzeit in Monaten</th>
     <th>Laufzeit in Jahren</th>
-    <th>Zinssatz</th>
     <th></th>
   </tr>
 
@@ -21,9 +21,9 @@ Die Angaben von Start, Laufzeit und Zinssatz beziehen sich auf die letzte Versio
     <td><%= contract.number %></td>
     <td><%= "#{contract.contact.try(:prename)} #{contract.contact.try(:name)}" %></td>
     <td><%= last_version.start %></td>
+    <td><%= fraction(last_version.interest_rate) %></td>
     <td><%= last_version.duration_months %></td>
     <td><%= last_version.duration_years %></td>
-    <td><%= fraction(last_version.interest_rate) %></td>
     <td><%= link_to 'Anzeigen', contract %></td>
   </tr>
 <% end %>
