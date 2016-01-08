@@ -14,7 +14,7 @@ module ContractsHelper
     end_date = contract.last_version.end_date
     return "#{months} months" unless months.blank?
     return "#{years} years" unless years.blank?
-    return "#{end_date.to_s}" unless end_date
+    return "#{end_date.to_s}" unless end_date.blank?
     "unknown"
   end
 
