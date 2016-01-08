@@ -46,8 +46,8 @@
   </div>
   <h4>Befristeter Kredit (verschiedene Angaben möglich)</h4>
   <div class="field">
-    <%= f.label :name, "A) Enddatum (letzte Version)  #{last_version.end_date.to_date.inspect}" %><br />
-    <%= date_select("last_version_end_date", "", {:default => last_version.end_date.to_date, :include_blank => last_version.end_date.nil?, :end_year => Date.today.year + 10}) %>
+    <%= f.label :name, "A) Enddatum (letzte Version)" %><br />
+    <%= date_select("last_version_end_date", "", {:include_blank => last_version.end_date.nil?, :default => last_version.end_date, :end_year => Date.today.year + 10}) %>
   </div>
   <div class="field">
     <%= f.label :name, " * ODER * " %><br />
