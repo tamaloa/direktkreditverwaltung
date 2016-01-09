@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20160105190305) do
+ActiveRecord::Schema.define(:version => 20160109183956) do
 
   create_table "accounting_entries", :force => true do |t|
     t.date     "date"
@@ -73,7 +73,7 @@ ActiveRecord::Schema.define(:version => 20160105190305) do
   add_index "contract_versions", ["contract_id"], :name => "index_contract_versions_on_contract_id"
 
   create_table "contracts", :force => true do |t|
-    t.integer  "number"
+    t.string   "number"
     t.integer  "contact_id"
     t.datetime "created_at",                                         :null => false
     t.datetime "updated_at",                                         :null => false
