@@ -4,7 +4,8 @@
     <th>Nummer</th>
     <th>Kontakt</th>
     <th>Restlaufzeit in Monaten</th>
-    <th>Betrag</th>
+    <th>Laufzeit</th>
+    <th>Kontostand</th>
   </tr>
 
 <% @some_contracts.each do |contract| %>
@@ -13,6 +14,7 @@
     <td><%= contract.number %></td>
     <td><%= "#{contract.contact.try(:prename)} #{contract.contact.try(:name)}" %></td>
     <td><%= contract.remaining_months %></td>
+    <td><%= contract.last_version.calculate_end_date %></td>
     <td><%= currency(balance) %></td>
   </tr>
   <% sum += balance %>

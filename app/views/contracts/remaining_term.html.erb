@@ -1,9 +1,10 @@
 <h1>Übersicht Direktkreditverträge, sortiert nach Restlaufzeit</h1>
 
-Die Ergebnisse dieser Auswertung werden in der Offenlegung im E-Bundesanzeiger verwendet.
+In dieser Anzeige werden nur Verträge mit existierenden Buchungen berücksichtigt. </br>
+Die Ergebnisse dieser Auswertung werden in der Offenlegung im E-Bundesanzeiger verwendet.</br></br>
 
 
-Wähle das Jahr der Offenlegung (Stichtag 31.12.)
+Wähle das Jahr der Offenlegung (Stichtag 31.12.):
 <%= form_tag("/contracts/remaining_term", :method => "get") do %>
   <% year = Date.current.year %>
   <%= select_tag :year, options_for_select(((year-10)..year).to_a, @year) %> 
@@ -12,18 +13,14 @@ Wähle das Jahr der Offenlegung (Stichtag 31.12.)
 
 <% @date = Date.new(@year, 12, 31) %>
 
-<h3>Restlaufzeit mehr als fünf Jahre zum <%= @date %></h3>
-<% @some_contracts = @contracts.select { |c| c.remaining_months > (12*5) } %>
+<h3>Restlaufzeit bis zu einem Jahr zum <%= @date %></h3>
+<% @some_contracts = @contracts.select { |c| c.remaining_months <= 12 } %>
 <%= render 'remaining_snippet' %>
 
 <h3>Restlaufzeit zwischen einem und fünf Jahren zum <%= @date %></h3>
 <% @some_contracts = @contracts.select { |c| c.remaining_months <= (12*5) && c.remaining_months > 12 } %>
 <%= render 'remaining_snippet' %>
 
-<h3>Restlaufzeit bis zu einem Jahr zum <%= @date %></h3>
-<% @some_contracts = @contracts.select { |c| c.remaining_months <= 12 } %>
+<h3>Restlaufzeit mehr als fünf Jahre zum <%= @date %></h3>
+<% @some_contracts = @contracts.select { |c| c.remaining_months > (12*5) } %>
 <%= render 'remaining_snippet' %>
-
-
-
-
