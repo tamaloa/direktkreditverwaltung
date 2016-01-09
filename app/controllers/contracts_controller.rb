@@ -187,19 +187,24 @@ class ContractsController < ApplicationController
   end
 
   # GET /contracts/expiring
-  def expiring # XXX - wo wird das verwendet?!
-    # XXX TODO: mind end_date!!!
-
+  def expiring
+    # get all contracts with specified duration and determine expiring date
     contracts_with_duration = Contract.all.select{ |c| c.last_version.duration_months ||
                                                        c.last_version.duration_years }
-
     contracts_with_duration.each do |contract|
       last_version = contract.last_version
       duration_in_month = last_version.duration_months || last_version.duration_years * 12
       contract.expiring = duration_in_month.months.since(last_version.start)
     end
 
-    @contracts = contracts_with_duration.sort_by(&:expiring)
+    # get alle contracts with specified end_date and set expiring date
+    contracts_with_end_date = Contract.all.select{ |c| c.last_version.end_date }
+    contracts_with_end_date.each do |contract|
+      contract.expiring = contract.last_version.end_date
+    end
+
+    # merge both
+    @contracts = (contracts_with_duration.concat(contracts_with_end_date)).sort_by(&:expiring)
 
     respond_to do |format|
       format.html # expiring.html.erb
@@ -211,6 +216,7 @@ class ContractsController < ApplicationController
   def remaining_term
     params[:year] ||= DateTime.now.year
     @year = params[:year].to_i
+    # mind only contracts with account_entries
     @contracts = Contract.all_with_remaining_month(@year)
     respond_to do |format|
       format.html # remaining_term.html.erb
