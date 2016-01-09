@@ -42,7 +42,7 @@ class Import
       start = Date.parse(data[:start]) if data[:start]
       start = Time.now.to_date unless start.is_a?(Date)
 
-      existing_contract = Contract.find_by_number(data[:number]) || Contract.find_by_number_string(data[:number])
+      existing_contract = Contract.find_by_number(data[:number])
       if existing_contract
         Rails.logger.warn "<Import::contracts> Contract with number '#{data[:number]}' already exists. Skipped importing data entry: #{data}"
         next
