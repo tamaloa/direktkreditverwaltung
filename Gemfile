@@ -28,6 +28,7 @@ group :test do
   gem 'cucumber'
   gem 'cucumber-rails', :require => false
   # database_cleaner is not required, but highly recommended
+  gem "launchy", "~> 2.1.2"
   gem 'database_cleaner'
   gem 'timecop'
   gem 'test-unit'
