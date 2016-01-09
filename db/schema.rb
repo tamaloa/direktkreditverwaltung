@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20160105190305) do
+ActiveRecord::Schema.define(:version => 20160109203933) do
 
   create_table "accounting_entries", :force => true do |t|
     t.date     "date"
@@ -73,7 +73,7 @@ ActiveRecord::Schema.define(:version => 20160105190305) do
   add_index "contract_versions", ["contract_id"], :name => "index_contract_versions_on_contract_id"
 
   create_table "contracts", :force => true do |t|
-    t.integer  "number"
+    t.string   "number"
     t.integer  "contact_id"
     t.datetime "created_at",                                         :null => false
     t.datetime "updated_at",                                         :null => false
@@ -81,7 +81,6 @@ ActiveRecord::Schema.define(:version => 20160105190305) do
     t.string   "category"
     t.boolean  "add_interest_to_deposit_annually", :default => true
     t.date     "terminated_at"
-    t.string   "number_string"
   end
 
   add_index "contracts", ["contact_id"], :name => "index_contracts_on_contact_id"
