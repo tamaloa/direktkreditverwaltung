@@ -1,5 +1,7 @@
+
 # Direktkreditverwaltung
 [![Build Status](https://travis-ci.org/pamuche/direktkreditverwaltung.svg?branch=master)](https://travis-ci.org/pamuche/direktkreditverwaltung)
+[![Stories in Ready](https://badge.waffle.io/pamuche/direktkreditverwaltung.png?label=ready&title=Ready)](https://waffle.io/pamuche/direktkreditverwaltung)
 
 Nach Erfordernissen eines Mietshäuser Syndikat Projekts.
 
