@@ -7,7 +7,7 @@ def create_contact
 end
 
 def create_contract
-  @contract ||= { :number => 12, :interest => 0.03, :start => Time.now, :duration => 5}
+  @contract ||= { :number => "12", :interest => 0.03, :start => Time.now, :duration => 5}
   visit new_contact_contract_path(Contact.find_by_email(@contact[:email]))
   fill_in "contract_number", :with => @contract[:number]
   #date will be set to now (let's just ignore it for now)
@@ -91,7 +91,7 @@ And(/^There exists a contract with payments$/) do
 end
 
 And(/^There exists an anonymous contract with payments$/) do
-  @contract = Contract.create_with_balance!(1032, 3000.00, 0.03)
+  @contract = Contract.create_with_balance!("1032", 3000.00, 0.03)
   create_accounting_entry
 end
 
