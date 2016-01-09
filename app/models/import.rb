@@ -50,7 +50,7 @@ class Import
 
       last_version_data = {
         :notice_period => data[:notice_period] && data[:notice_period] != "" ? data[:notice_period].to_i : nil,
-        :duration_month => data[:duration_month] ? data[:duration_month].to_i : nil
+        :duration_months => data[:duration_month] ? data[:duration_month].to_i : nil
       }
 
       contract = Contract.create_with_balance!(data[:number], data[:amount], interest, start, last_version_data)
