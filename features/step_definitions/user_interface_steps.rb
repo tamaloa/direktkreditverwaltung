@@ -105,8 +105,7 @@ Then(/^I should see the account movements$/) do
 end
 
 Then(/^I should see the interest statement$/) do
-  assert page.has_content?("Direktkreditvertrag Nr. #{@contract[:number]}, #{@contact[:name] if @contact}")
-
+  assert page.has_content?("Direktkreditvertrag Nr. #{@contract.number}, #{@contact.name if @contact}")
   contract = find_contract
   interest, interest_calculation = contract.interest #This is soo in need of refactoring
   assert page.has_content?(currency(interest))
@@ -129,11 +128,11 @@ When(/^I look at the expiring contracts page$/) do
 end
 
 Then(/^I should see the contract$/) do
-  assert page.has_content?(@contract[:number])
+  assert page.has_content?(@contract.number)
 end
 
 Then(/^I should not see the contract$/) do
-  refute page.has_content?(@contract[:number])
+  refute page.has_content?(@contract.number)
 end
 
 

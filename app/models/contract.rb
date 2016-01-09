@@ -57,7 +57,7 @@ class Contract < ActiveRecord::Base
   def version_of date
     versions = contract_versions.where("start <= ?", date).order('start').reverse
     versions.each do |v|
-      return v if v.end_date > date
+      return v if v.calculate_end_date > date
     end
     logger.warn "contract '#{id}' has no version for this request" 
     return last_version
@@ -103,7 +103,7 @@ class Contract < ActiveRecord::Base
     contracts = Contract.all
     contracts.each do |c|
       version = c.version_of(date)
-      c.remaining_months = ((version.end_date - date).to_i/30.5).to_i
+      c.remaining_months = ((version.calculate_end_date - date).to_i/30.5).to_i
       non_zero << c if c.balance(date) > 0
     end
     non_zero.sort_by { |c| c.remaining_months }.reverse

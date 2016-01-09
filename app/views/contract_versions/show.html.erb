@@ -16,8 +16,18 @@
 </p>
 
 <p>
+  <b>Zinssatz:</b>
+  <%= fraction(@contract_version.interest_rate) %>
+</p>
+
+<p>
   <b>Kündigungsfrist (in Monaten):</b>
   <%= @contract_version.notice_period %>
+</p>
+
+<p>
+  <b>Enddatum:</b>
+  <%= @contract_version.end_date %>
 </p>
 
 <p>
@@ -28,11 +38,6 @@
 <p>
   <b>Laufzeit in Jahren:</b>
   <%= @contract_version.duration_years %>
-</p>
-
-<p>
-  <b>Zinssatz:</b>
-  <%= fraction(@contract_version.interest_rate) %>
 </p>
 
 <%= link_to 'Editieren', edit_contract_version_path(@contract_version) %> |
