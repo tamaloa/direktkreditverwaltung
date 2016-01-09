@@ -13,18 +13,10 @@
 
   <% last_version = @contract.last_version || @new_contract_dummy %><br/>
 
-  <% if SETTINGS[:contract_number_type] && 
-        SETTINGS[:contract_number_type] == "string" %>
-    <div class="field">
-      <%= f.label "Nummer (string)" %><br />
-      <%= f.text_field :number_string %>
-    </div>
-  <% else %>
-    <div class="field">
-      <%= f.label "Nummer" %><br />
-      <%= f.number_field :number %>
-    </div>
-  <% end %>
+  <div class="field">
+    <%= f.label "Nummer" %><br />
+    <%= f.text_field :number %>
+  </div>
 
   <div class="field">
     <%= f.label :name,  "Sollen die Zinsen jährlich dem Konto gut geschrieben werden. Wenn ja dann Haken setzen." %><br />

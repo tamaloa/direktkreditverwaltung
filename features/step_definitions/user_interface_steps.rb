@@ -7,7 +7,7 @@ def create_contact
 end
 
 def create_contract
-  @contract ||= { :number => 12, :interest => 0.03, :start => Time.now, :duration => 5}
+  @contract ||= { :number => "12", :interest => 0.03, :start => Time.now, :duration => 5}
   visit new_contact_contract_path(Contact.find_by_email(@contact[:email]))
   fill_in "contract_number", :with => @contract[:number]
   #date will be set to now (let's just ignore it for now)
@@ -91,7 +91,7 @@ And(/^There exists a contract with payments$/) do
 end
 
 And(/^There exists an anonymous contract with payments$/) do
-  @contract = Contract.create_with_balance!(1032, 3000.00, 0.03)
+  @contract = Contract.create_with_balance!("1032", 3000.00, 0.03)
   create_accounting_entry
 end
 
@@ -105,7 +105,7 @@ Then(/^I should see the account movements$/) do
 end
 
 Then(/^I should see the interest statement$/) do
-  assert page.has_content?("Direktkreditvertrag Nr. #{@contract.number}, #{@contact.name if @contact}")
+  assert page.has_content?("Direktkreditvertrag Nr. #{@contract[:number]}, #{@contact[:name] if @contact}")
   contract = find_contract
   interest, interest_calculation = contract.interest #This is soo in need of refactoring
   assert page.has_content?(currency(interest))
@@ -128,11 +128,11 @@ When(/^I look at the expiring contracts page$/) do
 end
 
 Then(/^I should see the contract$/) do
-  assert page.has_content?(@contract.number)
+  assert page.has_content?(@contract[:number])
 end
 
 Then(/^I should not see the contract$/) do
-  refute page.has_content?(@contract.number)
+  refute page.has_content?(@contract[:number])
 end
 
 

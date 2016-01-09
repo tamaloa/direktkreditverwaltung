@@ -11,29 +11,9 @@ class Contract < ActiveRecord::Base
   default_scope { order(:number) }
   scope :active, ->{ where(terminated_at: nil)}
   scope :terminated, ->{ where('terminated_at IS NOT NULL')}
-  attr_accessible :number, :number_string, :category, :comment, :add_interest_to_deposit_annually
+  attr_accessible :number, :category, :comment, :add_interest_to_deposit_annually
   attr_accessor(:expiring)
   attr_accessor(:remaining_months)
-  attr_accessor(:number)
-
-
-  def number
-    if SETTINGS[:contract_number_type] && 
-       SETTINGS[:contract_number_type] == "string" &&
-       read_attribute(:number_string) != nil
-      read_attribute(:number_string)
-    else
-      read_attribute(:number)
-    end
-  end
-  def number=(value)
-    if SETTINGS[:contract_number_type] && 
-       SETTINGS[:contract_number_type] == "string"
-      write_attribute(:number_string, value)
-    else
-      write_attribute(:number, value)
-    end
-  end
 
   def start_date
     return false if contract_versions.empty?
