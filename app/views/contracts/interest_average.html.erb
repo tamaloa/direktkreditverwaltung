@@ -34,7 +34,7 @@
 <% @contracts.each do |contract| %>
 <% last_version = contract.last_version %>
 <tr>
-  <td><%= contract.number %></td>
+  <td><%= link_to contract.number, contract %></td>
   <td><%= "#{contract.contact.try(:prename)} #{contract.contact.try(:name)}" %></td>
   <td><%= currency(balance=contract.balance) %></td>
   <td><%= fraction(sum_fraction=balance/sum) %></td>
