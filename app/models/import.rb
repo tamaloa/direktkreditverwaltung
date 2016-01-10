@@ -30,7 +30,7 @@ class Import
 
   ##
   # Headers:
-  # category, number, prename, name, amount, interest, start, notice_period
+  # category, number, prename, name, amount, interest, start, end | duration_month | notice_period
   def self.contracts(file)
     CSV.foreach(file, :headers => true) do |row|
       data = cleaned_row(row)
@@ -48,9 +48,13 @@ class Import
         next
       end
 
+      end_date = Date.parse(data[:end]) if data[:end]
+      end_date = nil unless end_date.is_a?(Date)
+
       last_version_data = {
         :notice_period => data[:notice_period] && data[:notice_period] != "" ? data[:notice_period].to_i : nil,
-        :duration_months => data[:duration_month] ? data[:duration_month].to_i : nil
+        :duration_months => data[:duration_month] ? data[:duration_month].to_i : nil,
+        :end_date => end_date
       }
 
       contract = Contract.create_with_balance!(data[:number], data[:amount], interest, start, last_version_data)
