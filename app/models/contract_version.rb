@@ -16,6 +16,13 @@ class ContractVersion < ActiveRecord::Base
     write_attribute(:interest_rate, interest)
   end
 
+  # wrap missing concept for fixed-term versus open-ended contract-versions
+  # - fixed-term-contracts are specified by end_date, duration_months or duration_year
+  # - open ended contracts are specified by a notice_period
+  def is_open_ended
+    return (end_date.blank? && duration_months.blank? && duration_years.blank?)
+  end
+
   def calculate_end_date
     if end_date
       date = end_date

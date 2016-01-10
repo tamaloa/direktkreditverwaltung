@@ -14,13 +14,17 @@ Wähle das Jahr der Offenlegung (Stichtag 31.12.):
 <% @date = Date.new(@year, 12, 31) %>
 
 <h3>Restlaufzeit bis zu einem Jahr zum <%= @date %></h3>
-<% @some_contracts = @contracts.select { |c| c.remaining_months <= 12 } %>
+<% @fixed_term_contracts = @contracts.select { |c| c.remaining_months && c.remaining_months <= 12 } %>
 <%= render 'remaining_snippet' %>
 
 <h3>Restlaufzeit zwischen einem und fünf Jahren zum <%= @date %></h3>
-<% @some_contracts = @contracts.select { |c| c.remaining_months <= (12*5) && c.remaining_months > 12 } %>
+<% @fixed_term_contracts = @contracts.select { |c| c.remaining_months && c.remaining_months <= (12*5) && c.remaining_months > 12 } %>
 <%= render 'remaining_snippet' %>
 
 <h3>Restlaufzeit mehr als fünf Jahre zum <%= @date %></h3>
-<% @some_contracts = @contracts.select { |c| c.remaining_months > (12*5) } %>
+<% @fixed_term_contracts = @contracts.select { |c| c.remaining_months && c.remaining_months > (12*5) } %>
 <%= render 'remaining_snippet' %>
+
+<h3>Unbefristete Verträge</h3>
+<% @open_end_contracts = @contracts.select { |c| c.last_version.is_open_ended } %>
+<%= render 'remaining_open_ended_snippet' %>
