@@ -20,7 +20,7 @@ namespace :import do
 
   desc "import contracts with initial balance from csv file"
   # Headers:
-  # category, number, prename, name, amount, interest, start, notice_period
+  # category, number, prename, name, amount, interest, start, end | duration_month | notice_period
   # delimiter is supposed to be: ,
   task :contracts, [:file] => :environment do |t, args|
     file = args[:file]

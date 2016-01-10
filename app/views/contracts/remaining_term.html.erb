@@ -8,7 +8,7 @@ Wähle das Jahr der Offenlegung (Stichtag 31.12.):
 <%= form_tag("/contracts/remaining_term", :method => "get") do %>
   <% year = Date.current.year %>
   <%= select_tag :year, options_for_select(((year-10)..year).to_a, @year) %> 
-  <%= submit_tag "ok" %>
+  <%= submit_tag "ok", class: 'btn btn-default' %>
 <% end %>
 
 <% @date = Date.new(@year, 12, 31) %>

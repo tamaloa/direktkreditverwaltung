@@ -48,7 +48,7 @@
       %td= accounting_entry.name
       %td= accounting_entry.date
       %td= accounting_entry.amount
-      %td= accounting_entry.contract.number
+      %td= link_to accounting_entry.contract.number, accounting_entry.contract
       %td= link_to 'Anzeigen', accounting_entry
       %td= link_to 'Editieren', edit_accounting_entry_path(accounting_entry)
       %td= link_to 'Löschen', accounting_entry, method: :delete, data: { confirm: 'Sicher?' }

@@ -23,28 +23,28 @@
     <%= f.label "Zinssatz" %><br />
     <%= f.text_field :interest_rate %>
   </div>
-  <h3>Laufzeit</h3>
+  <legend><h3>Laufzeit (unbefristet oder befristet)</h3></legend>
   <h4>Unbefristeter Kredit</h4>
   <div class="field">
     <%= f.label :name, "Kündigungsfrist (in Monaten)" %><br />
-    <%= number_field_tag :notice_period %>
+    <%= f.number_field :notice_period %>
   </div>
-  <h4>Befristeter Kredit (verschiedene Angaben möglich)</h4>
+  <h4><br/>Befristeter Kredit (verschiedene Angaben möglich)</h4>
   <div class="field">
-    <%= f.label :end_date %><br />
-    <%= f.date_select :end_date, {:include_blank => true, :default => nil} %>
+    <%= f.label :name, "A) Enddatum" %><br />
+    <%= f.date_select :end_date, {:include_blank => true, :default => nil, :end_year => Date.today.year + 10} %>
   </div>
   <div class="field">
     <%= f.label :name, " * ODER * " %><br />
-    <%= f.label :name, "Laufzeit in Monaten" %><br />
+    <%= f.label :name, "B) Laufzeit in Monaten" %><br />
     <%= f.number_field :duration_months %>
   </div>
   <div class="field">
     <%= f.label :name, " * ODER * " %><br />
-    <%= f.label :name, "Laufzeit in Jahren" %><br />
+    <%= f.label :name, "C) Laufzeit in Jahren" %><br />
     <%= f.number_field :duration_years %>
   </div>
   <div class="actions">
-    <%= f.submit "Fertig" %>
+    <%= f.submit "Fertig", class: 'btn btn-default' %>
   </div>
 <% end %>
