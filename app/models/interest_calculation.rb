@@ -1,7 +1,7 @@
 require 'date'
 
 class InterestCalculation
-  attr_reader :contract, :from, :till
+  attr_reader :contract, :from, :till, :method
 
   include Days360
 
@@ -10,6 +10,16 @@ class InterestCalculation
     @year = params[:year] || Date.current.year
     @from = params[:from] || Date.new(@year).beginning_of_year
     @till = params[:till] || @from.end_of_year
+
+    if params[:method]
+      @method = params[:method]
+    elsif SETTINGS[:interest_calculation_method] != nil
+      @method = SETTINGS[:interest_calculation_method]
+    else
+      @method = '30E_360'
+
+    end
+
   end
 
   def interest_total
@@ -53,7 +63,7 @@ class InterestCalculation
 
   def interest_for(amount, interest_rate, from, till)
     # XXX TODO: check settings if act_act or 360days
-    if SETTINGS[:interest_calculation_method] && SETTINGS[:interest_calculation_method] == "act_act"
+    if @method == "act_act"
       # XXX TODO calculate interest_days and total_days
       #     1. calculate actual days from and till, here: total_days)
       #     2. calculate actual days of interest (from actual credit start), here: intereset_days
@@ -63,7 +73,7 @@ class InterestCalculation
         total_days = Date.new(from.year,12,31).yday + Date.new(till.year,12,13).yday
       end
       interest_days = till - from
-      puts "---> ACT-ACT: #{total_days}, #{interest_days.inspect}, from: #{from.inspect}, till: #{till.inspect}"
+      puts "---> ACT-ACT: #{amount} -- #{interest_rate} -- #{total_days}, #{interest_days.inspect}, from: #{from.inspect}, till: #{till.inspect}"
     else
       days_in_one_year = 360
       total_days = (till.year - from.year + 1) * days_in_one_year
@@ -72,6 +82,8 @@ class InterestCalculation
     fraction = 1.0 * interest_days / total_days
 
     interest = (amount * fraction * interest_rate).round(2)
+    puts "---> Interest: #{interest} "
+   
     interest
   end
 
