@@ -30,13 +30,13 @@
     <%= f.label :name,  "Zinssatz (letzte Version), Format: 0.0XX" %><br />
     <%= text_field_tag :last_version_interest_rate, last_version.interest_rate %>
   </div>
-  <h3>Laufzeit</h3>
+  <legend><h3>Laufzeit (unbefristet oder befristet)</h3></legend>
   <h4>Unbefristeter Kredit</h4>
   <div class="field">
     <%= f.label :name, "Kündigungsfrist in Monaten (letzte Version)" %><br />
     <%= number_field_tag :last_version_notice_period, last_version.notice_period %>
   </div>
-  <h4>Befristeter Kredit (verschiedene Angaben möglich)</h4>
+  <h4><br/>Befristeter Kredit (verschiedene Angaben möglich)</h4>
   <div class="field">
     <%= f.label :name, "A) Enddatum (letzte Version)" %><br />
     <%= date_select("last_version_end_date", "", {:include_blank => last_version.end_date.nil?, :default => last_version.end_date, :end_year => Date.today.year + 10}) %>
@@ -51,7 +51,7 @@
     <%= f.label :name, "C) Laufzeit in Jahren (letzte Version)" %><br />
     <%= number_field_tag :last_version_duration_years, last_version.duration_years %>
   </div>
-  <h3>Sonstiges</h3>
+  <legend><h3>Sonstiges</h3></legend>
   <div class="field">
     <%= f.label :name, "Kategorie (Privat, Syndikat, Dritte)" %><br />
     <%= f.text_field :category %>
@@ -61,6 +61,6 @@
     <%= f.text_field :comment %>
   </div>
   <div class="actions">
-    <%= f.submit "Fertig" %>
+    <%= f.submit "Fertig", class: 'btn btn-default' %>
   </div>
 <% end %>
