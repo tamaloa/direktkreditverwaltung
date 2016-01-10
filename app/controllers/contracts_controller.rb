@@ -216,7 +216,7 @@ class ContractsController < ApplicationController
   def remaining_term
     params[:year] ||= DateTime.now.year
     @year = params[:year].to_i
-    # mind only contracts with account_entries
+    # determine contracts with account_entries relevant for year
     @contracts = Contract.all_with_remaining_month(@year)
     respond_to do |format|
       format.html # remaining_term.html.erb

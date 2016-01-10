@@ -3,18 +3,16 @@
   <tr>
     <th>Nummer</th>
     <th>Kontakt</th>
-    <th>Restlaufzeit in Monaten</th>
-    <th>Ablaufdatum</th>
+    <th>Kündigunsgfrist</th>
     <th>Kontostand</th>
   </tr>
 
-<% @fixed_term_contracts.each do |contract| %>
+<% @open_end_contracts.each do |contract| %>
   <% balance = contract.balance(@date) %>
   <tr>
     <td><%= link_to contract.number, contract %></td>
     <td><%= "#{contract.contact.try(:prename)} #{contract.contact.try(:name)}" %></td>
-    <td><%= contract.remaining_months %></td>
-    <td><%= contract.last_version.calculate_end_date %></td>
+    <td><%= contract.last_version.notice_period %></td>
     <td><%= currency(balance) %></td>
   </tr>
   <% sum += balance %>
