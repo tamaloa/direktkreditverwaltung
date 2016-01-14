@@ -36,8 +36,8 @@ class Import
       data = cleaned_row(row)
       next if data.values.all?(&:blank?)
 
-      interest = 0.0 if data[:interest].blank?
       interest = data[:interest].chomp('%').to_f/100 if data[:interest].match(/%/)
+      interest = interest.to_f #results in 0.0 for anything invalid
 
       start = Date.parse(data[:start]) if data[:start]
       start = Time.now.to_date unless start.is_a?(Date)
