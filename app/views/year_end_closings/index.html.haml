@@ -35,6 +35,9 @@
 
     %h3 Vergangene Jahre
 
+    %p
+      Hinweis: Hier kann auch das aktuelle Jahr gelistet sein für das noch kein Jahresabschluss gemacht wurde falls
+      in diesem Jahr bereits Verträge gekündigt/beendet wurden.
     %ul
       - @year_end_closings.each do |year_end_closing|
         %li= link_to "Jahresabschluss #{year_end_closing}", year_end_closing_path(id: year_end_closing)

@@ -43,8 +43,12 @@ class YearEndClosing
     #Vielleicht verträge mit terminated at ausschließen
   end
 
+  #TODO: this is just a quickfix - a contract could have been cancelled for the 31.12. then this would not work
+  #We either need actual year-end-closing models or an addition flag for accounting entries (i.e. manual ended or year end)
   def self.most_recent_one
-    year_closing_entry = AccountingEntry.order('date DESC').where(annually_closing_entry: true).first
+    year_closing_entry = AccountingEntry.
+        order('date DESC').where(annually_closing_entry: true).
+        reject{|e| e.date.month != 12 || e.date.day != 31}.first
     return nil unless year_closing_entry
     year_closing_entry.date.year
   end
