@@ -12,7 +12,8 @@
       %br
       %br
       .btn.btn-danger
-        = link_to "Abschluss (#{last_closing_year}) rückgängig machen", year_end_closings_path(id: last_closing_year),
+        Abschluss rückgängig machen ist derzeit leider nicht möglich
+        -#= link_to "Abschluss (#{last_closing_year}) rückgängig machen (derzeit nicht möglich!)", year_end_closings_path(id: last_closing_year),
           confirm: "Wirklich den Jahresabschluss rückgängig machen? Es werden alle Zinsbuchungen des Jahres gelöscht",
           method: :delete
 
