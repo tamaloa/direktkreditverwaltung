@@ -6,6 +6,9 @@ class Contract < ActiveRecord::Base
   has_many :accounting_entries, order: [:date, :created_at]
   has_many :contract_versions
 
+  accepts_nested_attributes_for :contract_versions#, reject_if: :all_blank
+  attr_accessible :contract_versions_attributes
+
   validate :number, with: [:presence, :uniqueness]
 
   default_scope { order(:number) }

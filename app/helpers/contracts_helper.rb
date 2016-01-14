@@ -16,4 +16,11 @@ module ContractsHelper
     "unknown"
   end
 
+  def setup_new_contract(contact)
+    contract = Contract.new
+    contract.contact = contact
+    contract.contract_versions << ContractVersion.new(version: 1)
+    contract
+  end
+
 end

@@ -26,12 +26,6 @@ class ContractsController < ApplicationController
   # GET /contracts/new.json
   def new
     @contact = Contact.find(params[:contact_id])
-    @contract = Contract.new
-    @new_contract_dummy = OpenStruct.new(
-                          {:start => Date.today,
-                           :duration_years => "",
-                           :duration_months => "",
-                           :interest_rate => ""})
 
     respond_to do |format|
       format.html # new.html.erb
@@ -49,18 +43,8 @@ class ContractsController < ApplicationController
   # POST /contracts.json
   def create
     @contact = Contact.find(params[:contact_id])
-    @contract = @contact.contracts.create(params[:contract])
-    last_version = ContractVersion.new
-    last_version.version = 1
-    last_version.contract_id = @contract.id
-    new_start = params[:last_version_start]
-    last_version.start = Date.new(new_start["(1i)"].to_i, 
-                                  new_start["(2i)"].to_i, 
-                                  new_start["(3i)"].to_i)
-    last_version.duration_months = params[:last_version_duration_months]
-    last_version.duration_years = params[:last_version_duration_years]
-    last_version.interest_rate = params[:last_version_interest_rate]
-    last_version.save
+    @contract = Contract.new(params[:contract])
+    @contract.contact = @contact
 
     respond_to do |format|
       if @contract.save
@@ -77,15 +61,6 @@ class ContractsController < ApplicationController
   # PUT /contracts/1.json
   def update
     @contract = Contract.find(params[:id])
-    last_version = @contract.last_version
-    new_start = params[:last_version_start]
-    last_version.start = Date.new(new_start["(1i)"].to_i, 
-                                  new_start["(2i)"].to_i, 
-                                  new_start["(3i)"].to_i)
-    last_version.duration_months = params[:last_version_duration_months]
-    last_version.duration_years = params[:last_version_duration_years]
-    last_version.interest_rate = params[:last_version_interest_rate]
-    last_version.save
 
     respond_to do |format|
       if @contract.update_attributes(params[:contract])
