@@ -29,3 +29,14 @@ contracts_003:
   category: ''
   add_interest_to_deposit_annually: t
   terminated_at: '2010-10-04'
+
+contracts_004:
+  id: '4'
+  number: '01-04-001'
+  contact_id: '3'
+  created_at: '2015-05-21 12:32:03.685694'
+  updated_at: '2015-05-21 12:33:56.019187'
+  comment: ''
+  category: ''
+  add_interest_to_deposit_annually: t
+  terminated_at:
