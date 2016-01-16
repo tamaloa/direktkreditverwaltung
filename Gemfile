@@ -22,6 +22,7 @@ group :development do
   gem 'binding_of_caller'     # Used for better errors
   gem 'sqlite3'
   gem 'byebug'
+  #gem "rails-erd"
 end
 
 group :test do
