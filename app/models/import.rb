@@ -48,11 +48,16 @@ class Import
         next
       end
 
-      end_date = Date.parse(data[:end]) if data[:end]
+      end_date = Date.parse(data[:end]) if (data[:end] && data[:end].to_i != 0)
       end_date = nil unless end_date.is_a?(Date)
+      if data[:notice_period] && (data[:notice_period].to_i != 0)
+        notice_period = data[:notice_period].to_i
+       else
+        notice_period = nil
+      end
 
       last_version_data = {
-        :notice_period => data[:notice_period] && data[:notice_period] != "" ? data[:notice_period].to_i : nil,
+        :notice_period => notice_period,
         :duration_months => data[:duration_month] ? data[:duration_month].to_i : nil,
         :end_date => end_date
       }
