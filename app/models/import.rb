@@ -36,8 +36,8 @@ class Import
       data = cleaned_row(row)
       next if data.values.all?(&:blank?)
 
-      interest = 0.0 if data[:interest].blank?
       interest = data[:interest].chomp('%').to_f/100 if data[:interest].match(/%/)
+      interest = interest.to_f #results in 0.0 for anything invalid
 
       start = Date.parse(data[:start]) if data[:start]
       start = Time.now.to_date unless start.is_a?(Date)
@@ -48,11 +48,16 @@ class Import
         next
       end
 
-      end_date = Date.parse(data[:end]) if data[:end]
+      end_date = Date.parse(data[:end]) if (data[:end] && data[:end].to_i != 0)
       end_date = nil unless end_date.is_a?(Date)
+      if data[:notice_period] && (data[:notice_period].to_i != 0)
+        notice_period = data[:notice_period].to_i
+       else
+        notice_period = nil
+      end
 
       last_version_data = {
-        :notice_period => data[:notice_period] && data[:notice_period] != "" ? data[:notice_period].to_i : nil,
+        :notice_period => notice_period,
         :duration_months => data[:duration_month] ? data[:duration_month].to_i : nil,
         :end_date => end_date
       }

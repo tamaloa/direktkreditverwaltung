@@ -42,9 +42,11 @@ class YearEndClosing
     #TODO what to do with terminated contracts (should interest always be deleted)
     #Vielleicht verträge mit terminated at ausschließen
   end
-
+  
   def self.most_recent_one
-    year_closing_entry = AccountingEntry.order('date DESC').where(annually_closing_entry: true).first
+    year_closing_entry = AccountingEntry.
+        order('date DESC').where(annually_closing_entry: true).
+        reject{|e| e.contract.terminated_at.present?}.first
     return nil unless year_closing_entry
     year_closing_entry.date.year
   end

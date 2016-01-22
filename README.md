@@ -107,10 +107,3 @@ contract_number_type: "string" # one of: "string" | "integer", defaults to integ
 ### API docs
 
 * create via: `$ rake doc:app`
-
-
-
-
-
-
-
