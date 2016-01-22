@@ -7,13 +7,21 @@ def create_contact
 end
 
 def create_contract
-  @contract ||= { :number => "12", :interest => 0.03, :start => Time.now, :duration => 5}
+  fill_in_new_contract_form
+  submit_new_contract_form
+end
+
+def submit_new_contract_form
+  click_button "Fertig"
+end
+
+def fill_in_new_contract_form
+  @contract ||= { :number => 12, :interest => 0.03, :start => Time.now, :duration => 5}
   visit new_contact_contract_path(Contact.find_by_email(@contact[:email]))
   fill_in "contract_number", :with => @contract[:number]
   #date will be set to now (let's just ignore it for now)
-  fill_in "last_version_interest_rate", :with => @contract[:interest]
-  fill_in "last_version_duration_years", :with => @contract[:duration]
-  click_button "Fertig"
+  fill_in "contract_contract_versions_attributes_0_duration_years", :with => @contract[:duration]
+  fill_in "contract_contract_versions_attributes_0_interest_rate", :with => @contract[:interest]
 end
 
 def create_new_contract_version
@@ -60,7 +68,14 @@ end
 
 
 When(/^I create a contract$/) do
-  create_contract
+  fill_in_new_contract_form
+  submit_new_contract_form
+end
+
+When(/^I create a contract with invalid interest rate$/) do
+  fill_in_new_contract_form
+  fill_in "contract_contract_versions_attributes_0_interest_rate", :with => 'invalid 1,%'
+  submit_new_contract_form
 end
 
 Then(/^There should exist a new contract for the contact person$/) do
@@ -158,6 +173,10 @@ end
 
 Then(/^I should see the amount to pay back$/) do
   assert page.has_content?(find_contract.accounting_entries.last.amount.to_s)
+end
+
+Then(/^I should see "(.*)"$/) do |some_string|
+  assert page.has_content?(some_string)
 end
 
 def select_date_from_date_field(date, model_name, attribute_name)

@@ -1,0 +1,52 @@
+- @contract ||= setup_new_contract(@contact)
+= form_for([@contact, @contract]) do |f|
+  - if @contract.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@contract.errors.count, "error")
+        prohibited this contract from being saved:
+      %ul
+        - @contract.errors.full_messages.each do |msg|
+          %li= msg
+  %br/
+
+  .field
+    = f.label "Nummer"
+    %br/
+    = f.number_field :number
+  .field
+    = f.label :name,  "Sollen die Zinsen jährlich dem Konto gut geschrieben werden. Wenn ja dann Haken setzen."
+    %br/
+    = f.check_box :add_interest_to_deposit_annually
+
+
+    = f.fields_for :contract_versions do |ff|
+      = ff.hidden_field :version
+      .field
+        = ff.label :name, "Start"
+        %br/
+        = ff.date_select(:start)
+      .field
+        = ff.label :name, "Laufzeit in Monaten"
+        %br/
+        = ff.number_field :duration_months
+      .field
+        = ff.label :name, " * ODER * "
+        %br/
+        = ff.label :name, "Laufzeit in Jahren"
+        %br/
+        = ff.number_field :duration_years
+      .field
+        = ff.label :name,  "Zinssatz"
+        %br/
+        = ff.text_field :interest_rate
+  .field
+    = f.label :name, "Kategorie (Privat, Syndikat, Dritte)"
+    %br/
+    = f.text_field :category
+  .field
+    = f.label "Kommentar"
+    %br/
+    = f.text_field :comment
+  .actions
+    = f.submit "Fertig"

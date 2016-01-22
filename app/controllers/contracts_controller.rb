@@ -26,14 +26,6 @@ class ContractsController < ApplicationController
   # GET /contracts/new.json
   def new
     @contact = Contact.find(params[:contact_id])
-    @contract = Contract.new
-    @new_contract_dummy = OpenStruct.new(
-                          {:start => Date.today,
-                           :duration_years => "",
-                           :duration_months => "",
-                           :end_date => nil,
-                           :interest_rate => "",
-                           :notice_perdiod => ""})
 
     respond_to do |format|
       format.html # new.html.erb
@@ -51,12 +43,8 @@ class ContractsController < ApplicationController
   # POST /contracts.json
   def create
     @contact = Contact.find(params[:contact_id])
-    @contract = @contact.contracts.create(params[:contract])
-    last_version = ContractVersion.new
-    last_version.version = 1
-    last_version.contract_id = @contract.id
-    prepare_last_version(last_version, params)
-    last_version.save
+    @contract = Contract.new(params[:contract])
+    @contract.contact = @contact
 
     respond_to do |format|
       if @contract.save
@@ -73,9 +61,6 @@ class ContractsController < ApplicationController
   # PUT /contracts/1.json
   def update
     @contract = Contract.find(params[:id])
-    last_version = @contract.last_version
-    prepare_last_version(last_version, params)
-    last_version.save
 
     respond_to do |format|
       if @contract.update_attributes(params[:contract])

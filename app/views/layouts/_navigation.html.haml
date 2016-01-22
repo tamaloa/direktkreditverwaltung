@@ -1,7 +1,11 @@
-%div.navbar-header
+.navbar-header
+  %button.navbar-toggle.collapsed{"data-target" => ".navbar-collapse", "data-toggle" => "collapse"}
+    %span.icon-bar
+    %span.icon-bar
+    %span.icon-bar
   = link_to "Home", root_path, :class => 'navbar-brand'
 
-%div.collapse.navbar-collapse
+.collapse.navbar-collapse
   %ul.nav.navbar-nav
     %li= link_to "Geber_innen", contacts_path
     %li= link_to "Direktkreditverträge", contracts_path
