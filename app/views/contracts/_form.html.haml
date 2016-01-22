@@ -13,7 +13,7 @@
   .field
     = f.label "Nummer"
     %br/
-    = f.number_field :number
+    = f.text_field :number
   .field
     = f.label :name,  "Sollen die Zinsen jährlich dem Konto gut geschrieben werden. Wenn ja dann Haken setzen."
     %br/
@@ -23,10 +23,36 @@
     = f.fields_for :contract_versions do |ff|
       = ff.hidden_field :version
       .field
+        %br/
         = ff.label :name, "Start"
         %br/
         = ff.date_select(:start)
       .field
+        = ff.label :name,  "Zinssatz"
+        %br/
+        = ff.text_field :interest_rate
+      %br/
+      %h3 Laufzeit 
+      %p Hinweis: Verträge können unbefristet (A) ODER befristet (B) gewährt werden. Bitte entsprechendes eintragen.
+      %br/
+      %h4 A) Unbefristeter Vertrag:
+      .field
+        = ff.label :name, "Kündigungsfrist in Monaten"
+        %br/
+        = ff.number_field :notice_period
+      %br/
+      %h4 B) Befristeter Vertrag:
+      %p Hinweis: Eine der drei Angaben eintragen.
+      .field
+        = ff.label :name, "Konkretes Enddatum"
+        %br/
+        - if @contract.last_version
+          = ff.date_select(:end_date, {:include_blank => true, :default => @contract.last_version.end_date, :end_year => @contract.last_version.end_date.nil? ? (Date.today.year + 10) : (@contract.last_version.end_date.year + 5)})
+        - else 
+          = ff.date_select(:end_date, {:include_blank => true, :end_year => Date.today.year + 10})
+      .field
+        = ff.label :name, " * ODER * "
+        %br/
         = ff.label :name, "Laufzeit in Monaten"
         %br/
         = ff.number_field :duration_months
@@ -36,10 +62,8 @@
         = ff.label :name, "Laufzeit in Jahren"
         %br/
         = ff.number_field :duration_years
-      .field
-        = ff.label :name,  "Zinssatz"
-        %br/
-        = ff.text_field :interest_rate
+  %br/
+  %h3 Sonstiges
   .field
     = f.label :name, "Kategorie (Privat, Syndikat, Dritte)"
     %br/
@@ -49,4 +73,5 @@
     %br/
     = f.text_field :comment
   .actions
-    = f.submit "Fertig"
+    %br/
+    = f.submit "Fertig", class: 'btn btn-default'
