@@ -62,7 +62,17 @@ class InterestCalculation
   def account_movements_with_initial_balance(from = @from, till = @till)
     account_movements = []
     initial_balance = @contract.balance(from-1.day) #TODO check if this should be last day of old year or not!
-    account_movements << {amount: initial_balance, date: from, type: :initial_balance}
+    initial_balance_date = from
+    if @method == "act_act"
+      # Use last day of year before as initial-balance-date to guarantee that first day 
+      # of year is included in the calculation for year-overarching contracts. 
+      # This also works for contracts starting at first day of year as an interest
+      # relevant amount is not present until first real movement (at actual from.day).
+      #
+      # Question: Wouldn't this also be necessary for method days360?!
+      initial_balance_date = from-1.day
+    end
+    account_movements << {amount: initial_balance, date: initial_balance_date, type: :initial_balance}
     entries = @contract.accounting_entries.where(:date => from..till).order(:date)
     account_movements = account_movements + entries.map{|entry| {amount: entry.amount, date: entry.date, type: entry.type} }
 
@@ -81,38 +91,17 @@ class InterestCalculation
 
   def interest_actact_for(amount, interest_rate, from, till)
     # act-act calculates interest based on actual days of a year
-    data_per_year = []
-    if from.year == till.year
-      # timespan within one year
-      data_per_year << { :year => from.year,
-                         :total_days => Date.new(from.year,12,31).yday,
-                         :interest_days => (till - from) }
-    else
-      year_diff = till.year - from.year
-      # calculate values for each year
-      for i in 0..year_diff
-        current_year = from.year + i
-        entry = { :year => current_year,
-                  :total_days => Date.new(current_year,12,31).yday }
-
-        if i == 0
-          # from-year, without first day
-          entry[:interest_days] = entry[:total_days] - from.yday
-        elsif i == year_diff
-          # till-year
-          entry[:interest_days] = till.yday
-        else
-          # years in between
-          entry[:interest_days] = entry[:total_days]
-        end
-
-        data_per_year << entry
-      end
-    end
-
-    actact_interest_total(data_per_year, amount, interest_rate)
+    # regular year-end-closings are assumed so that here we always look upon a timespan of min one year
+    days_in_one_year = Date.new(from.year,12,31).yday
+    total_days = days_in_one_year
+    interest_days = (till - from)
+    fraction = 1.0 * interest_days / total_days
+    interest = (amount * fraction * interest_rate)
+    interest.round(2)
   end
 
+  # method currently not used but maybe useful for ad-hoc interest calculations
+  # expects data_per_year = { :year => ..., :total_days => ..., :interest_days => ... }
   def actact_interest_total(data_per_year, initial_amount, interest_rate)
     interest_total = 0
     actual_amount = initial_amount
@@ -134,12 +123,15 @@ class InterestCalculation
       next_version = versions[index+1]
       start_of_current_version = version.start < @from ? @from : version.start
       end_of_current_version = next_version ? next_version.start : @till
-      rates_and_dates << {interest_rate: version.interest_rate, start: start_of_current_version, end: end_of_current_version}
+      rates_and_dates << { interest_rate: version.interest_rate, 
+                           start: start_of_current_version, 
+                           end: end_of_current_version }
     end
 
     rates_and_dates
   end
 
+  # returns all versions of year and last version before
   def contract_versions_valid_in_set_time_range
     versions = @contract.contract_versions.where(start: from..till).order(:start)
     last_version_before_interval = @contract.contract_versions.where('start < ?', from).order(:start).last
