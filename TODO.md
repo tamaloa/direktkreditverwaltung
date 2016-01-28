@@ -27,6 +27,7 @@ gekündigt sind aber wieder YearEndClosing mässig reverted wurden?
 # UI
 * Durchgängig deutsche formate nutzen (, statt . für währungseingaben)
 * js-forms (datepicker, % + € format unterstützung etc.)
+* contracts/new als bootstrap form mit obigen features
 
 # DONE
 * BUG: Wenn DK-Vertrag ausversehen später startet kann man buchungen erstellen. Wenn dann Zinsauswertung dann 0% zinsen. Fixed.
@@ -74,3 +75,7 @@ Import: Fehlt: Direktkreditverträge (zuordnung zu Person über Name/Vorname) im
 Daten-Modell: befristung und kündigungsfrist modellierunge nicht ganz klar (versionen haben duration_months, duration_years)
 
 
+== pamuche PR ==
+features/interest_statement.feature
+features/step_definitions/contracts_deposits_and_paybacks.rb 
+test auskommentiert bzw. im test round(2) ... sollte nicht sein
