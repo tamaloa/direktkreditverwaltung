@@ -20,17 +20,21 @@ gem 'days360'
 group :development do
   gem 'better_errors'         # Nicer exception pages in development
   gem 'binding_of_caller'     # Used for better errors
+  gem 'sqlite3'
+  gem 'byebug'
 end
 
 group :test do
   gem 'cucumber'
   gem 'cucumber-rails', :require => false
   # database_cleaner is not required, but highly recommended
+  gem "launchy", "~> 2.1.2"
   gem 'database_cleaner'
   gem 'timecop'
   gem 'test-unit'
   gem 'pdf-inspector', :require => 'pdf/inspector'   #To test the output of PDFs
   gem "codeclimate-test-reporter", group: :test, require: nil #To get code coverage
+  gem 'byebug'
 end
 
 # Gems used only for assets and not required

@@ -1,6 +1,6 @@
 class YearClosingStatementsController < ApplicationController
-  def show
 
+  def show
     year = params[:year].to_i
     contract = Contract.find_by_id(params[:id])
     @statement = YearClosingStatement.new(contract: contract, year: year)

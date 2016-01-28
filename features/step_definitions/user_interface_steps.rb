@@ -106,7 +106,7 @@ And(/^There exists a contract with payments$/) do
 end
 
 And(/^There exists an anonymous contract with payments$/) do
-  @contract = Contract.create_with_balance!(1032, 3000.00, 0.03)
+  @contract = Contract.create_with_balance!("1032", 3000.00, 0.03)
   create_accounting_entry
 end
 
@@ -121,7 +121,6 @@ end
 
 Then(/^I should see the interest statement$/) do
   assert page.has_content?("Direktkreditvertrag Nr. #{@contract[:number]}, #{@contact[:name] if @contact}")
-
   contract = find_contract
   interest, interest_calculation = contract.interest #This is soo in need of refactoring
   assert page.has_content?(currency(interest))

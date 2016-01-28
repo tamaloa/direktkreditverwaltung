@@ -4,7 +4,7 @@ class InterestCalculationTest < ActiveSupport::TestCase
 
   def setup
     Timecop.freeze(Date.new(2013))
-    @contract = Contract.find_by_number(6022) # a contract for which rate was changed 2012-07-01
+    @contract = Contract.find_by_number("6022") # a contract for which rate was changed 2012-07-01
   end
 
   def teardown

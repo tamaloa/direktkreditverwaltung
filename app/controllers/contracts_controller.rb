@@ -73,6 +73,27 @@ class ContractsController < ApplicationController
     end
   end
 
+  def prepare_last_version(contract_version, params)
+    new_start = params[:last_version_start]
+    contract_version.start = Date.new(new_start["(1i)"].to_i, 
+                                  new_start["(2i)"].to_i, 
+                                  new_start["(3i)"].to_i)
+    
+    new_end = params[:last_version_end_date]
+    if new_end["(1i)"].eql?("") || new_end["(2i)"].eql?("") || new_end["(3i)"].eql?("")
+      contract_version.end_date = nil
+    else
+      contract_version.end_date = Date.new(new_end["(1i)"].to_i, 
+                                           new_end["(2i)"].to_i, 
+                                           new_end["(3i)"].to_i)
+    end
+    
+    contract_version.duration_months = params[:last_version_duration_months]
+    contract_version.duration_years = params[:last_version_duration_years]
+    contract_version.interest_rate = params[:last_version_interest_rate]
+    contract_version.notice_period = params[:last_version_notice_period]
+  end
+
   # DELETE /contracts/1
   # DELETE /contracts/1.json
   def destroy
@@ -152,16 +173,23 @@ class ContractsController < ApplicationController
 
   # GET /contracts/expiring
   def expiring
+    # get all contracts with specified duration and determine expiring date
     contracts_with_duration = Contract.all.select{ |c| c.last_version.duration_months ||
-                                                    c.last_version.duration_years }
-
+                                                       c.last_version.duration_years }
     contracts_with_duration.each do |contract|
       last_version = contract.last_version
       duration_in_month = last_version.duration_months || last_version.duration_years * 12
       contract.expiring = duration_in_month.months.since(last_version.start)
     end
 
-    @contracts = contracts_with_duration.sort_by(&:expiring)
+    # get alle contracts with specified end_date and set expiring date
+    contracts_with_end_date = Contract.all.select{ |c| c.last_version.end_date }
+    contracts_with_end_date.each do |contract|
+      contract.expiring = contract.last_version.end_date
+    end
+
+    # merge both
+    @contracts = (contracts_with_duration.concat(contracts_with_end_date)).sort_by(&:expiring)
 
     respond_to do |format|
       format.html # expiring.html.erb
@@ -173,6 +201,7 @@ class ContractsController < ApplicationController
   def remaining_term
     params[:year] ||= DateTime.now.year
     @year = params[:year].to_i
+    # determine contracts with account_entries relevant for year
     @contracts = Contract.all_with_remaining_month(@year)
     respond_to do |format|
       format.html # remaining_term.html.erb
