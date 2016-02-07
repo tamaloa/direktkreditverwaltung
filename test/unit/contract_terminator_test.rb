@@ -3,7 +3,7 @@ require 'test_helper'
 class ContractTerminatorTest < ActiveSupport::TestCase
 
   def setup
-    @running_contract = Contract.first
+    @running_contract = Contract.find_by_number("6022")
     Timecop.travel(Date.new(2013, 7, 1))
   end
 

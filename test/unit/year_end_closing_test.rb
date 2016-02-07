@@ -45,19 +45,19 @@ class YearEndClosingTest < ActiveSupport::TestCase
   end
 
   test "year end closing should only be created for contract which have already started" do
-    @contract = Contract.first
+    @contract = Contract.find_by_number("6022")
     pending
   end
 
   test "a contract should do a year-end-closing which adds an accounting entry" do
-    @contract = Contract.first
+    @contract = Contract.find_by_number("6022")
     assert_difference 'AccountingEntry.count' do
       YearEndClosing.new(year: 2013).close_year_for_contract(@contract)
     end
   end
 
   test "the year_end_closing should always calculate the balance for the last day of the previous year" do
-    @contract = Contract.first
+    @contract = Contract.find_by_number("6022")
     Timecop.travel(Date.parse('2013-04-23'))
       YearEndClosing.new(year: 2012).close_year_for_contract(@contract)
 
@@ -72,14 +72,14 @@ class YearEndClosingTest < ActiveSupport::TestCase
   end
 
   test "the year_end_closing should add the interest for last year" do
-    @contract = Contract.first
+    @contract = Contract.find_by_number("6022")
     YearEndClosing.new(year: 2013).close_year_for_contract(@contract)
-    interest_2013 = InterestCalculation.new(@contract, year: 2013).interest_total
+    interest_2013 = InterestCalculation.new(@contract, year: 2013, method: "30E_360").interest_total
     assert_equal interest_2013, @contract.reload.accounting_entries.last.amount
   end
 
   test "a contract should be closed after performing the year end closing" do
-    @contract = Contract.first
+    @contract = Contract.find_by_number("6022")
     closing = YearEndClosing.new(year: 2013)
     assert_false closing.year_closed?(@contract)
     closing.close_year_for_contract(@contract)
