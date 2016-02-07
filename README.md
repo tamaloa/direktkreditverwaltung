@@ -102,6 +102,7 @@ contract_number_type: "string" # one of: "string" | "integer", defaults to integ
 
 1. `$ rake db:migrate`
 2. `$ rake db:test:prepare`
+3. `$ rake test` (to run a single test: `$ ruby -I test <path/to/testfile>`)
 3. `$ rake cucumber`
 
 ### API docs

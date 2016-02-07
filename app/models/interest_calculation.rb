@@ -11,9 +11,10 @@ class InterestCalculation
     @from = params[:from] || Date.new(@year).beginning_of_year
     @till = params[:till] || @from.end_of_year
 
+    # TODO: find another way to distinguish the interest calculation methods
     if params[:method]
       @method = params[:method]
-    elsif SETTINGS[:interest_calculation_method] != nil
+    elsif Rails.env != "test" && SETTINGS.has_key?(:interest_calculation_method)
       @method = SETTINGS[:interest_calculation_method]
     else
       @method = '30E_360'
