@@ -5,6 +5,8 @@
     <th>Vertrag</th>
     <th>Version</th>
     <th>Start</th>
+    <th>Kündigungsfrist (in Monaten)</th>
+    <th>Enddatum</th>
     <th>Laufzeit in Monaten</th>
     <th>Laufzeit in Jahren</th>
     <th>Zinssatz</th>
@@ -20,6 +22,8 @@
              #{contract_version.contract.contact.try(:prename)} )" %></td>
     <td><%= contract_version.version %></td>
     <td><%= contract_version.start %></td>
+    <td><%= contract_version.notice_period %></td>
+    <td><%= contract_version.end_date %></td>
     <td><%= contract_version.duration_months %></td>
     <td><%= contract_version.duration_years %></td>
     <td><%= fraction(contract_version.interest_rate) %></td>

@@ -10,9 +10,15 @@
 # Ignore credential configs
 /config/database.yml
 
+# Ignore the default SQLite database.
+/db/*.sqlite3
+
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+/doc/app
+
+.byebug_history
 
 # Ignore all uploaded files
 public/system/*
@@ -32,3 +38,5 @@ public/system/*
 .ruby-gemset
 
 # editor/ide specific files should be ignored via ~/.gitignore
+*.sublime-project
+*.sublime-workspace

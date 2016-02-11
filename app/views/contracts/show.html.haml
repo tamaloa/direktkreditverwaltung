@@ -15,7 +15,10 @@
       %b Start:
       = @contract.last_version.start
     %p
-      %b Laufzeit
+      %b Kündigungsfrist (in Monaten):
+      = @contract.last_version.notice_period
+    %p
+      %b Laufzeit:
       = run_time(@contract)
     %p
       %b Zinssatz:
