@@ -45,7 +45,7 @@ class StatementsToFile
   def zip_them_up
     @zip_file_name = "#{Rails.root}/pdfs/#{year_end_closing.year}_Alle-Jahrekontoauszüge.zip"
     directory = "#{Rails.root}/pdfs/#{year_end_closing.year}/"
-    zip_options = '-r -X -j' #r - recursive; X - no extra fileatributes; j - no directories
+    zip_options = '--recurse-paths -X --junk-paths --quiet' #X: no extra file attributes
 
     File.delete(@zip_file_name) if File.exist?(@zip_file_name)
     success = system "zip #{zip_options} #{zip_file_name} #{directory}"
