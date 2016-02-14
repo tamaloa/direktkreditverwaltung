@@ -17,7 +17,7 @@ class ContractTerminatorTest < ActiveSupport::TestCase
   end
 
   test "a contract should by default not be terminated" do
-    assert_false Contract.first.terminated?
+    refute Contract.first.terminated?
   end
 
   test "a terminated contract should know it is terminated" do

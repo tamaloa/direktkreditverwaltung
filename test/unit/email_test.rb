@@ -14,6 +14,6 @@ class EmailTest < ActiveSupport::TestCase
   end
 
   test "sending out all mails should work" do
-    pending "we need a mocking library to avoid all this hard work"
+    skip "we need a mocking library to avoid all this hard work"
   end
 end

@@ -81,7 +81,7 @@ class YearEndClosingTest < ActiveSupport::TestCase
   test "a contract should be closed after performing the year end closing" do
     @contract = Contract.first
     closing = YearEndClosing.new(year: 2013)
-    assert_false closing.year_closed?(@contract)
+    refute closing.year_closed?(@contract)
     closing.close_year_for_contract(@contract)
     assert closing.year_closed?(@contract)
   end

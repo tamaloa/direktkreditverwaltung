@@ -23,7 +23,7 @@ class YearClosingStatementTest < ActiveSupport::TestCase
     statement = YearClosingStatement.new(contract: contract, year: 1.year.ago.year)
 
     assert_respond_to statement, :year_closed?
-    assert_false statement.year_closed?
+    refute statement.year_closed?
 
   end
 

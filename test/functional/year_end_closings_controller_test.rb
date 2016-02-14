@@ -34,7 +34,7 @@ class YearEndClosingsControllerTest < ActionController::TestCase
   end
 
   test "should revert year_end_closings" do
-    pending "We are not sure reverting year end closings should be allowed"
+    skip "We are not sure reverting year end closings should be allowed"
     expected_accounting_entries = Contract.where(:add_interest_to_deposit_annually => true).count
     # assert_difference(->{AccountingEntry.count}, expected_accounting_entries) do
     #   post :delete, id: 2012
