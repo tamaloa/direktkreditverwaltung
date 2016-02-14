@@ -202,6 +202,8 @@ class ContractsController < ApplicationController
 
   private
   def contract_params
-    params.require(:contract).permit(:number, :add_interest_to_deposit_annually, :comment, :category)
+    params.require(:contract).permit(:number, :add_interest_to_deposit_annually, :comment, :category,
+                                    contract_versions_attributes: [:version, :start, :interest_rate, :notice_period,
+                                                                  :end_date, :duration_month, :duration_years])
   end
 end

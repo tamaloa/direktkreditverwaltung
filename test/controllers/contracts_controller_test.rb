@@ -17,9 +17,13 @@ class ContractsControllerTest < ActionController::TestCase
   end
 
   test "should create contract" do
-    assert_difference('Contract.count') do
-      post :create, contact_id: @contract.contact.id,
-           contract: { add_interest_to_deposit_annually: @contract.add_interest_to_deposit_annually, category: @contract.category, comment: @contract.comment, number: 2323 }
+    assert_difference(->{Contract.count}) do
+      assert_difference(->{ContractVersion.count}) do
+        post :create, contact_id: @contract.contact.id,
+             contract: { add_interest_to_deposit_annually: @contract.add_interest_to_deposit_annually,
+                         category: @contract.category, comment: @contract.comment, number: 2323,
+                         contract_versions_attributes: [ version: 3234, interest_rate: 0.01, start: Date.current ]}
+      end
     end
 
     assert_redirected_to contract_path(assigns(:contract))
