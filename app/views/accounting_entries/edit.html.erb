@@ -1,4 +1,4 @@
-<h1>Buchung editieren (Vertrag Nr. <%= @contract.number %>) </h1>
+<h1>Buchung editieren (Vertrag Nr. <%= @contract.try(:number) %>) </h1>
 
 <%= render 'form' %>
 

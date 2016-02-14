@@ -61,7 +61,7 @@ class AccountingEntriesController < ApplicationController
   # POST /accounting_entries.json
   def create
     @contract = Contract.find(params[:contract_id])
-    @accounting_entry = @contract.accounting_entries.create(params[:accounting_entry])
+    @accounting_entry = @contract.accounting_entries.create(accounting_entry_params)
 
     respond_to do |format|
       if @accounting_entry.save
@@ -80,7 +80,7 @@ class AccountingEntriesController < ApplicationController
     @accounting_entry = AccountingEntry.find(params[:id])
 
     respond_to do |format|
-      if @accounting_entry.update_attributes(params[:accounting_entry])
+      if @accounting_entry.update_attributes(accounting_entry_params)
         format.html { redirect_to @accounting_entry, notice: 'Accounting entry was successfully updated.' }
         format.json { head :no_content }
       else
@@ -100,5 +100,10 @@ class AccountingEntriesController < ApplicationController
       format.html { redirect_to accounting_entries_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+  def accounting_entry_params
+    params.require(:accounting_entry).permit(:date, :amount)
   end
 end
