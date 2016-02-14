@@ -14,17 +14,16 @@ class Contract < ActiveRecord::Base
   default_scope { order(:number) }
   scope :active, ->{ where(terminated_at: nil)}
   scope :terminated, ->{ where('terminated_at IS NOT NULL')}
-  attr_accessible :number, :category, :comment , :add_interest_to_deposit_annually
+  attr_accessible :number, :category, :comment, :add_interest_to_deposit_annually
   attr_accessor(:expiring)
   attr_accessor(:remaining_months)
-
 
   def start_date
     return false if contract_versions.empty?
     contract_versions.first.start
   end
   #account balance for given date
-  def balance date = DateTime.now.to_date
+  def balance(date = DateTime.now.to_date)
     accounting_entries.where("date <= ?", date).sum(:amount)
   end
 
@@ -41,7 +40,7 @@ class Contract < ActiveRecord::Base
   def version_of date
     versions = contract_versions.where("start <= ?", date).order('start').reverse
     versions.each do |v|
-      return v if v.end_date > date
+      return v if !v.is_open_ended && (v.calculate_end_date > date)
     end
     logger.warn "contract '#{id}' has no version for this request" 
     return last_version
@@ -65,13 +64,16 @@ class Contract < ActiveRecord::Base
   end
 
 
-  def self.create_with_balance!(number, balance, interest, start_time = Date.current)
+  def self.create_with_balance!(number, balance, interest, start_time = Date.current, params = {})
     contract = Contract.create!(number: number)
     last_version = ContractVersion.new
     last_version.version = 1
     last_version.contract_id = contract.id
     last_version.start = start_time
     last_version.interest_rate = interest
+    params.each do |key, value|
+      last_version[key] = value
+    end
     last_version.save!
     contract.accounting_entries.create!(amount: balance, date: start_time)
 
@@ -84,10 +86,13 @@ class Contract < ActiveRecord::Base
     contracts = Contract.all
     contracts.each do |c|
       version = c.version_of(date)
-      c.remaining_months = ((version.end_date - date).to_i/30.5).to_i
+      # only fixed-term contracts get remaining_months attached
+      if !version.is_open_ended
+        c.remaining_months = ((version.calculate_end_date - date).to_i/30.5).to_i
+      end
       non_zero << c if c.balance(date) > 0
     end
-    non_zero.sort_by { |c| c.remaining_months }.reverse
+    non_zero # XXX TODO: non_zero.sort_by { |c| c.remaining_months }.reverse
   end
 
   def terminated?

@@ -16,10 +16,10 @@ Scenario: Showing a contracts correct balance
   Then I see the DK contract 1111 interest of 15.00 euro
 
   Scenario: Using the PDF output to view interest letters
-    Given I am an authorized user
+  Given I am an authorized user
     When I view the interest PDF for all contracts for the year 2013
     Then I see the DK contract 9899 initial balance of 5000.00 euro
       And I do not see the DK contract 9899 interest of 100.00 euro
     When I perform the year end closing for 2013
-      And I view the interest PDF for all contracts for the year 2013
+     And I view the interest PDF for all contracts for the year 2013
     Then I see the DK contract 9899 interest of 100.00 euro

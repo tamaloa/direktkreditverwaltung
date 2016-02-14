@@ -15,3 +15,11 @@
 .warning {
   background-color: lightcoral;
 }
+
+.btn {
+  &.btn-default {
+    background-color: #034f65;
+    color: #fff;
+    border-color: #013747;
+  }
+}
