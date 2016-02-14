@@ -2,12 +2,9 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
-if defined?(Bundler)
-  # If you precompile assets before deploying to production, use this line
-  Bundler.require(*Rails.groups(:assets => %w(development test)))
-  # If you want your assets lazily compiled in production, use this line
-  # Bundler.require(:default, :assets, Rails.env)
-end
+# Require the gems listed in Gemfile, including any gems
+# you've limited to :test, :development, or :production.
+Bundler.require(*Rails.groups)
 
 module Direktkreditverwaltung
   class Application < Rails::Application
@@ -48,12 +45,6 @@ module Direktkreditverwaltung
     # like if you have constraints or database-specific column types
     # config.active_record.schema_format = :sql
 
-    # Enforce whitelist mode for mass assignment.
-    # This will create an empty whitelist of attributes available for mass-assignment for all models
-    # in your app. As such, your models will need to explicitly whitelist or blacklist accessible
-    # parameters by using an attr_accessible or attr_protected declaration.
-    config.active_record.whitelist_attributes = true
-
     # Enable the asset pipeline
     config.assets.enabled = true
 
@@ -63,9 +54,5 @@ module Direktkreditverwaltung
     # Prevent initializing app to make precompile task run on heroku
     config.assets.initialize_on_precompile = false
 
-    #TODO remove after upgrading to rails 4
-    config.autoload_paths += Dir[ Rails.root.join('app', 'models', "concerns", '**/') ]
-    config.autoload_paths += Dir[ Rails.root.join('app', 'controllers', "concerns", '**/') ]
-    #END remove after upgrading to rails 4
   end
 end

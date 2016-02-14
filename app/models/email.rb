@@ -1,5 +1,5 @@
 class Email < ActiveRecord::Base
-  attr_accessible :year, :status, :mail_template, :contact, :contracts
+  #TODO:Strong Params attr_accessible :year, :status, :mail_template, :contact, :contracts
 
   belongs_to :contact
   belongs_to :mail_template

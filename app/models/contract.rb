@@ -7,14 +7,15 @@ class Contract < ActiveRecord::Base
   has_many :contract_versions
 
   accepts_nested_attributes_for :contract_versions#, reject_if: :all_blank
-  attr_accessible :contract_versions_attributes
-
+  #TODO:Strong Params attr_accessible :contract_versions_attributes
+  #TODO:Strong Params attr_accessible :number, :category, :comment, :add_interest_to_deposit_annually
+  
   validate :number, with: [:presence, :uniqueness]
 
   default_scope { order(:number) }
   scope :active, ->{ where(terminated_at: nil)}
   scope :terminated, ->{ where('terminated_at IS NOT NULL')}
-  attr_accessible :number, :category, :comment, :add_interest_to_deposit_annually
+
   attr_accessor(:expiring)
   attr_accessor(:remaining_months)
 
