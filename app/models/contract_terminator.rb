@@ -8,8 +8,7 @@ class ContractTerminator
   attr_accessor :termination_date
   attr_accessor :contract
 
-  validate :termination_date, presence: true
-  validate :contract, presence: true
+  validates_presence_of :termination_date, :contract
   validate :termination_date_is_valid
   validate :contract_ready_for_termination
 
