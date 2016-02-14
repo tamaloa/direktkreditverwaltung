@@ -1,8 +1,9 @@
 class Email < ActiveRecord::Base
   attr_accessible :year, :status, :mail_template, :contact, :contracts
+
   belongs_to :contact
   belongs_to :mail_template
-  has_many :contracts
+  has_and_belongs_to_many :contracts
 
   validates_uniqueness_of :contact_id, scope: :year
   validates_presence_of :year, :contact_id, :mail_template_id
