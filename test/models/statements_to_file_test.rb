@@ -49,14 +49,14 @@ class StatementsToFileTest < ActiveSupport::TestCase
   end
 
   test "the zip file should contain all contracts for the current year" do
-    pending
+    skip
   end
 
   test "Statements should only be written for a closed year" do
-    pending
+    skip
   end
 
   test "the zip file should not contain statements for closed contracts (except in the year of closing)" do
-    pending
+    skip
   end
 end

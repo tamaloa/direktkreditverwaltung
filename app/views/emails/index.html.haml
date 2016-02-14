@@ -22,7 +22,7 @@
     %h3 E-Mails verschicken
     .btn.btn-info
       = link_to 'Test Email verschicken', send_test_email_year_end_closing_path(@year),
-                confirm: "Achtung - die Mail wird an #{@company.email} geschickt."
+                data: {confirm: "Achtung - die Mail wird an #{@company.email} geschickt."}
     %br
     %br
     - if @mail_template.test_mail_sent?

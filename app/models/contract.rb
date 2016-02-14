@@ -3,12 +3,13 @@ class Contract < ActiveRecord::Base
   include Days360
 
   belongs_to :contact
-  has_many :accounting_entries, order: [:date, :created_at]
+  has_many :accounting_entries, ->{ order [:date, :created_at] }
   has_many :contract_versions
 
   accepts_nested_attributes_for :contract_versions#, reject_if: :all_blank
 
-  validate :number, with: [:presence, :uniqueness]
+  validates_presence_of :number
+  validates_uniqueness_of :number
 
   default_scope { order(:number) }
   scope :active, ->{ where(terminated_at: nil)}

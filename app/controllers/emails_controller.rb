@@ -3,7 +3,7 @@ class EmailsController < ApplicationController
   # GET /emails.json
   def index
     @year = params[:year]
-    @mail_template = MailTemplate.find_or_create_by_year(@year)
+    @mail_template = MailTemplate.find_or_create_by(year: @year)
 
     respond_to do |format|
       format.html # index.html.erb

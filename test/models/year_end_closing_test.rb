@@ -19,7 +19,8 @@ class YearEndClosingTest < ActiveSupport::TestCase
   end
 
   test "reverting year end closing should delete added annually interest" do
-    pending "Reverting all contracts has to be refactored or replaced"
+    skip
+    #TODO: Reverting all contracts has to be refactored or replaced
     # Timecop.freeze(Date.parse('2011-12-31'))
     # @contract = Contract.create_with_balance!(032, 5000, 0.02)
     # @contract.add_interest_to_deposit_annually = false
@@ -46,7 +47,7 @@ class YearEndClosingTest < ActiveSupport::TestCase
 
   test "year end closing should only be created for contract which have already started" do
     @contract = Contract.first
-    pending
+    skip
   end
 
   test "a contract should do a year-end-closing which adds an accounting entry" do

@@ -4,10 +4,8 @@ class ContractVersionsController < ApplicationController
   # GET /contract_versions
   # GET /contract_versions.json
   def index
-    @contract_versions = ContractVersion.find(
-                          :all, 
-                          :include => [{:contract => :contact}], 
-                          :order => ["contracts.number", "version"])
+    @contract_versions = ContractVersion.includes(:contract).order(["contracts.number", "version"])
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @contract_versions }
