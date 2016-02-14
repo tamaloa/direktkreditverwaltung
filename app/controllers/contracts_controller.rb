@@ -117,15 +117,7 @@ class ContractsController < ApplicationController
     end
     @year = params[:year].to_i
 
-    if params[:output] && params[:output].index("latex") == 0
-      if params[:output] == "latex_overview"
-        render "interest_overview.latex" and return
-      elsif params[:output] == "latex_interest_letter"
-        render "interest_letter.latex", :layout => "letter" and return
-      elsif params[:output] == "latex_thanks_letter"
-        render "thanks_letter.latex", :layout => "a5note" and return
-      end
-    elsif params[:output] && params[:output].index("pdf") == 0
+    if params[:output] && params[:output].index("pdf") == 0
       if params[:output] == "pdf_overview"
         render_pdf(PdfInterestOverview) and return
       elsif params[:output] == "pdf_interest_letter"

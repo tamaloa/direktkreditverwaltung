@@ -4,10 +4,6 @@ module ApplicationHelper
     number_to_currency(value, :locale => :de)
   end
 
-  def latex_currency value
-    number_to_currency(value, :locale => :de).gsub("€","\\euro")
-  end
-
   def fraction value
     return '-' unless value.is_a?(Numeric)
     number_to_percentage(value * 100)
