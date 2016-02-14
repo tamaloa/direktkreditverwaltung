@@ -28,4 +28,8 @@ class ContractTest < ActiveSupport::TestCase
     assert Contract.terminated.all.include?(terminated_contract)
   end
 
+  test "contract should have a last version" do
+    assert Contract.find_by_number("9899").last_version
+  end
+
 end

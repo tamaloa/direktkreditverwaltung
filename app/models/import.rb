@@ -1,4 +1,5 @@
 require 'csv'
+class ImportException < StandardError ; end
 
 class Import
 
@@ -74,7 +75,7 @@ class Import
         query = {name: data[:name]}
         query[:prename] = data[:prename] if data[:prename]
         possible_contacts = Contact.where(query)
-        raise "<Import::contracts> Too many possible candidates for contract import: #{data.to_s}" if (possible_contacts.count > 1)
+        raise ImportException.new("<Import::contracts> Too many possible candidates for contract import: #{data.to_s}") if (possible_contacts.count > 1)
         contact = possible_contacts.first
         contract.contact = contact if contact
         contract.save! if contact

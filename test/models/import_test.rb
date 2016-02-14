@@ -29,7 +29,7 @@ class ImportTest < ActiveSupport::TestCase
       Contact.create(name: 'Meier', prename: 'Frau')
     end
 
-    assert_raise do
+    assert_raises ImportException do
       Import.contracts("#{Rails.root}/test/fixtures/import/contracts.csv")
     end
 
