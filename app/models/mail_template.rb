@@ -1,5 +1,4 @@
 class MailTemplate < ActiveRecord::Base
-  #TODO:Strong Params attr_accessible :content, :footer, :subject, :year, :newsletter
   has_attached_file :newsletter
 
   validates_uniqueness_of :year

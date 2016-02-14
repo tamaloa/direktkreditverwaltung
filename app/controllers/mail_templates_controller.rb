@@ -11,7 +11,7 @@ class MailTemplatesController < ApplicationController
     @mail_template = MailTemplate.find(params[:id])
 
     respond_to do |format|
-      if @mail_template.update_attributes(params[:mail_template])
+      if @mail_template.update_attributes(mail_template_params)
         format.html { redirect_to emails_url(year: @mail_template.year), notice: 'Mail template was successfully updated.' }
         format.json { head :no_content }
       else
@@ -21,4 +21,8 @@ class MailTemplatesController < ApplicationController
     end
   end
 
+  private
+  def mail_template_params
+    params.require(:mail_template).permit(:content, :footer, :subject, :newsletter)
+  end
 end
