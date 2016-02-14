@@ -12,6 +12,7 @@ script:
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
   - cp config/database.yml_template_postgres config/database.yml
+  - cp config/settings.yml_template config/settings.yml
 
 before_install:
 - export TZ=Europe/Berlin
