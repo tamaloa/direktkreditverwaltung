@@ -1,3 +1,6 @@
 # Here we could define variables used in the app for example:
 # my_personal_setting: 'Hello you'
 # allows to access SETTINGS['my_personal_setting'] anywhere in the app.
+
+secret_key_base: 'Generate your own with: rake secret'
+
