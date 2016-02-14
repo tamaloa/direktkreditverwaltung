@@ -46,7 +46,7 @@ class ContractVersionsController < ApplicationController
   # POST /contract_versions.json
   def create
     @contract = Contract.find(params[:contract_id])
-    @contract_version = @contract.contract_versions.create(params[:contract_version])
+    @contract_version = @contract.contract_versions.create(contract_version_params)
 
     respond_to do |format|
       if @contract_version.save
@@ -65,7 +65,7 @@ class ContractVersionsController < ApplicationController
     @contract_version = ContractVersion.find(params[:id])
 
     respond_to do |format|
-      if @contract_version.update_attributes(params[:contract_version])
+      if @contract_version.update_attributes(contract_version_params)
         format.html { redirect_to @contract_version, notice: 'Vertragsversion wurde erfolgreich aktualisiert.' }
         format.json { head :no_content }
       else
@@ -85,5 +85,11 @@ class ContractVersionsController < ApplicationController
       format.html { redirect_to contract_versions_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+  def contract_version_params
+    params.require(:contract_version).permit(:version, :start, :interest_rate, :notice_period, :end_date,
+                                             :duration_month, :duration_years )
   end
 end

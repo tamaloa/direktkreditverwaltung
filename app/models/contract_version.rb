@@ -1,12 +1,5 @@
 class ContractVersion < ActiveRecord::Base
   belongs_to :contract
-  #TODO:Strong Params attr_accessible :duration_months,
-  #                 :duration_years,
-  #                 :notice_period,
-  #                 :interest_rate,
-  #                 :start,
-  #                 :end_date,
-  #                 :version
 
   validates_presence_of :interest_rate, :start, :version
   validate :sane_interest_rate
