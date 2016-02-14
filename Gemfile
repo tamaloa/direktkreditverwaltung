@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.0.0'
 
-gem 'rails', '~>4.1.0'
+gem 'rails', '~>4.2.0'
 gem 'pg'
 
 #View related stuff
@@ -30,7 +30,7 @@ end
 gem 'byebug', group: [:development, :test]
 
 group :test do
-  gem 'cucumber'
+  gem 'cucumber', '~>1.0' #2.0 is broken with RubyMine
   gem 'cucumber-rails', :require => false
   gem 'launchy'
   gem 'database_cleaner'

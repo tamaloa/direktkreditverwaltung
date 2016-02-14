@@ -135,7 +135,7 @@ When(/^I look at the interest average page$/) do
 end
 
 Then(/^I should see the same interest as given by the one contract$/) do
-  assert page.has_content?("Durchschnittlicher Zinssatz: 3,00%")
+  assert page.has_content?("3,00%")
 end
 
 When(/^I look at the expiring contracts page$/) do

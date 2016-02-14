@@ -49,7 +49,7 @@ class ContractTerminatorTest < ActiveSupport::TestCase
 
   test "contract_terminator should be invalid when date params could not be parsed" do
     params = {}
-    termination = ContractTerminator.new(@running_contract, params)
+    termination = ContractTerminator.new(@running_contract.id, params)
     assert ! termination.valid?
   end
 

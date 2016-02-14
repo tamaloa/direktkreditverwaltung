@@ -17,12 +17,12 @@ class Email < ActiveRecord::Base
     test_mail = Email.new(year: year, contact: contact, mail_template: mail_template,
                           contracts: [contract_one, contract_two])
 
-    UserMailer.year_closing_statement(test_mail, test_mail.closing_statements_pdf_files).deliver
+    UserMailer.year_closing_statement(test_mail, test_mail.closing_statements_pdf_files).deliver_now
     mail_template.update_attribute(:test_mail_sent_at, Time.now)
   end
 
   def send_email
-    UserMailer.year_closing_statement(self, closing_statements_pdf_files).deliver
+    UserMailer.year_closing_statement(self, closing_statements_pdf_files).deliver_now
   end
 
   def closing_statements_pdf_files
