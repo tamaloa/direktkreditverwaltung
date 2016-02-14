@@ -43,7 +43,7 @@ class ContractsController < ApplicationController
   # POST /contracts.json
   def create
     @contact = Contact.find(params[:contact_id])
-    @contract = Contract.new(params[:contract])
+    @contract = Contract.new(contract_params)
     @contract.contact = @contact
 
     respond_to do |format|
@@ -63,7 +63,7 @@ class ContractsController < ApplicationController
     @contract = Contract.find(params[:id])
 
     respond_to do |format|
-      if @contract.update_attributes(params[:contract])
+      if @contract.update_attributes(contract_params)
         format.html { redirect_to @contract, notice: 'Der Vertrag wurde erfolgreich aktualisiert.' }
         format.json { head :no_content }
       else
@@ -198,5 +198,10 @@ class ContractsController < ApplicationController
     respond_to do |format|
       format.html # remaining_term.html.erb
     end
+  end
+
+  private
+  def contract_params
+    params.require(:contract).permit(:number, :add_interest_to_deposit_annually, :comment, :category)
   end
 end
