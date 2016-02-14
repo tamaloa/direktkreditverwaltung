@@ -40,7 +40,7 @@ Then(/^The balance including interest of DK contract (\d+) is (\d+\.\d+) euro$/)
 
   # New refactored calculation methods
   calculated_interest = InterestCalculation.new(contract).interest_total
-  assert_equal final_balance.to_s, (calculated_balance + calculated_interest).round(2).to_s
+  assert_equal final_balance.to_s, (calculated_balance + calculated_interest).to_s
 end
 
 Then(/^The balance including interest of DK contract (\d+) is (\d+\.\d+) euro calculated with old method$/) do |dk_number, final_balance|
