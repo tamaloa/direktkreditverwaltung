@@ -10,20 +10,22 @@ gem 'jquery-rails'
 gem 'bootstrap-sass'
 gem 'haml-rails'
 gem 'sass-rails'
+gem 'coffee-rails'
+gem 'therubyracer', :platforms => :ruby
+gem 'uglifier'
 gem 'prawn'
 gem 'prawn-table'
+
 
 gem 'paperclip' #upload additional attachments for emails
 
 gem 'days360'
 
+
 group :development do
   gem 'better_errors'         # Nicer exception pages in development
   gem 'binding_of_caller'     # Used for better errors
   gem 'sqlite3'
-  gem 'coffee-rails'
-  gem 'therubyracer', :platforms => :ruby
-  gem 'uglifier'
   gem 'spring'
 end
 
