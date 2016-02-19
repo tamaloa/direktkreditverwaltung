@@ -1,0 +1,28 @@
+%p#notice= notice
+%p
+  %b Vertrag:
+  = "Nr. #{@contract_version.contract.number} (#{@contract_version.contract.contact.try(:prename)} #{@contract_version.contract.contact.try(:name)})"
+%p
+  %b Versionsnummer:
+  = @contract_version.version
+%p
+  %b Start:
+  = @contract_version.start
+%p
+  %b Zinssatz:
+  = fraction(@contract_version.interest_rate)
+%p
+  %b Kündigungsfrist (in Monaten):
+  = @contract_version.notice_period
+%p
+  %b Enddatum:
+  = @contract_version.end_date
+%p
+  %b Laufzeit in Monaten:
+  = @contract_version.duration_months
+%p
+  %b Laufzeit in Jahren:
+  = @contract_version.duration_years
+= link_to 'Editieren', edit_contract_version_path(@contract_version)
+|
+= link_to 'Übersicht Vertragsversionen', contract_versions_path

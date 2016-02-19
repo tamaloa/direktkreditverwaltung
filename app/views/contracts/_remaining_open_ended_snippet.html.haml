@@ -1,0 +1,17 @@
+- sum = 0
+%table.table
+  %tr
+    %th Nummer
+    %th Kontakt
+    %th Kündigunsgfrist
+    %th Kontostand
+  - @open_end_contracts.each do |contract|
+    - balance = contract.balance(@date)
+    %tr
+      %td= link_to contract.number, contract
+      %td= "#{contract.contact.try(:prename)} #{contract.contact.try(:name)}"
+      %td= contract.last_version.notice_period
+      %td= currency(balance)
+    - sum += balance
+%b
+  Summe in dieser Kategorie: #{currency(sum)}

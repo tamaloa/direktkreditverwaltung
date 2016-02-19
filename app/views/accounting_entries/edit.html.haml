@@ -1,0 +1,6 @@
+%h1
+  Buchung editieren (Vertrag Nr. #{@contract.try(:number)})
+= render 'form'
+= link_to 'Anzeigen', @accounting_entry
+|
+= link_to 'Buchungsübersicht', accounting_entries_path

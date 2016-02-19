@@ -1,0 +1,47 @@
+= form_for(@contact) do |f|
+  - if @contact.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@contact.errors.count, "error")
+        prohibited this contact from being saved:
+      %ul
+        - @contact.errors.full_messages.each do |msg|
+          %li= msg
+  .field
+    = f.label :name, "Nachname oder Firmenname"
+    %br/
+    = f.text_field :name
+  .field
+    = f.label :name, "Vorname"
+    %br/
+    = f.text_field :prename
+  .field
+    = f.label "Adresse"
+    %br/
+    = f.text_field :address
+  .field
+    = f.label "E-Mail"
+    %br/
+    = f.text_field :email
+  .field
+    = f.label "Telefon"
+    %br/
+    = f.text_field :phone
+  .field
+    = f.label "Kontonummer"
+    %br/
+    = f.text_field :account_number
+  .field
+    = f.label :name, "BLZ"
+    %br/
+    = f.text_field :bank_number
+  .field
+    = f.label :name, "Name der Bank"
+    %br/
+    = f.text_field :bank_name
+  .field
+    = f.label "Bemerkung"
+    %br/
+    = f.text_field :remark
+  .actions
+    = f.submit "Fertig", class: 'btn btn-default'

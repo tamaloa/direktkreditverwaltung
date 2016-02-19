@@ -1,0 +1,28 @@
+%h1
+  Überweisungsliste der Zinsen für das Jahr #{@year}
+%h3 Jahr
+= form_tag("/contracts/interest_transfer_list", :method => "get") do
+  - year = Date.current.year
+  = select_tag :year, options_for_select(((year-10)..year).to_a, year)
+  = submit_tag "ok"
+- sum_interest = 0
+- @contracts.each do |contract|
+  %div
+    %h2
+      Direktkreditvertrag Nr. #{contract.number}, #{"#{contract.contact.try(:prename)} #{contract.contact.try(:name)}"}
+    - interest, interest_calculation = contract.interest @year
+    %b
+      Zinsen #{@year}: #{currency(interest)}
+    %br/
+    %b Kontonummer:
+    = contract.contact.try(:account_number)
+    %br/
+    %b BLZ:
+    = contract.contact.try(:bank_number)
+    %br/
+    %b Bank:
+    = contract.contact.try(:bank_name)
+    %br/
+  - sum_interest+=interest
+%h2 Summe Zinsen
+%b= currency(sum_interest)

@@ -1,0 +1,19 @@
+- sum = 0
+%table.table
+  %tr
+    %th Nummer
+    %th Kontakt
+    %th Restlaufzeit in Monaten
+    %th Ablaufdatum
+    %th Kontostand
+  - @fixed_term_contracts.each do |contract|
+    - balance = contract.balance(@date)
+    %tr
+      %td= link_to contract.number, contract
+      %td= "#{contract.contact.try(:prename)} #{contract.contact.try(:name)}"
+      %td= contract.remaining_months
+      %td= contract.last_version.calculate_end_date
+      %td= currency(balance)
+    - sum += balance
+%b
+  Summe in dieser Kategorie: #{currency(sum)}

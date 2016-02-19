@@ -1,0 +1,6 @@
+%h1
+  Vertragsversion von Vertrag Nr #{@contract.number} editieren
+= render 'form'
+= link_to 'Anzeigen', @contract_version
+|
+= link_to 'Übersicht Vertragsversionen', contract_versions_path

@@ -1,0 +1,50 @@
+%h1
+  Zinsen für das Jahr #{@year}
+%h3 Jahr und Ausgabeformat
+= form_tag("/contracts/interest", :method => "get") do
+  - year = Date.current.year
+  = select_tag :year, options_for_select(((year-10)..year).to_a, year)
+  = select_tag :output, options_for_select({"HTML" => "html", |
+    "Übersicht (pdf)" => "pdf_overview",                      |
+    "Zinsbriefe (pdf)" => "pdf_interest_letter",              |
+    "Dankesbriefe (pdf)" => "pdf_thanks_letter"}, "html")     |
+  = submit_tag "ok"
+- sum_interest = 0
+- @contracts.each do |contract|
+  %div
+    %h2
+      Direktkreditvertrag Nr. #{contract.number}, #{"#{contract.contact.try(:prename)} #{contract.contact.try(:name)}"}
+    %b
+      Kontostand #{DateTime.now.to_date}:
+    = currency(contract.balance DateTime.now.to_date)
+    %br/
+    %br/
+    %b
+      Zinsberechnung #{@year}:
+    %br/
+    %table.table
+      %tr
+        %th Datum
+        %th Vorgang
+        %th Betrag
+        %th Zinssatz
+        %th verbleibende Tage im Jahr
+        %th Zinsen
+      - interest, interest_calculation = contract.interest @year
+      - interest_calculation.each do |entry|
+        %tr
+          %td= entry[:date]
+          %td= name_for_movement(entry)
+          %td= currency(entry[:amount])
+          %td= fraction(entry[:interest_rate])
+          %td= entry[:days_left_in_year]
+          %td= currency(entry[:interest])
+    %br/
+    %b
+      Zinsen #{@year}: #{currency(interest)}
+    %br/
+    %br/
+    %br/
+  - sum_interest+=interest
+%h2 Summe Zinsen
+%b= currency(sum_interest)

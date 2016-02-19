@@ -1,0 +1,31 @@
+%p#notice= notice
+%p
+  %b Name:
+  = @contact.name
+%p
+  %b Vorname:
+  = @contact.prename
+%p
+  %b Adresse:
+  = @contact.address
+%p
+  %b E-Mail:
+  = @contact.email
+%p
+  %b Telefon:
+  = @contact.phone
+%p
+  %b Kontonummer:
+  = @contact.account_number
+%p
+  %b BLZ:
+  = @contact.bank_number
+%p
+  %b Name der Bank:
+  = @contact.bank_name
+%p
+  %b Bemerkung
+  = @contact.remark
+= link_to 'Editieren', edit_contact_path(@contact)
+|
+= link_to 'Zurück', contacts_path

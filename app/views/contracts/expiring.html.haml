@@ -1,0 +1,21 @@
+%h1 Übersicht Direktkreditverträge, sortiert nach Ablaufdatum
+Die Angaben von Start, Laufzeit und Zinssatz beziehen sich auf die letzte Version der Verträge.
+%table.table
+  %tr
+    %th Ablaufdatum
+    %th Nummer
+    %th Kontakt
+    %th Start
+    %th Zinssatz
+    %th Kontostand
+    %th
+  - @contracts.each do |contract|
+    - last_version = contract.last_version
+    %tr
+      %td= contract.expiring
+      %td= link_to contract.number, contract
+      %td= "#{contract.contact.try(:prename)} #{contract.contact.try(:name)}"
+      %td= last_version.start
+      %td= fraction(last_version.interest_rate)
+      %td= currency(contract.balance)
+      %td= link_to 'Anzeigen', contract

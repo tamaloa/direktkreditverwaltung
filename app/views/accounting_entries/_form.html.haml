@@ -1,0 +1,19 @@
+= form_for([@contract, @accounting_entry]) do |f|
+  - if @accounting_entry.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@accounting_entry.errors.count, "error")
+        prohibited this accounting_entry from being saved:
+      %ul
+        - @accounting_entry.errors.full_messages.each do |msg|
+          %li= msg
+  .field
+    = f.label "Buchungsdatum"
+    %br/
+    = f.date_select :date
+  .field
+    = f.label "Betrag"
+    %br/
+    = f.text_field :amount
+  .actions
+    = f.submit "Fertig", class: 'btn btn-default'
