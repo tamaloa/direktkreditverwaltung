@@ -3,8 +3,8 @@ class Contract < ActiveRecord::Base
   include Days360
 
   belongs_to :contact
-  has_many :accounting_entries, ->{ order [:date, :created_at] }
-  has_many :contract_versions
+  has_many :accounting_entries, ->{ order [:date, :created_at] }, dependent: :destroy
+  has_many :contract_versions, dependent: :destroy
 
   accepts_nested_attributes_for :contract_versions#, reject_if: :all_blank
 

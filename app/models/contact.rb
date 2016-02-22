@@ -1,3 +1,3 @@
 class Contact < ActiveRecord::Base
-  has_many :contracts
+  has_many :contracts, dependent: :destroy
 end
