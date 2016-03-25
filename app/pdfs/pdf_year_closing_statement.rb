@@ -31,6 +31,8 @@ class PdfYearClosingStatement < Prawn::Document
     text "Die Zinsen wurden auf dem Direktkreditkonto gutgeschrieben." if @contract.add_interest_to_deposit_annually
 
     #text "der Kontostand des Direktkreditvertrags Nr. #{contract.number} beträgt heute, am #{DateTime.now.strftime("%d.%m.%Y")} #{currency(contract.balance DateTime.now.to_date)}. Die Zinsen für das Jahr #{@year} berechnen sich wie folgt:"
+    move_down 10
+    text "Buchungsübersicht", style: :bold
     move_down 5
 
     interest_calculation_table
@@ -102,16 +104,20 @@ class PdfYearClosingStatement < Prawn::Document
 
   #TODO: Statement could use a method which return the following array of arrays for table rendering (Presenter)
   def interest_calculation_table
-    data = [['Datum', 'Vorgang', 'Betrag', 'Zinssatz', 'Zinsen']]
+    data = [['Datum', 'Vorgang', 'Betrag', 'Zinssatz', "Zinsen in #{@year}"]]
     @statement.movements.each do |movement|
       data << [
-          movement[:date],
+          movement[:date].strftime('%d.%m.%Y'),
           name_for_movement(movement),
           currency(movement[:amount].to_s),
           fraction(movement[:interest_rate]),
           currency(movement[:interest])
       ]
     end
+
+    # additional row for account balance at closing date
+    closing_date = Date.new(@year, 12, 31)
+    data << [closing_date.strftime('%d.%m.%Y'), "Saldo", "#{currency(@contract.balance(closing_date))}"]
 
     table data do
       row(0).font_style = :bold
