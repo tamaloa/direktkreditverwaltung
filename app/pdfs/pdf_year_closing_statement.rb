@@ -26,7 +26,7 @@ class PdfYearClosingStatement < Prawn::Document
     text "Hallo #{@contract.try(:contact).try(:prename)} #{@contract.try(:contact).try(:name)},"
     move_down 10
     text "herzlichen Dank für die Unterstützung im Jahr #{@year}. Anbei der Kontoauszug und die Berechnung der Zinsen. " +
-             "Auf Wunsch erstellen wir eine gesonderte Zinsbescheinigung für die Steuerklärung. Wir bitten um Überprüfung des Auszugs. " +
+             "Auf Wunsch erstellen wir eine gesonderte Zinsbescheinigung für die Steuererklärung. Wir bitten um Überprüfung des Auszugs. " +
              "Falls etwas nicht stimmt oder unverständlich ist, stehen wir für Rückfragen gerne zur Verfügung."
     text "Die Zinsen wurden auf dem Direktkreditkonto gutgeschrieben." if @contract.add_interest_to_deposit_annually
 
