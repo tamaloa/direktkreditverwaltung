@@ -20,12 +20,14 @@ class InterestCalculation
       @method = '30E_360'
     end
 
+    #puts "--------> method: #{@method.inspect} (#{params[:method]}), #{Rails.env}"
   end
 
   def interest_total
     interest_calculated_for_all_account_activities.map{|a| a[:interest]}.sum
   end
 
+  # XXX IS THIS FUNCTION STILL IN USE?!
   def pretty_print_movements
     movements = interest_calculated_for_all_account_activities
       p "amount;date;type;interest_rate;interest;days_left_in_year"
