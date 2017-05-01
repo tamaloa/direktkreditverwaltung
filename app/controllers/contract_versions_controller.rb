@@ -69,6 +69,7 @@ class ContractVersionsController < ApplicationController
         format.html { redirect_to @contract_version, notice: 'Vertragsversion wurde erfolgreich aktualisiert.' }
         format.json { head :no_content }
       else
+        @contract = Contract.find(@contract_version.contract_id)
         format.html { render action: "edit" }
         format.json { render json: @contract_version.errors, status: :unprocessable_entity }
       end
