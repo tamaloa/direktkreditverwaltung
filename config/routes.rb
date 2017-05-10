@@ -20,6 +20,7 @@ Direktkreditverwaltung::Application.routes.draw do
   get "contracts/interest"
   get "contracts/interest_transfer_list"
   get "contracts/interest_average"
+  get "contracts/interest_distribution"
   get "contracts/expiring"
   get "contracts/remaining_term"
 

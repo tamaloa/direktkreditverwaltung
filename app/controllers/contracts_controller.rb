@@ -152,7 +152,7 @@ class ContractsController < ApplicationController
   # GET /contracts/interest_transfer_list
   def interest_transfer_list
     params[:year] ||= DateTime.now.year
-    @contracts = Contract.order(:number)      
+    @contracts = Contract.order(:number)
     @year = params[:year].to_i
 
     respond_to do |format|
@@ -163,7 +163,22 @@ class ContractsController < ApplicationController
   
   # GET /contracts/interest_average
   def interest_average
-    @contracts = Contract.order(:number)      
+    @contracts = Contract.order(:number)
+
+    respond_to do |format|
+      format.html 
+      format.json { render json: @contracts }
+    end
+  end
+
+  # Get /contracts/interest_distribution
+  def interest_distribution
+    @contracts = Contract.all.sort { |c1,c2| c1.last_version.interest_rate <=> c2.last_version.interest_rate }
+
+    # XXX TODO: calculation is currently done in view - avoid that!
+    # - calculate sum per interest_rate within last 12 month
+    # - check if contract_version has changed during last 12 month and if necessary adapt calculation
+    # - distinct between contracts before and after 1.1.2016 (have seperate tables for better overview?)
 
     respond_to do |format|
       format.html 

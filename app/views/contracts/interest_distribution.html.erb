@@ -1,0 +1,52 @@
+<h1>Übersicht Zinssätze / Größe der Vermögensanlage</h1>
+
+<% sum=AccountingEntry.sum(:amount) %>
+<h3>Aktuelle Summe aller Direktkredite: <%= currency(sum) %></h3>
+
+<h3>Übersicht pro Vermögensanlage: </h3> 
+<table class='table'>
+<tr>
+  <th>Vertrag Nr</th>
+  <th>Name</th>
+  <th>Kontostand</th>
+  <th>Wertstellungsdatum</th>
+  <th>Zinssatz</th>
+</tr>
+
+<% last_interest_rate = 0 %>
+<% sum_per_interest = 0 %>
+<% loop_count = 0 %>
+
+<% @contracts.each do |contract| %>
+<% last_version = contract.last_version %>
+<% if last_interest_rate && last_interest_rate != last_version.interest_rate %>
+<tr>
+  <td colspan="5">
+    Summe der Vermögensanlage zu <%= fraction(last_interest_rate) %>: <b><%= currency(sum_per_interest) %></b>
+    </br></br>
+  </td>
+</tr>
+<% sum_per_interest = 0 %>
+<% end %>
+
+<tr>
+  <td><%= link_to contract.number, contract %></td>
+  <td><%= "#{contract.contact.try(:prename)} #{contract.contact.try(:name)}" %></td>
+  <td><%= currency(balance=contract.balance) %></td>
+  <td><%= last_version.start %></td>
+  <td><%= fraction(last_version.interest_rate) %></td>
+</tr>
+
+<% last_interest_rate = last_version.interest_rate %>
+<% sum_per_interest += balance %>
+<% loop_count += 1 %>
+
+<% if loop_count == @contracts.count %>
+<tr>
+  <td colspan="5">
+    Summe der Vermögensanlage zu <%= fraction(last_interest_rate) %>: <b><%= currency(sum_per_interest) %></b>
+  </td>
+</tr>
+<% end %>
+<% end %>
+</table>
