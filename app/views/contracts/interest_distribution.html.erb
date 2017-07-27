@@ -10,6 +10,8 @@
   <th>Name</th>
   <th>Kontostand</th>
   <th>Wertstellungsdatum</th>
+  <th>Bemerkung</th>
+  <th>Kategorie</th>
   <th>Zinssatz</th>
 </tr>
 
@@ -21,7 +23,7 @@
 <% last_version = contract.last_version %>
 <% if last_interest_rate && last_interest_rate != last_version.interest_rate %>
 <tr>
-  <td colspan="5">
+  <td colspan="7">
     Summe der Vermögensanlage zu <%= fraction(last_interest_rate) %>: <b><%= currency(sum_per_interest) %></b>
     </br></br>
   </td>
@@ -34,6 +36,8 @@
   <td><%= "#{contract.contact.try(:prename)} #{contract.contact.try(:name)}" %></td>
   <td><%= currency(balance=contract.balance) %></td>
   <td><%= last_version.start %></td>
+  <td><%= contract.comment %></td>
+  <td><%= contract.category %></td>
   <td><%= fraction(last_version.interest_rate) %></td>
 </tr>
 
@@ -43,7 +47,7 @@
 
 <% if loop_count == @contracts.count %>
 <tr>
-  <td colspan="5">
+  <td colspan="7">
     Summe der Vermögensanlage zu <%= fraction(last_interest_rate) %>: <b><%= currency(sum_per_interest) %></b>
   </td>
 </tr>
