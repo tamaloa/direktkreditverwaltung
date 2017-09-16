@@ -39,43 +39,45 @@ class InterestCalculation
 
   def interest_calculated_for_all_account_activities
     result = []
-    interest_rates_and_dates.each do |rate_and_date|
-      rate = rate_and_date[:interest_rate]
-      from = rate_and_date[:start].to_date
-      till = rate_and_date[:end].to_date
-      account_movements_with_initial_balance(from, till).each do |movement|
+    # 1. Get the time period and interest-rate for all versions of the given year
+    #    (there may have been contract changes e.g. interest-rates)
+    interest_rates_and_dates.each do |version_properties|
+      version_rate = version_properties[:interest_rate]
+      version_from = version_properties[:start].to_date
+      version_till = version_properties[:end].to_date
+      # 2. Get the initial balance and all 'real' account movements for the given time period
+      account_movements_with_initial_balance(version_from, version_till).each do |movement|
         if @method == "act_act"
-          interest = interest_actact_for(movement[:amount], rate, movement[:date], till)
-          result << movement.merge({ interest_rate: rate,
+          interest = interest_actact_for(movement[:amount], version_rate, movement[:date], version_till)
+          result << movement.merge({ interest_rate: version_rate,
                                      interest: interest,
-                                     days_left_in_year: (till - movement[:date]).to_i + 1 })
+                                     days_left_in_year: (version_till - movement[:date]).to_i + 1 })
         else
-          interest = interest_for(movement[:amount], rate, movement[:date], till)
-          result << movement.merge({ interest_rate: rate,
+          interest = interest_for(movement[:amount], version_rate, movement[:date], version_till)
+          result << movement.merge({ interest_rate: version_rate,
                                      interest: interest,
-                                     days_left_in_year: days360(movement[:date], till) })
+                                     days_left_in_year: days360(movement[:date], version_till) })
         end
       end
     end
     result
   end
 
+  # Get the initial balance and all 'real' account movements for a given time period
   def account_movements_with_initial_balance(from = @from, till = @till)
     account_movements = []
     initial_balance = @contract.balance(from-1.day) #TODO check if this should be last day of old year or not!
     initial_balance_date = from
-    if @method == "act_act"
-      # Use last day of year before as initial-balance-date to guarantee that first day 
-      # of year is included in the calculation for year-overarching contracts. 
-      # This also works for contracts starting at first day of year as an interest
-      # relevant amount is not present until first real movement (at actual from.day).
-      #
-      # Question: Wouldn't this also be necessary for method days360?!
-      initial_balance_date = from-1.day
-    end
-    account_movements << {amount: initial_balance, date: initial_balance_date, type: :initial_balance}
+
+    # 1. Define the initial balance entry for the given time period (initial-balance = Saldo)
+    initial_balance_entry = { amount: initial_balance, date: initial_balance_date, type: :initial_balance }
+
+    # 2. Get all 'real' account movements within the given time period
     entries = @contract.accounting_entries.where(:date => from..till).order(:date)
-    account_movements = account_movements + entries.map{|entry| {amount: entry.amount, date: entry.date, type: entry.type} }
+
+    # 3. Merge it all together
+    account_movements << initial_balance_entry
+    account_movements = account_movements + entries.map{ |entry| {amount: entry.amount, date: entry.date, type: entry.type} }
 
     account_movements
   end
@@ -91,12 +93,14 @@ class InterestCalculation
   end
 
   def interest_actact_for(amount, interest_rate, from, till)
-    # act-act calculates interest based on actual days of a year
-    # regular year-end-closings are assumed so that here we always look upon a timespan of min one year
-    days_in_one_year = Date.new(from.year,12,31).yday
-    total_days = days_in_one_year
-    interest_days = (till - from)
-    fraction = 1.0 * interest_days / total_days
+    # Act-act calculates the interest based on the actual days of a year so that the
+    # interest amount for a whole year will be the same whether it's a leap year or not.
+    # In the following calculation we assume that year-end-closings are done on a
+    # regular basis so that we always look upon a timespan of at most one year hence
+    # never more than 366 days.
+    days_in_the_year = Date.new(from.year,12,31).yday # would be 356 or 366
+    interest_days = (till - (from-1))
+    fraction = 1.0 * interest_days / days_in_the_year
     interest = (amount * fraction * interest_rate)
     interest.round(2)
   end
@@ -134,10 +138,18 @@ class InterestCalculation
 
   # Returns all versions of year and last version before
   def contract_versions_valid_in_set_time_range
-    versions = @contract.contract_versions.where(start: from..till).order(:start)
+    versions_within_timerange = @contract.contract_versions.where(start: from..till).order(:start)
+    if versions_within_timerange.length > 0 &&
+       versions_within_timerange.first.start == from
+      # exit here because we don't need an earlier version
+      return versions_within_timerange
+    end
+
+    all_versions = versions_within_timerange
     last_version_before_interval = @contract.contract_versions.where('start < ?', from).order(:start).last
-    versions = [last_version_before_interval] + versions if last_version_before_interval
-    versions
+    all_versions = [last_version_before_interval] + all_versions if last_version_before_interval
+
+    all_versions
   end
 
 end
