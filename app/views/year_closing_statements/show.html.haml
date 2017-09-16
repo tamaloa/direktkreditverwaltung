@@ -28,15 +28,15 @@
     %th Datum
     %th Vorgang
     %th Betrag
-    %th Zinssatz
-    %th Zinsen
+    %th Zinssatz &nbsp;
+    %th= "vorr. Zinsen bis Ende #{@statement.year}"
   - @statement.movements.each do |movement|
     %tr
       %td= movement[:date]
       %td= name_for_movement(movement)
       %td= currency(movement[:amount].to_s)
-      %td= fraction(movement[:interest_rate])
-      %td= currency(movement[:interest])
+      %td= fraction(movement[:interest_rate]) unless movement[:type] == :movement && movement[:amount] < 0.0
+      %td= currency(movement[:interest]) unless movement[:type] == :movement && movement[:amount] < 0.0
 
 %p= "Zinsen #{@statement.year}: #{currency(@statement.annual_interest)}"
 

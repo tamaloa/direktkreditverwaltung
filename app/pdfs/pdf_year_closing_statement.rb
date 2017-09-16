@@ -104,15 +104,23 @@ class PdfYearClosingStatement < Prawn::Document
 
   #TODO: Statement could use a method which return the following array of arrays for table rendering (Presenter)
   def interest_calculation_table
-    data = [['Datum', 'Vorgang', 'Betrag', 'Zinssatz', "Zinsen in #{@year}"]]
+    data = [['Datum', 'Vorgang', 'Betrag', 'Zinssatz', "vorr. Zinsen bis Ende #{@year}"]]
     @statement.movements.each do |movement|
-      data << [
-          movement[:date].strftime('%d.%m.%Y'),
-          name_for_movement(movement),
-          currency(movement[:amount].to_s),
-          fraction(movement[:interest_rate]),
-          currency(movement[:interest])
-      ]
+      unless movement[:type] == :movement && movement[:amount] < 0.0
+        data << [
+            movement[:date].strftime('%d.%m.%Y'),
+            name_for_movement(movement),
+            currency(movement[:amount].to_s),
+            fraction(movement[:interest_rate]),
+            currency(movement[:interest])
+        ]
+      else
+        data << [
+            movement[:date].strftime('%d.%m.%Y'),
+            name_for_movement(movement),
+            currency(movement[:amount].to_s)
+        ]
+      end
     end
 
     # additional row for account balance at closing date
