@@ -33,7 +33,12 @@ class YearClosingStatement
   end
 
   def annual_interest
-    InterestCalculation.new(contract, year: year).interest_total
+    end_of_year_date = Date.new(@year).end_of_year.to_date
+    closing_entries = AccountingEntry.where(date: end_of_year_date, annually_closing_entry: true, contract_id: contract.id)
+    interest_entries = AccountingEntry.where(interest_entry: true, contract_id: contract.id).order(:date)
+
+    annual_interest = closing_entries.length > 0 ? closing_entries.first.amount : interest_entries.last.amount
+    annual_interest
   end
   def balance_closing_of_year
     #Should we rather use InterestCalculation all the way through?

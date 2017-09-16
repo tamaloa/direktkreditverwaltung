@@ -119,11 +119,15 @@ class YearEndClosing
     only_non_interest.map{|m| m[:date].iso8601 + ' ' + m[:amount].to_s}.to_sentence
   end
   def annual_interest(contract)
-    InterestCalculation.new(contract, year: @year).interest_total
+    end_of_year_date = Date.new(@year).end_of_year.to_date
+    closing_entries = AccountingEntry.where(date: end_of_year_date, annually_closing_entry: true, contract_id: contract.id)
+    interest_entries = AccountingEntry.where(interest_entry: true, contract_id: contract.id).order(:date)
+
+    annual_interest = closing_entries.length > 0 ? closing_entries.first.amount : interest_entries.last.amount
+    annual_interest
   end
   def balance_closing_of_year(contract)
-    movement = InterestCalculation.new(contract, year: @year+1).account_movements_with_initial_balance.first
-    movement[:amount]
+    contract.balance(Date.new(@year + 1, 1, 1))
   end
 
 end
