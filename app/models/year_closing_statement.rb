@@ -22,7 +22,7 @@ class YearClosingStatement
   end
 
   def years_last_movement
-    {amount: annual_interest, date: Date.new(year).end_of_year, type: :unsure_interest}
+    { amount: annual_interest, date: Date.new(year).end_of_year, type: :unsure_interest }
   end
 
   def balance_start_of_year

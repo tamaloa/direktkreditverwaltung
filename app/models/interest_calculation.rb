@@ -19,25 +19,23 @@ class InterestCalculation
     else
       @method = '30E_360'
     end
-
-    #puts "--------> method: #{@method.inspect} (#{params[:method]}), #{Rails.env}"
   end
 
   def interest_total
-    interest_calculated_for_all_account_activities.map{|a| a[:interest]}.sum
+    interest_calculated_for_all_account_activities.map{ |a| a[:interest] }.sum
   end
 
   # XXX IS THIS FUNCTION STILL IN USE?!
-  def pretty_print_movements
-    movements = interest_calculated_for_all_account_activities
-      p "amount;date;type;interest_rate;interest;days_left_in_year"
-    movements.each do |m|
-      m.each do |k,v|
-        print "#{v.to_s};"
-      end
-      p ""
-    end
-  end
+  #def pretty_print_movements
+  #  movements = interest_calculated_for_all_account_activities
+  #    p "amount;date;type;interest_rate;interest;days_left_in_year"
+  #  movements.each do |m|
+  #    m.each do |k,v|
+  #      print "#{v.to_s};"
+  #    end
+  #    p ""
+  #  end
+  #end
 
   def interest_calculated_for_all_account_activities
     result = []
@@ -134,7 +132,7 @@ class InterestCalculation
     rates_and_dates
   end
 
-  # returns all versions of year and last version before
+  # Returns all versions of year and last version before
   def contract_versions_valid_in_set_time_range
     versions = @contract.contract_versions.where(start: from..till).order(:start)
     last_version_before_interval = @contract.contract_versions.where('start < ?', from).order(:start).last
