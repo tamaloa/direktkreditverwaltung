@@ -70,8 +70,14 @@ class PdfYearClosingStatement < Prawn::Document
       text company.name, size: 10
       text "Projekt im Mietshäuser Syndikat", size: 8, style: :italic
       move_down 10
-      text company.street, size: 8
-      text "#{company.zip_code} #{company.city}", size: 8
+      if company.building_street && company.building_zipcode
+        text company.building_street, size: 8
+        text "#{company.building_zipcode} #{company.city}", size: 8
+      else
+        text company.street, size: 8
+        text "#{company.zip_code} #{company.city}", size: 8
+      end
+
       move_down 10
       text company.email, size: 8
       text company.web, size: 8

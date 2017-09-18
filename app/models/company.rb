@@ -11,5 +11,7 @@ class Company < ActiveRecord::Base
                   :street,
                   :verein_name,
                   :web,
-                  :zip_code
+                  :zip_code,
+                  :building_street,
+                  :building_zipcode
 end

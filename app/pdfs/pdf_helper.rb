@@ -4,7 +4,7 @@ module PdfHelper
 
   private
   def company
-    @company = Company.find(1)
+    @company = Company.find :first
   end
 
 end
