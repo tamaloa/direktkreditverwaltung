@@ -8,12 +8,7 @@ class PdfYearClosingStatement < Prawn::Document
     @year = statement.year
     super(page_size: 'A4', top_margin: 30, left_margin: 55)
 
-    # @view = view
-
     font 'Helvetica'
-
-    # next if interest == 0
-    # start_new_page unless index == 0
 
     postal_address_and_header
 
