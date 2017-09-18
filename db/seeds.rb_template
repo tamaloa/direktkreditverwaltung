@@ -1,0 +1,25 @@
+# This file should contain all the record creation needed to seed 
+# the database with its default values.
+# The data can then be loaded with the rake db:seed (or created 
+# alongside the db with db:setup).
+
+Company.create(
+    name: "Musterprojekt",
+    gmbh_name: "Muster GmbH",
+    verein_name: "Muster e.V.",
+
+    street: "Musterstraße 3",
+    zip_code: "xxxxx",
+    city: "Musterhausen",
+    email: "post@muster-gmbh.de",
+    web: "http://www.musterprojekt.de",
+
+    building_street: "Musterstraße 14",
+    building_zipcode: "xxxxx",
+
+    bank_name: "Muster Bank",
+    bank_account_info: "IBAN Muster-Iban",
+    gmbh_executive_board: "Musterperson, Mustermensch",
+    gmbh_register_number: "HRB XXXXX",
+    gmbh_tax_number: "XXX/XXX/XXXXX"
+)

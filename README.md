@@ -80,9 +80,9 @@ contract_number_type: "string" # one of: "string" | "integer", defaults to integ
 ### Installation
 
 1. git clone repo and cd into repo
-2. check ruby version and gemset you want to use, e.g. 
-  - create and edit `.ruby-version` and `.ruby-gemset` 
-  - `$ cd .`
+2. check ruby version and gemset you want to use, e.g.
+    * create and edit `.ruby-version` and `.ruby-gemset`
+    * `$ cd .`
 3. `$ gem install bundler`
 4. `$ bundle install` (you may `$ bundle update` to avoid problems installing `libv8`)
 
@@ -94,7 +94,9 @@ contract_number_type: "string" # one of: "string" | "integer", defaults to integ
 
 9. optional: `$ cp config/settings.yml_template config/settings.yml` and edit according to your needs
 
-10. optional: `$ rake db:seed` to load default content into db
+10. optional - seed your db:
+    * `$ cp db/seeds.rb_template db/seeds.rb` and edit according to your needs
+    * `$ rake db:seed` to load the content into db
 
 
 
