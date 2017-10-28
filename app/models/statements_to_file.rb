@@ -59,7 +59,8 @@ class StatementsToFile
   private
 
   def file_safe(string)
-    string.to_s.gsub(/\W/,'')
+    string.to_s.gsub('ä','ae').gsub('ö','oe').gsub('ü','ue').gsub('ß','ss').
+           gsub('Ä','Ae').gsub('Ö','Oe').gsub('Ü','ue').gsub(/\W/,'')
   end
 
 
