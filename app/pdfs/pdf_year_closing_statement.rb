@@ -16,7 +16,7 @@ class PdfYearClosingStatement < Prawn::Document
 
     text "#{company.city}, den #{DateTime.now.strftime("%d.%m.%Y")}", align: :right
     move_down 40
-    text "Kontostand Direktkreditvertrag Nr. #{@contract.number}", size: 12, style: :bold
+    text "Kontostand Nachrangdarlehen Nr. #{@contract.number}", size: 12, style: :bold
     move_down 30
     text "Hallo #{@contract.try(:contact).try(:prename)} #{@contract.try(:contact).try(:name)},"
     move_down 10
@@ -46,7 +46,6 @@ class PdfYearClosingStatement < Prawn::Document
     text "Vielen Dank!"
     move_down 30
     text "Mit freundlichen Grüßen"
-    move_down 30
     text "Das Direktkredit Team der #{company.gmbh_name}"
     move_down 30
 
@@ -80,6 +79,7 @@ class PdfYearClosingStatement < Prawn::Document
 
       move_down 10
       text company.email, size: 8
+      #text "post@kuneterakete.de", size: 8
       text company.web, size: 8
     end
 
@@ -87,6 +87,7 @@ class PdfYearClosingStatement < Prawn::Document
                  width: image_width do
       fill_color '777777'
       text "#{company.gmbh_name}     #{company.street}     #{company.zip_code} #{company.city}", size: 7
+      #text "kunet e.V.     #{company.street}     #{company.zip_code} #{company.city}", size: 7
       fill_color '000000'
       move_down 10
       text "#{@contract.contact.try(:prename)} #{@contract.contact.try(:name)}"
@@ -96,7 +97,7 @@ class PdfYearClosingStatement < Prawn::Document
         (0..(address_array.length-2)).to_a.each do |i|
           text address_array[i]
         end
-        move_down 10
+        #move_down 10
         text address_array.last
       end
     end
@@ -105,15 +106,14 @@ class PdfYearClosingStatement < Prawn::Document
 
   #TODO: Statement could use a method which return the following array of arrays for table rendering (Presenter)
   def interest_calculation_table
-    data = [['Datum', 'Vorgang', 'Betrag', 'Zinssatz', "vorr. Zinsen bis Ende #{@year}"]]
+    data = [['Datum', 'Vorgang', 'Betrag', 'Zinssatz']]
     @statement.movements.each do |movement|
       unless movement[:type] == :movement && movement[:amount] < 0.0
         data << [
             movement[:date].strftime('%d.%m.%Y'),
             name_for_movement(movement),
             currency(movement[:amount].to_s),
-            fraction(movement[:interest_rate]),
-            currency(movement[:interest])
+            fraction(movement[:interest_rate])
         ]
       else
         data << [
