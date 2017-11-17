@@ -1,0 +1,209 @@
+class PdfYearClosingStatement < Prawn::Document
+  include PdfHelper
+
+
+  def initialize(statement)
+    @statement = statement
+    @contract = statement.contract
+    @year = statement.year
+
+    # --- Exceptionel for 2016:
+    # parse comment for old contract number if necessary
+    if @contract.category.include?("nv-20160101") || @contract.category.include?("nn-201")
+      n = @contract.comment.index @contract.number
+      @former_number = @contract.comment[n-13..n-5]
+
+      # parse category for number change date
+      if @contract.category.include?("nn-201")
+        i = @contract.category.index "nn-201"
+      end
+      if @contract.category.include?("nv-201")
+        i = @contract.category.index "nv-201"
+      end
+      date_string = @contract.category[i+3..i+3+7]
+      ymd = Date._parse date_string
+      @number_change_date = Date.new(ymd[:year], ymd[:mon], ymd[:mday])
+    end
+    # -- end
+
+
+    super(page_size: 'A4', top_margin: 30, left_margin: 55)
+
+    font 'Helvetica'
+
+    postal_address_and_header
+
+    move_down 40
+
+    text "#{company.city}, den #{DateTime.now.strftime("%d.%m.%Y")}", align: :right
+    move_down 40
+    text "Kontostand Nachrangdarlehen Nr. #{@contract.number}", size: 12, style: :bold
+    move_down 30
+    text "Hallo #{@contract.try(:contact).try(:prename)} #{@contract.try(:contact).try(:name)},"
+    move_down 10
+    #text "herzlichen Dank für die Unterstützung im Jahr #{@year}. Anbei der Kontoauszug und die Berechnung der Zinsen. " +
+    #         "Auf Wunsch erstellen wir eine gesonderte Zinsbescheinigung für die Steuererklärung. Wir bitten um Überprüfung des Auszugs. " +
+    #         "Falls etwas nicht stimmt oder unverständlich ist, stehen wir für Rückfragen gerne zur Verfügung."
+    text "herzlichen Dank für die Unterstützung im Jahr #{@year}. Anbei der Kontoauszug und die Berechnung der Zinsen. " +
+         "Auf Wunsch erstellen wir eine gesonderte Zinsbescheinigung für die Steuererklärung. "
+    move_down 5
+    text (@former_number ? "Wie in der beiliegenden Information zum Vermögensanlagegesetz beschrieben, wurde "+
+         "der Direktkredit Nr. #{@former_number} zum " +
+         "#{@number_change_date.mday}.#{@number_change_date.mon}.#{@number_change_date.year} " +
+         "in die neue Vermögensanlage Nr. #{@contract.number} " + "übertragen. " : "") +
+         "Wir bitten um Überprüfung des Auszugs. " +
+         "Falls etwas nicht stimmt oder unverständlich ist, stehen wir für Rückfragen gern zur Verfügung."
+    unless @contract.terminated?  
+      move_down  5
+      text "Die Zinsen wurden auf dem Konto des Nachrangdarlehens gutgeschrieben. Auf Wunsch zahlen wir diese auch aus." if @contract.add_interest_to_deposit_annually
+    end
+
+    #text "der Kontostand des Direktkreditvertrags Nr. #{contract.number} beträgt heute, am #{DateTime.now.strftime("%d.%m.%Y")} #{currency(contract.balance DateTime.now.to_date)}. Die Zinsen für das Jahr #{@year} berechnen sich wie folgt:"
+    move_down 10
+    text "Buchungsübersicht"+(@former_number ? " (mit Übertrag aus Altvertrag #{@former_number})" : ""), style: :bold
+    move_down 5
+
+    interest_calculation_table
+
+    # %p= "Zinsen #{@statement.year}: #{currency(@statement.annual_interest)}"
+    #
+    # %p= "Kontostand zum Jahresabschluss #{ @statement.year }: #{ currency(@statement.balance_closing_of_year) }"
+
+    move_down 10
+    #text "Zinsen #{@year}: #{currency(interest)}", inline_format: true
+    text "Kontostand zum Jahresabschluss #{ @year }: <b>#{ currency(@contract.balance(Date.new(@year, 12, 31))) }</b>", inline_format: true
+    move_down 15
+    text "Wir werden die Zinsen in den nächsten Tagen auf das im Vertrag angegebene Konto überweisen." unless @contract.add_interest_to_deposit_annually
+    text "Zinseinkünfte sind einkommensteuerpflichtig.", style: :bold, align: :center
+    move_down 10
+    text "Vielen Dank!"
+    move_down 30
+    text "Mit freundlichen Grüßen"
+    text "Das Direktkredit Team der #{company.gmbh_name}"
+    move_down 30
+
+    footer
+
+  end
+
+  def postal_address_and_header
+    image_width = 180
+    image_heigth = 52
+    address_y_pos = 110
+
+    x_pos = bounds.width-image_width
+    y_pos = cursor
+
+    image_file = "#{Rails.root}/custom/logo.png"
+    image(image_file, at: [x_pos, y_pos], width: image_width) if File.exists?(image_file)
+
+    bounding_box [x_pos + 55, y_pos - image_heigth],
+                 width: image_width do
+      text company.name, size: 10
+      text "Projekt im Mietshäuser Syndikat", size: 8, style: :italic
+      move_down 10
+      if company.building_street && company.building_zipcode
+        text company.building_street, size: 8
+        text "#{company.building_zipcode} #{company.city}", size: 8
+      else
+        text company.street, size: 8
+        text "#{company.zip_code} #{company.city}", size: 8
+      end
+
+      move_down 10
+      text company.email, size: 8
+      #text "post@kuneterakete.de", size: 8
+      text company.web, size: 8
+    end
+
+    bounding_box [0, y_pos - address_y_pos],
+                 width: image_width do
+      fill_color '777777'
+      text "#{company.gmbh_name}     #{company.street}     #{company.zip_code} #{company.city}", size: 7
+      #text "kunet e.V.     #{company.street}     #{company.zip_code} #{company.city}", size: 7
+      fill_color '000000'
+      move_down 10
+      text "#{@contract.contact.try(:prename)} #{@contract.contact.try(:name)}"
+      address = @contract.contact.try(:address)
+      if address
+        address_array = address.split(',')
+        (0..(address_array.length-2)).to_a.each do |i|
+          text address_array[i]
+        end
+        #move_down 10
+        text address_array.last
+      end
+    end
+  end
+
+
+  #TODO: Statement could use a method which return the following array of arrays for table rendering (Presenter)
+  def interest_calculation_table
+    data = [['Datum', 'Vorgang', 'Betrag', 'Zinssatz']]
+    @statement.movements.each do |movement|
+      unless movement[:type] == :movement && movement[:amount] < 0.0
+        data << [
+            movement[:date].strftime('%d.%m.%Y'),
+            (movement[:date] == Date.new(2016,1,1) && @former_number) ? "Übertrag aus #{@former_number}" : name_for_movement(movement),
+            currency(movement[:amount].to_s),
+            fraction(movement[:interest_rate])
+        ]
+      else
+        data << [
+            movement[:date].strftime('%d.%m.%Y'),
+            name_for_movement(movement),
+            currency(movement[:amount].to_s)
+        ]
+      end
+    end
+
+    # Exceptional for 2016: additional row for contract number change within 2016
+    #if @number_change_date && @number_change_date != Date.new(2016,1,1)
+    #  data << [@number_change_date.strftime('%d.%m.%Y'),
+    #           "Übertrag aus #{@former_number}",
+    #           currency(@contract.balance(@number_change_date))]
+    #end
+
+    # additional row for account balance at closing date
+    closing_date = Date.new(@year, 12, 31)
+    data << [closing_date.strftime('%d.%m.%Y'),
+             @number_change_date == closing_date ? "Saldo #{@former_number} und Übertrag in #{@contract.number}" : "Saldo",
+             currency(@contract.balance(closing_date))]
+
+    table data do
+      row(0).font_style = :bold
+      columns(2..6).align = :right
+      self.row_colors = ["EEEEEE", "FFFFFF"]
+      self.cell_style = {size: 8}
+      self.header = true
+    end
+  end
+
+  def footer
+    #footer
+    y_pos = 25
+    self.line_width = 0.5
+    stroke_line [0, y_pos], [bounds.width, y_pos]
+    fill_color '777777'
+    y_pos -= 5
+    bounding_box [20, y_pos], width: bounds.width/3.0 do
+      text company.bank_name, size: 8
+      text company.bank_account_info, size: 8
+    end
+    bounding_box [20 + bounds.width/3.0, y_pos], width: bounds.width/3.0 do
+      text "Geschäftsführung", size: 8
+      text company.gmbh_executive_board, size: 8
+    end
+    bounding_box [20 + 2*bounds.width/3.0, y_pos], width: bounds.width/3.0 do
+      text "Registergericht: #{company.gmbh_register_number}", size: 8
+      text "Steuernummer: #{company.gmbh_tax_number}", size: 8
+    end
+  end
+
+  private
+  def texts
+    hash = YAML.load_file("#{Rails.root}/custom/text_snippets.yml")
+    HashWithIndifferentAccess.new(hash)
+  end
+
+end
