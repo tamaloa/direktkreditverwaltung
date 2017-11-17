@@ -21,23 +21,19 @@ class PdfYearClosingStatement < Prawn::Document
     text "Hallo #{@contract.try(:contact).try(:prename)} #{@contract.try(:contact).try(:name)},"
     move_down 10
     text "herzlichen Dank für die Unterstützung im Jahr #{@year}. Anbei der Kontoauszug und die Berechnung der Zinsen. " +
-             "Auf Wunsch erstellen wir eine gesonderte Zinsbescheinigung für die Steuererklärung. Wir bitten um Überprüfung des Auszugs. " +
-             "Falls etwas nicht stimmt oder unverständlich ist, stehen wir für Rückfragen gerne zur Verfügung."
+             "Auf Wunsch erstellen wir eine gesonderte Zinsbescheinigung für die Steuererklärung."
+    move_down 5
+    text " Wir bitten um Überprüfung des Auszugs. " +
+         "Falls etwas nicht stimmt oder unverständlich ist, stehen wir für Rückfragen gern zur Verfügung."
+    move_down 5
     text "Die Zinsen wurden auf dem Direktkreditkonto gutgeschrieben. Auf Wunsch zahlen wir diese auch gern aus." if @contract.add_interest_to_deposit_annually
-
-    #text "der Kontostand des Direktkreditvertrags Nr. #{contract.number} beträgt heute, am #{DateTime.now.strftime("%d.%m.%Y")} #{currency(contract.balance DateTime.now.to_date)}. Die Zinsen für das Jahr #{@year} berechnen sich wie folgt:"
     move_down 10
     text "Buchungsübersicht", style: :bold
     move_down 5
 
     interest_calculation_table
 
-    # %p= "Zinsen #{@statement.year}: #{currency(@statement.annual_interest)}"
-    #
-    # %p= "Kontostand zum Jahresabschluss #{ @statement.year }: #{ currency(@statement.balance_closing_of_year) }"
-
     move_down 10
-    #text "Zinsen #{@year}: #{currency(interest)}", inline_format: true
     text "Kontostand zum Jahresabschluss #{ @year }: <b>#{ currency(@contract.balance(Date.new(@year, 12, 31))) }</b>", inline_format: true
     move_down 15
     text "Wir werden die Zinsen in den nächsten Tagen auf das im Vertrag angegebene Konto überweisen." unless @contract.add_interest_to_deposit_annually
@@ -46,11 +42,10 @@ class PdfYearClosingStatement < Prawn::Document
     text "Vielen Dank!"
     move_down 30
     text "Mit freundlichen Grüßen"
-    text "Das Direktkredit Team der #{company.gmbh_name}"
+    text "Die Finanz-Crew der #{company.gmbh_name}"
     move_down 30
 
     footer
-
   end
 
   def postal_address_and_header
@@ -97,7 +92,6 @@ class PdfYearClosingStatement < Prawn::Document
         (0..(address_array.length-2)).to_a.each do |i|
           text address_array[i]
         end
-        #move_down 10
         text address_array.last
       end
     end
