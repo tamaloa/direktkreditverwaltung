@@ -79,6 +79,12 @@ contract_number_type: "string" # one of: "string" | "integer", defaults to integ
 
 ### Installation
 
+Prerequisits:
+
+* postgresql (e.g. via brew)
+
+Setup repo:
+
 1. git clone repo and cd into repo
 2. check ruby version and gemset you want to use, e.g.
     * create and edit `.ruby-version` and `.ruby-gemset`

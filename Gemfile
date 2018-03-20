@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.0.0'
+ruby '2.1.10'
 
 gem 'rails', '~>3.2' # otherwise 0.9.2 is installed
 gem 'pg'
@@ -34,7 +34,6 @@ group :test do
   gem 'test-unit'
   gem 'pdf-inspector', :require => 'pdf/inspector'   #To test the output of PDFs
   gem "codeclimate-test-reporter", group: :test, require: nil #To get code coverage
-  gem 'byebug'
 end
 
 # Gems used only for assets and not required
