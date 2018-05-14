@@ -39,6 +39,7 @@
     %h3 Aktionen
     %ul
       %li= link_to 'Kündigung vornehmen (inklusive Abschlussbuchung)', new_contract_terminator_path(id: @contract.id)
+      %b !AUFGEPASST! Erst kündigen wenn Vorjahres-Abschluss erfolgt ist, sonst werden Zinsen des Vorjahres unterschlagen!
       %li= link_to 'Buchung erstellen (Geld ein/auszahlen)', new_contract_accounting_entry_path(@contract)
       %li= link_to 'Neue Vertragsversion erstellen (Zinssatz ändern)', new_contract_contract_version_path(@contract)
       %li= link_to 'Buchungsübersicht', contract_accounting_entries_path(@contract)
