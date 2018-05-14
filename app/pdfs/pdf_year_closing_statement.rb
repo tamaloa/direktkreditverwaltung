@@ -10,7 +10,15 @@ class PdfYearClosingStatement < Prawn::Document
 
     font 'Helvetica'
 
-    postal_address_and_header
+    company_adress = "#{company.gmbh_name}     #{company.street}     #{company.zip_code} #{company.city}"
+    company_mail = company.email
+    show_footer = true
+    # decomment for kunet print (default is gmbh):
+    #company_adress = "kunet e.V.     #{company.street}     #{company.zip_code} #{company.city}"
+    #company_mail = "post@kuneterakete.de"
+    #show_footer = false
+
+    postal_address_and_header(company_adress, company_mail, show_footer)
 
     move_down 40
 
@@ -45,10 +53,10 @@ class PdfYearClosingStatement < Prawn::Document
     text "Die Finanz-Crew der #{company.gmbh_name}"
     move_down 30
 
-    footer
+    show_footer ? footer : nil # kunet vs. gmbh
   end
 
-  def postal_address_and_header
+  def postal_address_and_header company_adress, company_mail, show_footer
     image_width = 180
     image_heigth = 52
     address_y_pos = 110
@@ -73,16 +81,14 @@ class PdfYearClosingStatement < Prawn::Document
       end
 
       move_down 10
-      text company.email, size: 8
-      #text "post@kuneterakete.de", size: 8
+      text company_mail, size: 8 # kunet vs. gmbh
       text company.web, size: 8
     end
 
     bounding_box [0, y_pos - address_y_pos],
                  width: image_width do
       fill_color '777777'
-      text "#{company.gmbh_name}     #{company.street}     #{company.zip_code} #{company.city}", size: 7
-      #text "kunet e.V.     #{company.street}     #{company.zip_code} #{company.city}", size: 7
+      text company_adress, size: 7 # kunet vs. gmbh
       fill_color '000000'
       move_down 10
       text "#{@contract.contact.try(:prename)} #{@contract.contact.try(:name)}"
