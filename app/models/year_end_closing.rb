@@ -42,7 +42,7 @@ class YearEndClosing
     #TODO what to do with terminated contracts (should interest always be deleted)
     #Vielleicht verträge mit terminated at ausschließen
   end
-  
+
   def self.most_recent_one
     year_closing_entry = AccountingEntry.
         order('date DESC').where(annually_closing_entry: true).
@@ -93,10 +93,10 @@ class YearEndClosing
         row << contract.contact.prename
         row << contract.contact.name
         row << contract.contact.email
-        row << ApplicationController.helpers.currency(balance_closing_of_year_before(contract))
+        row << balance_closing_of_year_before(contract)
         row << movements_excluding_interest(contract)
-        row << ApplicationController.helpers.currency(annual_interest(contract))
-        row << ApplicationController.helpers.currency(balance_closing_of_year(contract))
+        row << annual_interest(contract)
+        row << balance_closing_of_year(contract)
         row << "#{@year}-DK_#{contract.number.gsub('-', '')}-#{contract.contact.try(:name).to_s.gsub('ä','ae').gsub('ö','oe').gsub('ü','ue').gsub('ß','ss').
                gsub('Ä','Ae').gsub('Ö','Oe').gsub('Ü','ue').gsub(/\W/,'')}-Jahreskontoauszug.pdf"
         csv << row
