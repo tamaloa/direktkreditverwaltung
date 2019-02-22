@@ -38,7 +38,7 @@ class StatementsToFile
 
   def pdf_file_full_path(contract)
     current_pdf_dir = pdf_dir_path
-    filename = "#{year}-DK_#{file_safe contract.number}-#{file_safe contract.contact.try(:name)}-Jahreskontoauszug.pdf"
+    filename = "#{year}-NRD_#{file_safe contract.number}-#{file_safe contract.contact.try(:name)}-Jahreskontoauszug.pdf"
     Shellwords.escape "#{current_pdf_dir}/#{filename}"
   end
 

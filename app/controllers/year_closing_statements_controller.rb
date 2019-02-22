@@ -21,7 +21,7 @@ class YearClosingStatementsController < ApplicationController
     @contract = @statement.contract
     @year = @statement.year
     pdf = PdfYearClosingStatement.new(@statement)
-    filename = "#{@year}-DK_#{@contract.number}-#{@contract.contact.try(:name)}-Jahreskontoauszug.pdf"
+    filename = "#{@year}-NRD_#{@contract.number}-#{@contract.contact.try(:name)}-Jahreskontoauszug.pdf"
 
     send_data pdf.render, filename: filename,
                           type: "application/pdf",

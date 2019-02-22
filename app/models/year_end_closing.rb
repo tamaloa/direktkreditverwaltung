@@ -86,7 +86,7 @@ class YearEndClosing
   require 'csv'
   def as_csv
     CSV.generate do |csv|
-      csv << ['DK#', 'Vorname', 'Nachname', 'Email', 'Vorjahressaldo', 'Kontobewegungen', 'Zinsen', 'Saldo Jahresabschluss', 'Dateiname']
+      csv << ['NRD#', 'Vorname', 'Nachname', 'Email', 'Vorjahressaldo', 'Kontobewegungen', 'Zinsen', 'Saldo Jahresabschluss', 'Dateiname']
       contracts.each do |contract|
         row = []
         row << contract.number
@@ -97,7 +97,7 @@ class YearEndClosing
         row << movements_excluding_interest(contract)
         row << annual_interest(contract)
         row << balance_closing_of_year(contract)
-        row << "#{@year}-DK_#{contract.number.gsub('-', '')}-#{contract.contact.try(:name).to_s.gsub('ä','ae').gsub('ö','oe').gsub('ü','ue').gsub('ß','ss').
+        row << "#{@year}-NRD_#{contract.number.gsub('-', '')}-#{contract.contact.try(:name).to_s.gsub('ä','ae').gsub('ö','oe').gsub('ü','ue').gsub('ß','ss').
                gsub('Ä','Ae').gsub('Ö','Oe').gsub('Ü','ue').gsub(/\W/,'')}-Jahreskontoauszug.pdf"
         csv << row
       end
