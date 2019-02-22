@@ -10,15 +10,19 @@ class PdfYearClosingStatement < Prawn::Document
 
     font 'Helvetica'
 
-    company_adress = "#{company.gmbh_name}     #{company.street}     #{company.zip_code} #{company.city}"
-    company_mail = company.email
-    show_footer = true
-    # decomment for kunet print (default is gmbh):
-    #company_adress = "kunet e.V.     #{company.street}     #{company.zip_code} #{company.city}"
-    #company_mail = "post@kuneterakete.de"
-    #show_footer = false
+    gmbh_adress = "#{company.gmbh_name}     #{company.street}     #{company.zip_code} #{company.city}"
+    gmbh_mail = company.email
+    gmbh_greet = "Die Finanz-Crew der #{company.gmbh_name}"
+    kunet_adress = "#{company.verein_name}     #{company.street}     #{company.zip_code} #{company.city}"
+    kunet_mail = "post@kuneterakete.de"
+    kunet_greet = "Die Finanz-Crew des #{company.verein_name}"
 
-    postal_address_and_header(company_adress, company_mail, show_footer)
+    is_kunet_contract = @contract.number.index("70") == 0 ? true : false;
+    company_adress = is_kunet_contract ? kunet_adress : gmbh_adress;
+    company_mail = is_kunet_contract ? kunet_mail : gmbh_mail;
+    farewell_formula = is_kunet_contract ? kunet_greet : gmbh_greet
+
+    postal_address_and_header(company_adress, company_mail)
 
     move_down 40
 
@@ -50,13 +54,13 @@ class PdfYearClosingStatement < Prawn::Document
     text "Vielen Dank!"
     move_down 30
     text "Mit freundlichen Grüßen"
-    text "Die Finanz-Crew der #{company.gmbh_name}"
+    text farewell_formula
     move_down 30
 
-    show_footer ? footer : nil # kunet vs. gmbh
+    is_kunet_contract ? nil : footer
   end
 
-  def postal_address_and_header company_adress, company_mail, show_footer
+  def postal_address_and_header company_adress, company_mail
     image_width = 180
     image_heigth = 52
     address_y_pos = 110
