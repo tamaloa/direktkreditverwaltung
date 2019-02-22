@@ -124,7 +124,9 @@ class YearEndClosing
   end
   def annual_interest(contract)
     end_of_year_date = Date.new(@year).end_of_year.to_date
-    closing_entries = AccountingEntry.where(date: end_of_year_date, annually_closing_entry: true, contract_id: contract.id)
+    closing_entries = AccountingEntry.where(date: end_of_year_date, annually_closing_entry: true, interest_entry: true, contract_id: contract.id)
+    # Note: contracts that were repaid during this year do not have an interest-entry where
+    # annually_closing_entry=true, that is why we get the latest interest entry here
     interest_entries = AccountingEntry.where(interest_entry: true, contract_id: contract.id).order(:date)
 
     annual_interest = closing_entries.length > 0 ? closing_entries.first.amount : interest_entries.last.amount
