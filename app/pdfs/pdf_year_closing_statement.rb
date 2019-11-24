@@ -22,6 +22,9 @@ class PdfYearClosingStatement < Prawn::Document
     company_mail = is_kunet_contract ? kunet_mail : gmbh_mail;
     farewell_formula = is_kunet_contract ? kunet_greet : gmbh_greet
 
+    # set manually to true if contract was finished, shows sightly different text
+    is_contract_finish = false; # default is: false
+
     postal_address_and_header(company_adress, company_mail)
 
     move_down 40
@@ -32,13 +35,20 @@ class PdfYearClosingStatement < Prawn::Document
     move_down 30
     text "Hallo #{@contract.try(:contact).try(:prename)} #{@contract.try(:contact).try(:name)},"
     move_down 10
-    text "herzlichen Dank für die Unterstützung im Jahr #{@year}. Anbei der Kontoauszug und die Berechnung der Zinsen. " +
-             "Auf Wunsch erstellen wir eine gesonderte Zinsbescheinigung für die Steuererklärung."
+    if is_contract_finish
+      text "herzlichen Dank für deine Unterstützung! Anbei der Kontoauszug und die Berechnung der Zinsen. " +
+           "Auf Wunsch erstellen wir eine gesonderte Zinsbescheinigung für die Steuererklärung."
+    else
+      text "herzlichen Dank für die Unterstützung im Jahr #{@year}! Anbei der Kontoauszug und die Berechnung der Zinsen. " +
+           "Auf Wunsch erstellen wir eine gesonderte Zinsbescheinigung für die Steuererklärung."
+    end
     move_down 5
     text " Wir bitten um Überprüfung des Auszugs. " +
          "Falls etwas nicht stimmt oder unverständlich ist, stehen wir für Rückfragen gern zur Verfügung."
     move_down 5
-    text "Die Zinsen wurden auf dem Direktkreditkonto gutgeschrieben. Auf Wunsch zahlen wir diese auch gern aus." if @contract.add_interest_to_deposit_annually
+    if !is_contract_finish
+      text "Die Zinsen wurden auf dem Direktkreditkonto gutgeschrieben. Auf Wunsch zahlen wir diese auch gern aus." if @contract.add_interest_to_deposit_annually
+    end
     move_down 10
     text "Buchungsübersicht", style: :bold
     move_down 5
@@ -46,7 +56,9 @@ class PdfYearClosingStatement < Prawn::Document
     interest_calculation_table
 
     move_down 10
-    text "Kontostand zum Jahresabschluss #{ @year }: <b>#{ currency(@contract.balance(Date.new(@year, 12, 31))) }</b>", inline_format: true
+    if !is_contract_finish
+      text "Kontostand zum Jahresabschluss #{ @year }: <b>#{ currency(@contract.balance(Date.new(@year, 12, 31))) }</b>", inline_format: true
+    end
     move_down 15
     text "Wir werden die Zinsen in den nächsten Tagen auf das im Vertrag angegebene Konto überweisen." unless @contract.add_interest_to_deposit_annually
     text "Zinseinkünfte sind einkommensteuerpflichtig.", style: :bold, align: :center
