@@ -1,0 +1,15 @@
+version: '3'
+services:
+  web:
+    container_name: nrd_hooray
+    build: .
+    command: rails server --port 3000 -e development --binding 0.0.0.0
+    # command: rails server --port 3000 -e production --binding 0.0.0.0
+    ports:
+      - "3000:3000"
+    volumes:
+     - ./db:/usr/src/app/db
+     - ./log:/usr/src/app/log
+     - ./config:/usr/src/app/config
+     - ./pdfs:/usr/src/app/pdfs
+     - ./custom:/usr/src/app/custom
