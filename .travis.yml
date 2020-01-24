@@ -1,6 +1,9 @@
 language: ruby
 rvm:
-  - 2.0.0
+  - 2.4.9
+
+services:
+  - postgresql
 
 bundler_args: --without development
 
@@ -10,7 +13,6 @@ script:
 - bundle exec rake cucumber
 
 before_script:
-  - psql -c 'create database travis_ci_test;' -U postgres
   - cp config/database.yml_template_postgres config/database.yml
 
 before_install:
