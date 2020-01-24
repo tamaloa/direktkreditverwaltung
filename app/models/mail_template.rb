@@ -1,5 +1,6 @@
 class MailTemplate < ActiveRecord::Base
   has_attached_file :newsletter
+  do_not_validate_attachment_file_type :newsletter
 
   validates_uniqueness_of :year
   validates_presence_of :year
