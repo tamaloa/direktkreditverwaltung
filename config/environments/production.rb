@@ -77,4 +77,11 @@ Direktkreditverwaltung::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  
+  # Authenticate with http basic auth
+  config.middleware.use(Rack::Auth::Basic) do |u, p|
+    [u, p] == [ENV['HTTP_BASIC_AUTH_USER'], ENV['HTTP_BASIC_AUTH_PASSWORD'] || SecureRandom.hex]
+  end
+
 end
