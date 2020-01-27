@@ -40,5 +40,8 @@ group :test do
   gem "codeclimate-test-reporter", require: nil #To get code coverage
 end
 
-gem 'rails_12factor', group: :production
+group :production do
+  gem 'rails_12factor'
+  gem 'exception_notification'
+end
 
