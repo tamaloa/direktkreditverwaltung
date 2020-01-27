@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160109203933) do
+ActiveRecord::Schema.define(version: 20200127085929) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -115,6 +115,9 @@ ActiveRecord::Schema.define(version: 20160109203933) do
     t.integer  "newsletter_file_size"
     t.datetime "newsletter_updated_at"
     t.datetime "test_mail_sent_at"
+    t.string   "filename"
+    t.string   "content_type"
+    t.binary   "file_content"
   end
 
 end

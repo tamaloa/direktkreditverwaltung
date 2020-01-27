@@ -17,8 +17,6 @@ gem 'prawn'
 gem 'prawn-table'
 
 
-gem 'paperclip' #upload additional attachments for emails
-
 gem 'days360'
 
 

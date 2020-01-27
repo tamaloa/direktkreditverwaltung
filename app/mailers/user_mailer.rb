@@ -12,8 +12,8 @@ class UserMailer < ActionMailer::Base
       attachments[File.basename(pdf_file_path)] = file
     end
 
-    if email.mail_template.newsletter.path.present?
-      attachments[email.mail_template.newsletter_file_name] = File.read(email.mail_template.newsletter.path)
+    if email.mail_template.file_content.present?
+      attachments[email.mail_template.filename] = email.mail_template.file_content
     end
 
     content = email.mail_template.content.gsub(/@geber_in@/, name)
