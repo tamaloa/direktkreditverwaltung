@@ -121,9 +121,9 @@ class YearEndClosing
   end
   def interest_rates(contract)
     rates_and_dates = InterestCalculation.new(contract, year: @year).interest_rates_and_dates
-    return ["#{rates_and_dates.first[:interest_rate].to_s} %"] if (rates_and_dates.count == 1)
+    return ["#{rates_and_dates.first[:interest_rate].to_s}"] if (rates_and_dates.count == 1)
     rates_and_dates.map do |rad|
-      "#{rad[:start]} bis #{rad[:end]} Zinssatz: #{rad[:interest_rate].to_s} %"
+      "#{rad[:start]} bis #{rad[:end]} Zinssatz: #{rad[:interest_rate].to_s}"
     end
   end
   def annual_interest(contract)
