@@ -2,8 +2,8 @@ class ContractsController < ApplicationController
   # GET /contracts
   # GET /contracts.json
   def index
-    @contracts = Contract.active
-    @terminated_contracts = Contract.terminated
+    @contracts = Contract.active.sort_by{|c| c.number.to_i}
+    @terminated_contracts = Contract.terminated.order(:terminated_at)
 
     respond_to do |format|
       format.html # index.html.erb

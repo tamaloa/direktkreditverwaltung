@@ -10,8 +10,7 @@ class Contract < ActiveRecord::Base
 
   validates_presence_of :number
   validates_uniqueness_of :number
-
-  default_scope { order(:number) }
+  
   scope :active, ->{ where(terminated_at: nil)}
   scope :terminated, ->{ where('terminated_at IS NOT NULL')}
 
