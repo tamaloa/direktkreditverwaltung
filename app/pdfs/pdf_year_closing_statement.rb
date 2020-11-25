@@ -28,7 +28,7 @@ class PdfYearClosingStatement < Prawn::Document
     text "herzlichen Dank für die Unterstützung im Jahr #{@year}. Anbei der Kontoauszug und die Berechnung der Zinsen. " +
              "Auf Wunsch erstellen wir eine gesonderte Zinsbescheinigung für die Steuerklärung. Wir bitte um Überprüfung des Auszugs. " +
              "Falls etwas nicht stimmt oder unverständlich ist, stehen wir für Rückfragen gerne zur Verfügung."
-    text "Die Zinsen wurden auf dem Direktkreditkonto gutgeschrieben." if @contract.add_interest_to_deposit_annually
+    # text "Die Zinsen wurden auf dem Direktkreditkonto gutgeschrieben." if @contract.add_interest_to_deposit_annually
 
     #text "der Kontostand des Direktkreditvertrags Nr. #{contract.number} beträgt heute, am #{DateTime.now.strftime("%d.%m.%Y")} #{currency(contract.balance DateTime.now.to_date)}. Die Zinsen für das Jahr #{@year} berechnen sich wie folgt:"
     move_down 5
@@ -43,7 +43,7 @@ class PdfYearClosingStatement < Prawn::Document
     #text "Zinsen #{@year}: #{currency(interest)}", inline_format: true
     text "Kontostand zum Jahresabschluss #{ @year }: <b>#{ currency(@contract.balance(Date.new(@year, 12, 31))) }</b>", inline_format: true
     move_down 15
-    text "Wir werden die Zinsen in den nächsten Tagen auf das im Vertrag angegebene Konto überweisen." unless @contract.add_interest_to_deposit_annually
+    # text "Wir werden die Zinsen in den nächsten Tagen auf das im Vertrag angegebene Konto überweisen." unless @contract.add_interest_to_deposit_annually
     text "Zinseinkünfte sind einkommensteuerpflichtig.", style: :bold, align: :center
     move_down 10
     text "Vielen Dank!"
