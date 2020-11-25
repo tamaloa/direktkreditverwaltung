@@ -15,7 +15,7 @@ class YearEndClosing
 
 
   def close_year!
-    Contract.where(add_interest_to_deposit_annually: true).each do |contract|
+    Contract.all.each do |contract|
       close_year_for_contract(contract)
     end
   end
