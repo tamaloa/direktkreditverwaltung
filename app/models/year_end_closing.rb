@@ -66,6 +66,8 @@ class YearEndClosing
 
   def email_all_closing_statements
     mail_template = MailTemplate.find_by_year(@year)
+    raise "Versand bereits erfolgt am #{mail_template.all_mail_sent_at}}!" if mail_template.all_mail_sent_at
+    mail_template.update!(all_mail_sent_at: Time.now)
     contacts_and_contracts_with_email.each do |contact, contracts|
       Email.create!(contact: contact,
                     mail_template: mail_template,

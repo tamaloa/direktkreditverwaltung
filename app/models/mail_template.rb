@@ -1,5 +1,5 @@
 class MailTemplate < ActiveRecord::Base
-
+  has_many :emails
   validates_uniqueness_of :year
   validates_presence_of :year
 

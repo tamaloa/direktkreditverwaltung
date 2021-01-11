@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200127085929) do
+ActiveRecord::Schema.define(version: 20210111214207) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,35 +29,35 @@ ActiveRecord::Schema.define(version: 20200127085929) do
   add_index "accounting_entries", ["contract_id"], name: "index_accounting_entries_on_contract_id", using: :btree
 
   create_table "companies", force: :cascade do |t|
-    t.string   "name"
-    t.string   "gmbh_name"
-    t.string   "verein_name"
-    t.string   "street"
-    t.string   "zip_code"
-    t.string   "city"
-    t.string   "email"
-    t.string   "web"
-    t.string   "bank_name"
-    t.string   "bank_account_info"
-    t.string   "gmbh_executive_board"
-    t.string   "gmbh_register_number"
-    t.string   "gmbh_tax_number"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.string   "name",                 limit: 255
+    t.string   "gmbh_name",            limit: 255
+    t.string   "verein_name",          limit: 255
+    t.string   "street",               limit: 255
+    t.string   "zip_code",             limit: 255
+    t.string   "city",                 limit: 255
+    t.string   "email",                limit: 255
+    t.string   "web",                  limit: 255
+    t.string   "bank_name",            limit: 255
+    t.string   "bank_account_info",    limit: 255
+    t.string   "gmbh_executive_board", limit: 255
+    t.string   "gmbh_register_number", limit: 255
+    t.string   "gmbh_tax_number",      limit: 255
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
   end
 
   create_table "contacts", force: :cascade do |t|
-    t.string   "name"
-    t.string   "prename"
-    t.string   "address"
-    t.string   "account_number"
-    t.string   "bank_number"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.string   "email"
-    t.string   "phone"
-    t.string   "remark"
-    t.string   "bank_name"
+    t.string   "name",           limit: 255
+    t.string   "prename",        limit: 255
+    t.string   "address",        limit: 255
+    t.string   "account_number", limit: 255
+    t.string   "bank_number",    limit: 255
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.string   "email",          limit: 255
+    t.string   "phone",          limit: 255
+    t.string   "remark",         limit: 255
+    t.string   "bank_name",      limit: 255
   end
 
   create_table "contract_versions", force: :cascade do |t|
@@ -78,11 +78,11 @@ ActiveRecord::Schema.define(version: 20200127085929) do
   create_table "contracts", force: :cascade do |t|
     t.string   "number"
     t.integer  "contact_id"
-    t.datetime "created_at",                                      null: false
-    t.datetime "updated_at",                                      null: false
-    t.string   "comment"
-    t.string   "category"
-    t.boolean  "add_interest_to_deposit_annually", default: true
+    t.datetime "created_at",                                                  null: false
+    t.datetime "updated_at",                                                  null: false
+    t.string   "comment",                          limit: 255
+    t.string   "category",                         limit: 255
+    t.boolean  "add_interest_to_deposit_annually",             default: true
     t.date     "terminated_at"
   end
 
@@ -96,28 +96,29 @@ ActiveRecord::Schema.define(version: 20200127085929) do
 
   create_table "emails", force: :cascade do |t|
     t.integer  "mail_template_id"
-    t.string   "status"
+    t.string   "status",           limit: 255
     t.integer  "year"
     t.integer  "contact_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
   end
 
   create_table "mail_templates", force: :cascade do |t|
-    t.string   "subject"
+    t.string   "subject",                 limit: 255
     t.text     "content"
     t.text     "footer"
     t.integer  "year"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-    t.string   "newsletter_file_name"
-    t.string   "newsletter_content_type"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "newsletter_file_name",    limit: 255
+    t.string   "newsletter_content_type", limit: 255
     t.integer  "newsletter_file_size"
     t.datetime "newsletter_updated_at"
     t.datetime "test_mail_sent_at"
     t.string   "filename"
     t.string   "content_type"
     t.binary   "file_content"
+    t.datetime "all_mail_sent_at"
   end
 
 end
