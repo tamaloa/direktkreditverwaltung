@@ -5,6 +5,9 @@
 
 Nach Erfordernissen eines Mietshäuser Syndikat Projekts.
 
+Dies ist der "Leipziger" Fork der Direktkreditverwaltung. Die ursprüngliche "Berliner" version wurde scheinbar durch ein python projekt abgelöst. 
+Ausgehend von diesem Fork gibt es einen in eine andere Richtung entwickelten ["Dresdner" Fork](https://github.com/pamuche/direktkreditverwaltung).
+
 ## Einführung
 
 Diese Rails App erlaubt es auf einfache Art und Weise die im Syndikat üblichen Direktkredite zu verwalten. Ziel ist es
