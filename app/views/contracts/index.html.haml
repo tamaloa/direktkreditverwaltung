@@ -1,5 +1,17 @@
 %h1 Übersicht Direktkreditverträge
-Start, Laufzeit und Zinssatz sind aus der letzten Version des Vertrags.
+
+%p
+  Start, Laufzeit und Zinssatz sind aus der letzten Version des Vertrags.
+
+- if @show_only_rate
+  .alert.alert-warning
+    %p
+      Angezeigt werden nur DK-Verträge mit Zinssatz von:
+      %b= fraction @show_only_rate
+    %p
+      Derzeitige Anlagesumme zu diesem Zinssatz:
+      %b= currency @contracts.sum(&:balance)
+
 %table.table
   %tr
     %th Nummer
