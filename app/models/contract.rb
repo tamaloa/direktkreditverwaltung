@@ -56,6 +56,10 @@ class Contract < ActiveRecord::Base
     return 0.0
   end
 
+  def current_rate
+    interest_rate_for_date(Time.now)
+  end
+
   def interest(year = Time.now.year)
     interest = InterestCalculation.new(self, from: Date.new(year)).interest_total
     rows = InterestCalculation.new(self, from: Date.new(year)).interest_calculated_for_all_account_activities

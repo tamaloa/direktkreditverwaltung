@@ -22,6 +22,7 @@ Direktkreditverwaltung::Application.routes.draw do
   get "contracts/interest_average"
   get "contracts/expiring"
   get "contracts/remaining_term"
+  get "contracts/sum_per_interest"
 
   resources :accounting_entries
   

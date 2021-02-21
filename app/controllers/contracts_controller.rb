@@ -200,6 +200,11 @@ class ContractsController < ApplicationController
     end
   end
 
+
+  def sum_per_interest
+    @contracts = Contract.active
+  end
+
   private
   def contract_params
     params.require(:contract).permit(:number, :add_interest_to_deposit_annually, :comment, :category,
