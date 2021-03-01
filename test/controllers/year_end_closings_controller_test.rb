@@ -8,7 +8,7 @@ class YearEndClosingsControllerTest < ActionController::TestCase
   end
 
   test "should create year_end_closing" do
-    expected_accounting_entries = Contract.where(add_interest_to_deposit_annually: true).where(terminated_at: nil).count
+    expected_accounting_entries = Contract.where(terminated_at: nil).count
     assert_difference(->{AccountingEntry.count}, expected_accounting_entries) do
       post :create, date: {year: 2013}
     end

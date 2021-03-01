@@ -24,6 +24,9 @@
       %b Zinssatz:
       = fraction(@contract.last_version.interest_rate)
     %p
+      %b Soll Zinseszins berechnet werden:
+      = @contract.add_interest_to_deposit_annually
+    %p
       %b Kategorie:
       = @contract.category
     %p
@@ -46,7 +49,7 @@
 
     %h3 Buchungen
 
-    %table
+    %table.table
       %tr
         %th Vorgang
         %th Datum

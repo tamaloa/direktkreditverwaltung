@@ -1,0 +1,26 @@
+%h1
+  Verteilung der DK Summen auf die verschiedenen Zinssätze
+
+%p
+  Durch das Kleinanlegerschutzgesetzt muss man beachten, dass pro 12-monats-zeitraum für keine
+  Anlage (d.h. ein konkreter Zinssatz) mehr als 100.000 € eingeworben wurde.
+  ODER für eine Anlage nicht mehr als 20 DK eingeworben wurden.
+
+%p
+  Diese Auswertung berücksichtigt nicht den 12-monats-zeitraum sondern zeigt die Gesamtsummen egal wann die Anlage abgeschlossen wurde. Liegen diese dennoch unter 100.000 € gibt es kein Problem. Liegt sie darüber sollte kontrolliert werden :)
+%p
+  Nur die jeweils letzte version eines Vertrags wird betrachtet (aktuell vereinbarter Zinssatz).
+
+
+%table.table
+  %tr
+    %th Zinssatz
+    %th Anzahl DKs
+    %th Betrag
+    %th
+  - @contracts.group_by(&:current_rate).sort_by{|interest, _c| interest.to_f}.each do |rate, contracts|
+    %tr
+      %td= fraction(rate)
+      %td= contracts.count
+      %td= currency(contracts.sum(&:balance))
+      %td= link_to "Anzeigen", contracts_path(interest_rate: rate)

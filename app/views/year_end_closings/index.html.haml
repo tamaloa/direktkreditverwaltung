@@ -22,9 +22,9 @@
     %p Für alle Direktkreditverträge bei denen die Zinsen am Jahresende aufgeschlagen werden sollen wird eine Buchung am letzten Tag des Jahres erstellt, die die Zinsen bis dahin aufschlägt.
 
     - if YearEndClosing.next_one > @new_year_end_closing.year
-      .btn.btn-default
-        Abschluss durchführen
-      %p Abschlüsse werden immer für das vergangene Jahr durchgeführt. Nicht für das laufende oder ein zukünftiges Jahr!
+      .btn.btn-default.disabled
+        Abschluss durchführen noch nicht möglich!
+      %p Abschlüsse werden immer für das vergangene Jahr durchgeführt. Nicht für das laufende oder ein zukünftiges Jahr! Einfach auf den 1.1. warten :)
     - else
       =form_for @new_year_end_closing do |f|
         = f.label :year, "Jahr wählen"

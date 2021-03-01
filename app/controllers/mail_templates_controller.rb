@@ -10,8 +10,10 @@ class MailTemplatesController < ApplicationController
   def update
     @mail_template = MailTemplate.find(params[:id])
 
+    newsletter_file = params[:mail_template].delete(:newsletter)
+
     respond_to do |format|
-      if @mail_template.update_attributes(mail_template_params)
+      if @mail_template.update_attributes(mail_template_params) && @mail_template.update_newsletter_file(newsletter_file)
         format.html { redirect_to emails_url(year: @mail_template.year), notice: 'Mail template was successfully updated.' }
         format.json { head :no_content }
       else
@@ -23,6 +25,6 @@ class MailTemplatesController < ApplicationController
 
   private
   def mail_template_params
-    params.require(:mail_template).permit(:content, :footer, :subject, :newsletter)
+    params.require(:mail_template).permit(:content, :footer, :subject)
   end
 end

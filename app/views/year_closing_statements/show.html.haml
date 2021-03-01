@@ -21,9 +21,9 @@
   Anbei der Kontoauszug und die Berechnung der Zinsen. Auf Wunsch erstellen wir eine gesonderte Zinsbescheinigung für
   die Steuerklärung. Wir bitte um Überprüfung des Auszugs. Falls etwas nicht stimmt oder unverständlich ist, stehen wir
   für Rückfragen gerne zur Verfügung."
-%p= "Die Zinsen wurden auf dem Direktkreditkonto gutgeschrieben." if @statement.contract.add_interest_to_deposit_annually
+-#%p= "Die Zinsen wurden auf dem Direktkreditkonto gutgeschrieben." if @statement.contract.add_interest_to_deposit_annually
 
-%table
+%table.table
   %thead
     %th Datum
     %th Vorgang
@@ -42,7 +42,7 @@
 
 %p= "Kontostand zum Jahresabschluss #{ @statement.year }: #{ currency(@statement.balance_closing_of_year) }"
 
-%p= "Wir werden die Zinsen in den nächsten Tagen auf das im Vertrag angegebene Konto überweisen." unless @statement.contract.add_interest_to_deposit_annually
+-#%p= "Wir werden die Zinsen in den nächsten Tagen auf das im Vertrag angegebene Konto überweisen." unless @statement.contract.add_interest_to_deposit_annually
 %p
   %b Zinseinkünfte sind einkommensteuerpflichtig.
 

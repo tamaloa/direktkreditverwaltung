@@ -23,7 +23,6 @@
 # Ignore all uploaded files
 public/system/*
 
-/config/settings.yml
 /custom/*.png
 /custom/*.yml
 /pdfs

@@ -77,4 +77,30 @@ Direktkreditverwaltung::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  
+  # Authenticate with http basic auth
+  config.middleware.use(Rack::Auth::Basic) do |u, p|
+    [u, p] == [ENV['HTTP_BASIC_AUTH_USER'], ENV['HTTP_BASIC_AUTH_PASSWORD'] || SecureRandom.hex]
+  end
+
+  # Send Emails via SMTP - configure via Environment
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+  :address              => ENV['SMTP_ADDRESS'],
+  :port                 => ENV['SMTP_PORT'],
+  :domain               => ENV['SMTP_DOMAIN'],
+  :user_name            => ENV['SMTP_USER_NAME'],
+  :password             => ENV['SMTP_PASSWORD'],
+  :authentication       => 'plain',
+  :enable_starttls_auto => true  }
+
+  # Setup a basic email exception notification
+   config.middleware.use ExceptionNotification::Rack,
+    email: {
+      deliver_with: :deliver, # Rails >= 4.2.1 do not need this option since it defaults to :deliver_now
+      email_prefix: '[DK-EXCEPTION] ',
+      sender_address: ENV['EXCEPTION_NOTIFICATION_FROM'],
+      exception_recipients: ENV['EXCEPTION_NOTIFICATION_TO']
+    }
 end

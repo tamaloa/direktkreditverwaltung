@@ -2,9 +2,13 @@ class ContractsController < ApplicationController
   # GET /contracts
   # GET /contracts.json
   def index
-    @contracts = Contract.active
-    @terminated_contracts = Contract.terminated
+    @contracts = Contract.active.sort_by{|c| c.number.to_i}
+    @terminated_contracts = Contract.terminated.order(:terminated_at)
 
+    if params[:interest_rate]
+      @show_only_rate = params[:interest_rate].to_d
+      @contracts = @contracts.select{ |c| c.current_rate == @show_only_rate }
+    end
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @contracts }
@@ -198,6 +202,11 @@ class ContractsController < ApplicationController
     respond_to do |format|
       format.html # remaining_term.html.erb
     end
+  end
+
+
+  def sum_per_interest
+    @contracts = Contract.active
   end
 
   private

@@ -10,8 +10,7 @@ class Contract < ActiveRecord::Base
 
   validates_presence_of :number
   validates_uniqueness_of :number
-
-  default_scope { order(:number) }
+  
   scope :active, ->{ where(terminated_at: nil)}
   scope :terminated, ->{ where('terminated_at IS NOT NULL')}
 
@@ -55,6 +54,10 @@ class Contract < ActiveRecord::Base
     end
     logger.warn "date before start date of first contract version. Returning interest_rate = 0"
     return 0.0
+  end
+
+  def current_rate
+    interest_rate_for_date(Time.now)
   end
 
   def interest(year = Time.now.year)

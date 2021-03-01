@@ -15,7 +15,7 @@ class YearEndClosing
 
 
   def close_year!
-    Contract.where(add_interest_to_deposit_annually: true).each do |contract|
+    Contract.all.each do |contract|
       close_year_for_contract(contract)
     end
   end
@@ -66,6 +66,8 @@ class YearEndClosing
 
   def email_all_closing_statements
     mail_template = MailTemplate.find_by_year(@year)
+    raise "Versand bereits erfolgt am #{mail_template.all_mail_sent_at}}!" if mail_template.all_mail_sent_at
+    mail_template.update!(all_mail_sent_at: Time.now)
     contacts_and_contracts_with_email.each do |contact, contracts|
       Email.create!(contact: contact,
                     mail_template: mail_template,
@@ -86,13 +88,14 @@ class YearEndClosing
   require 'csv'
   def as_csv
     CSV.generate do |csv|
-      csv << ['DK#', 'DK Geber_in', 'Vorjahressaldo', 'Kontobewegungen', 'Zinsen', 'Saldo Jahresabschluss']
+      csv << ['DK#', 'DK Geber_in', 'Vorjahressaldo', 'Kontobewegungen', 'Zinssätze', 'Zinsen', 'Saldo Jahresabschluss']
       contracts.each do |contract|
         row = []
         row << contract.number
         row << ApplicationController.helpers.contact_short(contract.contact)
         row << ApplicationController.helpers.currency(balance_closing_of_year_before(contract))
-        row << movements_excluding_interest(contract)
+        row << movements_excluding_interest(contract).join("\n")
+        row << interest_rates(contract).join("\n")
         row << ApplicationController.helpers.currency(annual_interest(contract))
         row << ApplicationController.helpers.currency(balance_closing_of_year(contract))
         csv << row
@@ -116,7 +119,14 @@ class YearEndClosing
     movements = InterestCalculation.new(contract, year: @year).account_movements_with_initial_balance
     without_initial_balance = movements.drop(1) # Initial balance
     only_non_interest = without_initial_balance.reject{|m| m[:type] == :interest_entry}
-    only_non_interest.map{|m| m[:date].iso8601 + ' ' + m[:amount].to_s}.to_sentence
+    only_non_interest.map{|m| m[:date].iso8601 + ' ' + m[:amount].to_s + ' €'}
+  end
+  def interest_rates(contract)
+    rates_and_dates = InterestCalculation.new(contract, year: @year).interest_rates_and_dates
+    return ["#{rates_and_dates.first[:interest_rate].to_s}"] if (rates_and_dates.count == 1)
+    rates_and_dates.map do |rad|
+      "#{rad[:start]} bis #{rad[:end]} Zinssatz: #{rad[:interest_rate].to_s}"
+    end
   end
   def annual_interest(contract)
     InterestCalculation.new(contract, year: @year).interest_total

@@ -14,6 +14,7 @@ gekündigt sind aber wieder YearEndClosing mässig reverted wurden?
 * Movement Model in dem die Werte sinnvoll abrufbar sind (inkl. to_s -> € etc.?)
 
 # Features
+* Verträge ohne Zinseszins - gefixed mit hack (Verträge mit jährlicher Zinsauszahlung dafür refactored -> sauber abschließen mit mehrere Optionen)
 * Datenimport im UI anbieten mit Feedback was nicht passt
 * Datenexport im UI anbieten (csv tabelle mit zusammengefassten daten)
 * Jahresabschluss Zusammenfassungs PDF - möglichst klein mit allen wichtigen Daten um ausgedruckt in die Buchhaltung abgeheftet zu werden

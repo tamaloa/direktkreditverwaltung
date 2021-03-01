@@ -18,6 +18,7 @@
     %th DK Geber_in
     %th Vorjahressaldo
     %th Kontobewegungen
+    %th Zinssätze
     %th Zinsen
     %th Saldo Jahresabschluss
     %th Jahresabschluss
@@ -26,7 +27,8 @@
       %td= link_to contract.number, contract
       %td= contact_short(contract.contact)
       %td= currency @year_end_closing.balance_closing_of_year_before(contract)
-      %td= @year_end_closing.movements_excluding_interest(contract)
+      %td= @year_end_closing.movements_excluding_interest(contract).join("<br>").html_safe
+      %td= @year_end_closing.interest_rates(contract).join("<br>").html_safe
       %td= currency @year_end_closing.annual_interest(contract)
       %td= currency @year_end_closing.balance_closing_of_year(contract)
       %td

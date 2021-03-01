@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '2.0.0'
+ruby '2.4.9'
 
-gem 'rails', '~>4.2.0'
+gem 'rails', '~> 4.2'
 gem 'pg'
 
 #View related stuff
@@ -16,8 +16,6 @@ gem 'uglifier'
 gem 'prawn'
 gem 'prawn-table'
 
-
-gem 'paperclip' #upload additional attachments for emails
 
 gem 'days360'
 
@@ -42,5 +40,8 @@ group :test do
   gem "codeclimate-test-reporter", require: nil #To get code coverage
 end
 
-gem 'rails_12factor', group: :production
+group :production do
+  gem 'rails_12factor'
+  gem 'exception_notification'
+end
 

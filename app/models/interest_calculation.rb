@@ -41,9 +41,8 @@ class InterestCalculation
 
   def account_movements_with_initial_balance(from = @from, till = @till)
     account_movements = []
-    initial_balance = @contract.balance(from-1.day) #TODO check if this should be last day of old year or not!
-    account_movements << {amount: initial_balance, date: from, type: :initial_balance}
-    entries = @contract.accounting_entries.where(:date => from..till).order(:date)
+    account_movements << {amount: initial_balance(from), date: from, type: :initial_balance}
+    entries = accounting_entries(from, till)
     account_movements = account_movements + entries.map{|entry| {amount: entry.amount, date: entry.date, type: entry.type} }
 
     account_movements
@@ -77,6 +76,31 @@ class InterestCalculation
     last_version_before_interval = @contract.contract_versions.where('start < ?', from).order(:start).last
     versions = [last_version_before_interval] + versions if last_version_before_interval
     versions
+  end
+
+  def accounting_entries(from, till)
+    if @contract.add_interest_to_deposit_annually
+      @contract.accounting_entries.where(:date => from..till).order(:date)
+    else
+      @contract.accounting_entries.where(interest_entry: false).where(:date => from..till).order(:date)
+    end
+  end
+
+  def initial_balance(date, only_interest=false)
+    first_entry_date = AccountingEntry.minimum(:date)
+    till = date-1 #TODO check if this should be last day of old year or not!
+    accounting_entries(first_entry_date, till).sum(:amount)
+  end
+
+  # We only need this to hack contracts for which no compound interest is to be given
+  def sum_of_previous_interests
+    first_entry_date = AccountingEntry.minimum(:date)
+    interest_movements = @contract.accounting_entries.where(interest_entry: true).where(:date => first_entry_date..@till).order(:date).to_a
+    most_recent = interest_movements.pop
+    [
+    {date: @from, amount: interest_movements.sum(&:amount), type: :sum_of_previous_interests},
+    {date: most_recent.date, amount: most_recent.amount, type: :interest_entry}
+    ]
   end
 
 end

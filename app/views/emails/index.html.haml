@@ -14,7 +14,7 @@
       = @mail_template.footer
     %p
       %b Newsletter-Anhang
-      = @mail_template.newsletter_file_name
+      = @mail_template.filename
 
     = link_to 'Bearbeiten', edit_mail_template_path(@mail_template)
 
@@ -25,13 +25,15 @@
                 data: {confirm: "Achtung - die Mail wird an #{@company.email} geschickt."}
     %br
     %br
-    - if @mail_template.test_mail_sent?
+    - if @mail_template.all_mail_sent_at
+      %p= "Versand bereits erfolgt am #{@mail_template.all_mail_sent_at.to_s(:short)}"
+    - elsif @mail_template.test_mail_sent?
       .btn.btn-warning
         = link_to 'Alle E-Mails senden', send_emails_year_end_closing_path(@year),
-          confirm: "ACHTUNG: Das Aussenden der Mails kann bis zu 30 minuten dauern. Auf KEINEN Fall nochmal klicken, F5 drücken etc.!"
+          data: {confirm: "ACHTUNG: Das Aussenden der Mails kann bis zu 30 minuten dauern. Auf KEINEN Fall nochmal klicken, F5 drücken etc.!"}
     - else
       .btn.btn-default
-        = 'Alle E-Mails senden'
+        = 'Senden noch nicht möglich'
       %p
         Erst möglich 1 Stunde nach dem letzten Versand der Test Email
         = "(noch #{distance_of_time_in_words_to_now(@mail_template.test_mail_sent_at + 1.hour)} warten)" if @mail_template.test_mail_sent_at.present?

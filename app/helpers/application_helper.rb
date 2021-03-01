@@ -15,5 +15,6 @@ module ApplicationHelper
     return "End-Saldo" if movement[:type] == :final_balance
     return "Einzahlung" if movement[:type] == :movement && movement[:amount] > 0.0
     return "Auszahlung" if movement[:type] == :movement && movement[:amount] < 0.0
+    return "Zinsen bisher" if movement[:type] == :sum_of_previous_interests
   end
 end
